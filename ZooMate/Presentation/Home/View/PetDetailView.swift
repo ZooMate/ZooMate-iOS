@@ -51,6 +51,7 @@ struct PetDetailView: View {
                 집에만있지만 아무튼 외로워서
                 친구를 구한다고 합니다
                 """)
+                        .frame(maxHeight: .infinity)
                         .font(.notoSansRegular(size: 16))
                         .padding(.bottom, 15)
                         
