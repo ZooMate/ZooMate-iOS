@@ -8,8 +8,9 @@
 import SwiftUI
 
 // MARK: - 반려동물 정보
-struct Pet: Codable {
-    let petId: String               // 반려동물 고유 ID
+struct Pet: Codable, Identifiable {
+    var id: String { petId }        // 반려동물 고유 ID
+    let petId: String
     var petName: String             // 반려동물 이름
     var age: Int                    // 반려동물 나이
     var gender: Gender              // 성별 (male, female)
