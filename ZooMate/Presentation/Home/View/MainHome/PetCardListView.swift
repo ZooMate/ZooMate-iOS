@@ -21,7 +21,9 @@ struct PetCardListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredPets) { pet in
-                    PetCardCell(pet: pet)
+                    NavigationLink(destination: PetDetailView()) {
+                        PetCardCell(pet: pet)
+                    }
                 }
             }
             .padding(16)
@@ -32,7 +34,7 @@ struct PetCardListView: View {
         viewModel.dummyPets.filter { pet in
             let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(pet.category.rawValue)
             let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || viewModel.dummyUsers.first(where: { $0.userId == pet.ownerId })?.region == selectedRegion
-
+            
             return matchesCategory && matchesRegion
         }
     }

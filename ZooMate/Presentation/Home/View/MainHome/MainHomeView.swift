@@ -14,7 +14,7 @@ struct MainHomeView: View {
     @State private var showRegionSheet = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.background
                     .ignoresSafeArea()
