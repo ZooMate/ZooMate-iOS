@@ -99,8 +99,12 @@ struct PetDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    
+                Menu {
+                    Button {
+                        // TODO: 삭제기능
+                    } label: {
+                        Text("삭제")
+                    }
                 } label: {
                     Image(systemName: "ellipsis")
                         .foregroundStyle(.black)
