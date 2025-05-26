@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct PetCardCell: View {
     let pet: Pet
@@ -13,15 +14,11 @@ struct PetCardCell: View {
     var body: some View {
             ZStack(alignment: .bottomTrailing) {
                 VStack(alignment: .leading, spacing: 8) {
-                    AsyncImage(url: URL(string: pet.photos.first ?? "")) { image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    } placeholder: {
-                        Color.white
-                    }
-                    .frame(width: 180, height: 150)
-                    .clipped()
+                    KFImage(URL(string: pet.photos.first ?? ""))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 180, height: 150)
+                        .clipped()
                     
                     VStack(alignment: .leading, spacing: 2) {
                         HStack {
@@ -42,24 +39,20 @@ struct PetCardCell: View {
                     .padding([.horizontal, .bottom], 15)
                 }
                 .background(.sandBeige)
-                .cornerRadius(12)
+                .cornerRadius(20)
                 
                 let url: String = "https://img.freepik.com/free-photo/cloud-blue-sky_1150-35749.jpg?semt=ais_hybrid&w=740"
-                AsyncImage(url: URL(string: url)) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 45, height: 45)
-                        .clipShape(Circle())
-                        .overlay(
-                            Circle()
-                                .stroke(.sandBeige, lineWidth: 4)
-                        )
-                } placeholder: {
-                    Color.white
-                }
-                .padding(.bottom, 44)
-                .padding(.trailing, 10)
+                KFImage(URL(string: url))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 45, height: 45)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .stroke(.sandBeige, lineWidth: 4)
+                    )
+                    .padding(.bottom, 44)
+                    .padding(.trailing, 10)
             }
     }
 }
