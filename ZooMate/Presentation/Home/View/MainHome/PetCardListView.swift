@@ -21,7 +21,9 @@ struct PetCardListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredPets) { pet in
-                    PetCardCell(pet: pet)
+                    NavigationLink(destination: PetDetailView(pet: pet)) {
+                        PetCardCell(pet: pet)
+                    }
                 }
             }
             .padding(16)
