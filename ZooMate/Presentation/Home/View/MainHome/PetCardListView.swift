@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PetCardListView: View {
-    @StateObject var data = DummyData()
+    @StateObject var data = DummyData1()
     var filteredCategories: Set<String>
     var selectedRegion: String?
     

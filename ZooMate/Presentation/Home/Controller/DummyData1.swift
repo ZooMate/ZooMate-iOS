@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class DummyData: ObservableObject {
+class DummyData1: ObservableObject {
     let dummyPets: [Pet] = [
         Pet(petId: "1", petName: "미미", age: 3, gender: .female, isNeutering: true, isPublic: true, breed: "페르시안", weight: 4.2, tag: ["온순함", "낮잠 좋아함"], photos: ["https://placekitten.com/300/300"], category: .cat, ownerId: "user1"),
         Pet(petId: "2", petName: "콩이", age: 2, gender: .male, isNeutering: false, isPublic: false, breed: "푸들", weight: 5.0, tag: ["활발함", "산책 좋아함"], photos: ["https://images.dog.ceo/breeds/poodle-toy/n02113624_9550.jpg"], category: .dog, ownerId: "user2"),
