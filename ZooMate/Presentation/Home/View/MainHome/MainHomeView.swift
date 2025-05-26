@@ -22,7 +22,7 @@ struct MainHomeView: View {
                 VStack {
                     CategoryTabView(selectedCategories: $selectedCategories)
                         .frame(height: 45)
-                    PetCardListView(filteredCategories: selectedCategories)
+                    PetCardListView(filteredCategories: selectedCategories, selectedRegion: textMenu)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

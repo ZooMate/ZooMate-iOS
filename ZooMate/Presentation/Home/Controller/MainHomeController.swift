@@ -37,7 +37,7 @@ class MainHomeController: ObservableObject {
                 userId: "user1",
                 userName: "유저1",
                 password: "password123",
-                region: "강남구",
+                region: "서초구",
                 desc: "강남에 사는 고양이 집사입니다.",
                 pets: [dummyPets[0], dummyPets[7], dummyPets[14]], // 미미, 소라, 별이
                 profile: "https://example.com/profiles/user1.jpg"
@@ -46,7 +46,7 @@ class MainHomeController: ObservableObject {
                 userId: "user2",
                 userName: "유저2",
                 password: "password123",
-                region: "마포구",
+                region: "서초구",
                 desc: "활동적인 강아지 좋아해요.",
                 pets: [dummyPets[1], dummyPets[3]], // 콩이, 초코
                 profile: "https://example.com/profiles/user2.jpg"
@@ -55,7 +55,7 @@ class MainHomeController: ObservableObject {
                 userId: "user3",
                 userName: "유저3",
                 password: "password123",
-                region: "송파구",
+                region: "서초구",
                 desc: "새 친구 찾는 중이에요.",
                 pets: [dummyPets[2], dummyPets[8]], // 짹짹이, 쿠쿠
                 profile: "https://example.com/profiles/user3.jpg"

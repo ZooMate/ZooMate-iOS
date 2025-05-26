@@ -10,6 +10,7 @@ import SwiftUI
 struct PetCardListView: View {
     @StateObject var viewModel = MainHomeController()
     var filteredCategories: Set<String>
+    var selectedRegion: String?
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -28,10 +29,11 @@ struct PetCardListView: View {
     }
     
     private var filteredPets: [Pet] {
-        if filteredCategories.isEmpty {
-            return viewModel.dummyPets
-        } else {
-            return viewModel.dummyPets.filter { filteredCategories.contains($0.category.rawValue) }
+        viewModel.dummyPets.filter { pet in
+            let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(pet.category.rawValue)
+            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || viewModel.dummyUsers.first(where: { $0.userId == pet.ownerId })?.region == selectedRegion
+
+            return matchesCategory && matchesRegion
         }
     }
 }
