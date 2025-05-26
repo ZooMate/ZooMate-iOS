@@ -24,6 +24,7 @@ struct PetCardCell: View {
                         HStack {
                             Text("\(pet.petName) \(pet.age)살")
                                 .font(.notoSansMedium(size: 14))
+                                .foregroundStyle(.mainText)
                             Image(pet.gender == .male ? "iconMale" : "iconFemale")
                                 .resizable()
                                 .frame(width: 12, height: 12)
@@ -33,7 +34,7 @@ struct PetCardCell: View {
                         
                         Text("[\(pet.category.rawValue)] \(pet.breed ?? "")")
                             .font(.notoSansRegular(size: 12))
-                            .foregroundColor(.gray)
+                            .foregroundColor(.subText)
                             .padding(.top, 3)
                     }
                     .padding([.horizontal, .bottom], 15)
