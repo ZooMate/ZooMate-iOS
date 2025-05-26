@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TextFieldStyle: ViewModifier {
     
+    var paddingSpace: CGFloat
+    
     func body(content: Content) -> some View {
         content
             .padding(20) // TextField 내부 placeholder padding
@@ -19,14 +21,13 @@ struct TextFieldStyle: ViewModifier {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.category, lineWidth: 2)
             )
-            .frame(height: 60)
-            .padding(.horizontal, 16) // TextField <-> View 간의 padding
-            .padding(.bottom, 25)
+            .padding(.horizontal, paddingSpace) // TextField <-> View 간의 padding
+            .padding(.bottom, 8)
     }
 }
 
 extension View {
-    func textFieldStyle() -> some View {
-        self.modifier(TextFieldStyle())
+    func textFieldStyle(paddingSpace: CGFloat = 16) -> some View {
+        self.modifier(TextFieldStyle(paddingSpace: paddingSpace))
     }
 }
