@@ -86,6 +86,7 @@ struct PetDetailView: View {
                         
                     } label: {
                         Text("채팅")
+                            .frame(maxWidth: .infinity, maxHeight: 50)
                             .background(.pointPink)
                             .cornerRadius(15)
                             .foregroundStyle(.black)
