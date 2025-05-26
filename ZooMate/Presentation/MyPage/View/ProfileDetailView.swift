@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ProfileDetailView: View {
     
@@ -26,15 +27,16 @@ struct ProfileDetailView: View {
                         .padding(.top, 50)
                         
                         if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            AsyncImage(url: URL(string: profile)) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
+                            KFImage(URL(string: profile))
+                                .placeholder {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle())
+                                        .frame(width: 100, height: 100)
+                                }
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
                         } else {
                             ProfileImageView()
                         }
@@ -90,22 +92,18 @@ struct ProfileDetailView: View {
             
             ForEach(pets, id: \.petId) { pet in
                 HStack(spacing: 12) {
-                    //                    Image(systemName: "pawprint.circle.fill")
-                    //                        .resizable()
-                    //                        .scaledToFit()
-                    //                        .frame(width: 50, height: 50)
-                    //                        .foregroundColor(.pointPink)
                     
                     if let photo = pet.photos.first {
-                        AsyncImage(url: URL(string: photo)) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
+                        KFImage(URL(string: photo))
+                            .placeholder {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .frame(width: 70, height: 70)
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 70, height: 70)
+                            .clipShape(Circle())
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {

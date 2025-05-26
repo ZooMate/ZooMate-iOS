@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MyPageView: View {
     
@@ -22,15 +23,16 @@ struct MyPageView: View {
                         ZStack {
                             if isLoggedIn {
                                 if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                    AsyncImage(url: URL(string: profile)) { image in
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(Circle())
+                                    KFImage(URL(string: profile))
+                                        .placeholder {
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle())
+                                                .frame(width: 100, height: 100)
+                                        }
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
                                 } else {
                                     ProfileImageView()
                                 }

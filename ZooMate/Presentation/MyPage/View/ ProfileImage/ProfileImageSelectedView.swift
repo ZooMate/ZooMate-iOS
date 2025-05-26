@@ -5,6 +5,7 @@
 //  Created by 최준영 on 5/24/25.
 //
 import SwiftUI
+import Kingfisher
 
 struct ProfileImageSelectedView: View {
     @Binding var selectedImage: UIImage?
@@ -27,15 +28,18 @@ struct ProfileImageSelectedView: View {
                     )
             } else {
                 if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    AsyncImage(url: URL(string: profile)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
+
+                    KFImage(URL(string: profile))
+                        .placeholder {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .frame(width: 100, height: 100)
+                        }
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        
                 } else {
                     ZStack {
                         Circle().fill(Color.white)
