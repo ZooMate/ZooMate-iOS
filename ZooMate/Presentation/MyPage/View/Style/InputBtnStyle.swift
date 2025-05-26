@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct InputBtnStyle: ViewModifier {
+    
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, minHeight: 60)

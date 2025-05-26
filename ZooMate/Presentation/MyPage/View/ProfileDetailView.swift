@@ -27,6 +27,7 @@ struct ProfileDetailView: View {
                         .padding(.top, 50)
                         
                         if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            
                             KFImage(URL(string: profile))
                                 .placeholder {
                                     ProgressView()
@@ -37,10 +38,10 @@ struct ProfileDetailView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 100, height: 100)
                                 .clipShape(Circle())
-                        } else {
+                        }
+                        else {
                             ProfileImageView()
                         }
-                        
                     }
                     .padding(.top)
                 }
@@ -50,8 +51,6 @@ struct ProfileDetailView: View {
             }
         }
     }
-    
-    // MARK: - Components
     
     private var profileBackground: some View {
         Color.sandBeige
@@ -67,12 +66,10 @@ struct ProfileDetailView: View {
             VStack(alignment: .center, spacing: 18) {
                 Text(user.userName)
                     .font(.notoSansBold(size: 20))
-                
                 Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
-                
                 Button {
-                    // 편집 동작
+                    
                 } label: {
                     Text("프로필 편집")
                         .font(.notoSansMedium(size: 20))
@@ -94,6 +91,7 @@ struct ProfileDetailView: View {
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {
+                        
                         KFImage(URL(string: photo))
                             .placeholder {
                                 ProgressView()
@@ -107,6 +105,7 @@ struct ProfileDetailView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
+                        
                         HStack {
                             Text(pet.petName)
                                 .font(.notoSansMedium(size: 16))

@@ -66,7 +66,7 @@ struct SignUpView: View {
                         .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
                         .padding(.horizontal, 16)
                         .padding(.top, 50)
-                        
+                        // FIXME: 회원 여부에 따른 이미지 가져오기, 기본 이미지 출력
                         ProfileImageSelectedView(selectedImage: $selectedImage)
                     }
                     .padding(.top)

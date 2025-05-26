@@ -10,10 +10,11 @@ import SwiftUI
 struct CategoryList: View {
     
     @Binding var showCategory: Bool
-    
+    // MARK: 반려등록 뷰 - 카테고리 목록
     var body: some View {
         
         ZStack {
+            
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture {
@@ -52,8 +53,6 @@ struct CategoryList: View {
             .padding(35)
             .padding(.bottom, 30)
             .padding(.horizontal, 30)
-            
         }
     }
-        
 }

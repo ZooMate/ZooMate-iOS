@@ -29,7 +29,6 @@ struct MateView: View {
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
-        
     }
     
     private var matedPets: [Pet] {

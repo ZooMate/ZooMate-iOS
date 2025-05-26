@@ -10,25 +10,26 @@ import SwiftUI
 struct ProfileEditView: View {
     
     private let user = users[0]
-
+    
     @State var userId: String = ""
     @State var password: String = ""
     @State var userName: String = ""
     @State var desc: String = ""
     @State private var selectedImage: UIImage?
-
+    
     init() {
         _userId = State(initialValue: user.userId)
         _password = State(initialValue: user.password)
         _userName = State(initialValue: user.userName)
         _desc = State(initialValue: user.desc ?? "")
     }
-
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
                 ScrollView {
                     ZStack(alignment: .top) {
+                        
                         VStack(spacing: 24) {
                             Spacer().frame(height: 50)
                             
@@ -46,7 +47,7 @@ struct ProfileEditView: View {
                             EdittingRow(title: "비밀번호", text: $password)
                             EdittingRow(title: "닉네임", text: $userName)
                             EdittingRow(title: "소개글", text: $desc, isMultiline: true)
-
+                            
                             Spacer().frame(height: 50)
                         }
                         .background(.sandBeige)
@@ -54,11 +55,11 @@ struct ProfileEditView: View {
                         .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
                         .padding(.horizontal, 16)
                         .padding(.top, 50)
-
+                        
                         ProfileImageSelectedView(selectedImage: $selectedImage)
                     }
                     .padding(.top)
-
+                    
                     VStack {
                         Button {
                             // 작성 완료 버튼 액션
@@ -78,22 +79,25 @@ struct ProfileEditView: View {
 }
 
 struct EdittingRow: View {
+    
     let title: String
     let text: Binding<String>
     var isMultiline: Bool = false
     
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .padding(.horizontal, 40)
                 .font(.notoSansRegular(size: 16))
                 .foregroundStyle(.mainText)
-
+            
             if isMultiline {
                 TextEditor(text: text)
                     .frame(height: 100)
                     .textFieldStyle(paddingSpace: 24)
-            } else {
+            }
+            else {
                 TextField("", text: text)
                     .textFieldStyle(paddingSpace: 24)
             }

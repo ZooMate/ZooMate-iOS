@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MateListView: View {
+    
     var body: some View {
         MateView(data: DummyData1())
     }

@@ -8,14 +8,18 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileImageSelectedView: View {
+    
     @Binding var selectedImage: UIImage?
     @State private var isPickerPresented = false
+    
     private let user = users[0]
-
+    
     var body: some View {
         Button {
             isPickerPresented = true
-        } label: {
+        }
+        label: {
+            // MARK: 이미지 선택 여부에 따른 이미지 출력
             if let image = selectedImage {
                 Image(uiImage: image)
                     .resizable()
@@ -24,11 +28,12 @@ struct ProfileImageSelectedView: View {
                     .clipShape(Circle())
                     .overlay(
                         Circle()
-                        .stroke(.sandBeige, lineWidth: 2)
+                            .stroke(.sandBeige, lineWidth: 2)
                     )
-            } else {
-                if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-
+            }
+            else {
+                if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                {
                     KFImage(URL(string: profile))
                         .placeholder {
                             ProgressView()
@@ -39,8 +44,9 @@ struct ProfileImageSelectedView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
-                        
-                } else {
+                    
+                }
+                else {
                     ZStack {
                         Circle().fill(Color.white)
                             .frame(width: 100, height: 100)
@@ -59,8 +65,4 @@ struct ProfileImageSelectedView: View {
             PHPickerRep(image: $selectedImage)
         }
     }
-}
-
-#Preview {
-    ProfileImageSelectedView(selectedImage: .constant(nil))
 }
