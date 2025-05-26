@@ -30,5 +30,100 @@ class MainHomeController: ObservableObject {
         Pet(petId: "19", petName: "보리", age: 4, gender: .male, isNeutering: true, isPublic: false, breed: "말티즈", weight: 4.5, tag: ["애교많음", "소형견"], photos: ["https://images.dog.ceo/breeds/maltese/n02085936_10073.jpg"], category: .dog, ownerId: "user19"),
         Pet(petId: "20", petName: "하니", age: 3, gender: .female, isNeutering: true, isPublic: true, breed: "벵갈", weight: 4.0, tag: ["활동적", "호기심많음"], photos: ["https://placekitten.com/306/306"], category: .cat, ownerId: "user20")
     ]
+    
+    var dummyUsers: [User] {
+        return [
+            User(
+                userId: "user1",
+                userName: "유저1",
+                password: "password123",
+                region: "강남구",
+                desc: "강남에 사는 고양이 집사입니다.",
+                pets: [dummyPets[0], dummyPets[7], dummyPets[14]], // 미미, 소라, 별이
+                profile: "https://example.com/profiles/user1.jpg"
+            ),
+            User(
+                userId: "user2",
+                userName: "유저2",
+                password: "password123",
+                region: "마포구",
+                desc: "활동적인 강아지 좋아해요.",
+                pets: [dummyPets[1], dummyPets[3]], // 콩이, 초코
+                profile: "https://example.com/profiles/user2.jpg"
+            ),
+            User(
+                userId: "user3",
+                userName: "유저3",
+                password: "password123",
+                region: "송파구",
+                desc: "새 친구 찾는 중이에요.",
+                pets: [dummyPets[2], dummyPets[8]], // 짹짹이, 쿠쿠
+                profile: "https://example.com/profiles/user3.jpg"
+            ),
+            User(
+                userId: "user4",
+                userName: "유저4",
+                password: "password123",
+                region: "용산구",
+                desc: "강아지들과 함께 산책 즐겨요.",
+                pets: [dummyPets[4], dummyPets[5], dummyPets[6]], // 냥이, 루비, 해피
+                profile: "https://example.com/profiles/user4.jpg"
+            ),
+            User(
+                userId: "user5",
+                userName: "유저5",
+                password: "password123",
+                region: "은평구",
+                desc: "혼자 키우는 고양이 있어요.",
+                pets: [dummyPets[10]], // 토리
+                profile: "https://example.com/profiles/user5.jpg"
+            ),
+            User(
+                userId: "user6",
+                userName: "유저6",
+                password: "password123",
+                region: "광진구",
+                desc: "강아지 2마리 있어요!",
+                pets: [dummyPets[11], dummyPets[12]], // 하늘, 밤비
+                profile: "https://example.com/profiles/user6.jpg"
+            ),
+            User(
+                userId: "user7",
+                userName: "유저7",
+                password: "password123",
+                region: "구로구",
+                desc: "혼자만의 시간도 좋아해요.",
+                pets: [dummyPets[13]], // 구름
+                profile: "https://example.com/profiles/user7.jpg"
+            ),
+            User(
+                userId: "user8",
+                userName: "유저8",
+                password: "password123",
+                region: "양천구",
+                desc: "시바이누와 함께 살아요.",
+                pets: [dummyPets[15]], // 탄이
+                profile: "https://example.com/profiles/user8.jpg"
+            ),
+            User(
+                userId: "user9",
+                userName: "유저9",
+                password: "password123",
+                region: "동작구",
+                desc: "믹스견 좋아해요.",
+                pets: [dummyPets[16], dummyPets[18]], // 몽이, 보리
+                profile: "https://example.com/profiles/user9.jpg"
+            ),
+            User(
+                userId: "user10",
+                userName: "유저10",
+                password: "password123",
+                region: "서초구",
+                desc: "호기심 많은 벵갈 고양이 키워요.",
+                pets: [dummyPets[19]], // 하니
+                profile: "https://example.com/profiles/user10.jpg"
+            )
+        ]
+    }
 
 }

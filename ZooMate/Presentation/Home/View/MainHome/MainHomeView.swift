@@ -9,7 +9,9 @@ import SwiftUI
 
 struct MainHomeView: View {
     @State var textMenu: String = "전체지역"
+    @State var chooseMenu: String = "강동구"
     @State private var selectedCategories: Set<String> = []
+    @State private var showRegionSheet = false
     
     var body: some View {
         NavigationView {
@@ -20,7 +22,7 @@ struct MainHomeView: View {
                 VStack {
                     CategoryTabView(selectedCategories: $selectedCategories)
                         .frame(height: 45)
-                    PetsListView(filteredCategories: selectedCategories)
+                    PetCardListView(filteredCategories: selectedCategories)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -38,19 +40,19 @@ struct MainHomeView: View {
                             }
                             
                             Button {
-                                self.textMenu = "강동구"
+                                self.textMenu = chooseMenu
                             } label: {
                                 Label {
-                                    Text("강동구")
+                                    Text(chooseMenu)
                                 } icon: {
-                                    if textMenu == "강동구" {
+                                    if textMenu == chooseMenu {
                                         Image(systemName: "checkmark")
                                     }
                                 }
                             }
                             
                             Button {
-                                // 지역 선택하기 액션
+                                showRegionSheet = true
                             } label: {
                                 Text("지역 선택하기")
                             }
@@ -84,6 +86,9 @@ struct MainHomeView: View {
                     }
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showRegionSheet) {
+            AddRegionList(chooseMenu: $chooseMenu, textMenu: $textMenu)
         }
     }
 }

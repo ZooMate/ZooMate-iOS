@@ -1,5 +1,5 @@
 //
-//  PetsListView.swift
+//  PetCardListView.swift
 //  ZooMate
 //
 //  Created by Song Kim on 5/23/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PetsListView: View {
+struct PetCardListView: View {
     @StateObject var viewModel = MainHomeController()
     var filteredCategories: Set<String>
     
