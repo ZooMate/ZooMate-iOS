@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct MyPetView: View {
-    //@StateObject var data = DummyData()
+    
+    @Binding var isOnDetail: Bool
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible())
     ]
-    
+    // MARK: 등록한 반려동물의 상세 프로필 entry에 따른 버튼 출력 여부
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(pets, id: \.petId) { pet in
-                        PetCardCell(pet: pet)
+                        NavigationLink (destination: MyPetDetailView(pet: pet)
+                            .onAppear {
+                                isOnDetail = true
+                            }
+                            .onDisappear {
+                                isOnDetail = false
+                            }){
+                                PetCardCell(pet: pet)
+                            }
                     }
                 }
                 .padding(16)
@@ -30,8 +39,4 @@ struct MyPetView: View {
         }
         
     }
-    
-//    private var registedPets: [Pet] {
-//        data.dummyPets
-//    }
 }
