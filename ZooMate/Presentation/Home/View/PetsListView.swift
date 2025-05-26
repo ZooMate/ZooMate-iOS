@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PetsListView: View {
     @StateObject var viewModel = MainHomeController()
+    var filteredCategories: Set<String>
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -18,16 +19,19 @@ struct PetsListView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(viewModel.dummyPets) { pet in
+                ForEach(filteredPets) { pet in
                     PetCardCell(pet: pet)
                 }
             }
             .padding(16)
         }
     }
-}
-
-
-#Preview {
-    PetsListView()
+    
+    private var filteredPets: [Pet] {
+        if filteredCategories.isEmpty {
+            return viewModel.dummyPets
+        } else {
+            return viewModel.dummyPets.filter { filteredCategories.contains($0.category.rawValue) }
+        }
+    }
 }

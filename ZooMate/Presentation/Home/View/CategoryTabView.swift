@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryTabView: View {
-    @State private var selectedCategories: Set<String> = []
+    @Binding var selectedCategories: Set<String>
     let categories = ["강아지", "고양이", "파충류", "조류"]
     
     var body: some View {
@@ -52,9 +52,4 @@ struct CategoryTabView: View {
             selectedCategories.insert(category)
         }
     }
-}
-
-
-#Preview {
-    CategoryTabView()
 }

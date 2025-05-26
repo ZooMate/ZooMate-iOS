@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainHomeView: View {
     @State var textMenu: String = "전체지역"
+    @State private var selectedCategories: Set<String> = []
     
     var body: some View {
         NavigationView {
@@ -17,9 +18,9 @@ struct MainHomeView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    CategoryTabView()
+                    CategoryTabView(selectedCategories: $selectedCategories)
                         .frame(height: 45)
-                    PetsListView()
+                    PetsListView(filteredCategories: selectedCategories)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
