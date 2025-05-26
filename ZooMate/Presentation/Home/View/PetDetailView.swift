@@ -10,6 +10,9 @@ import Kingfisher
 
 struct PetDetailView: View {
     let pet: Pet
+    @State var isFavorite: Bool = false
+    @State var isLogin: Bool = true
+    
     var body: some View {
         GeometryReader { geo in
             ScrollView {
@@ -36,11 +39,11 @@ struct PetDetailView: View {
                                 .padding(.bottom, -5)
                             Spacer()
                             Button {
-                                //
+                                isFavorite.toggle()
                             } label: {
-                                Image(systemName: "heart")
+                                Image(systemName: isFavorite ? "heart.fill" : "heart")
                                     .foregroundStyle(.pointPink)
-                                    .frame(width: 25, height: 25)
+                                    .font(.system(size: 30))
                             }
                         }
                         .padding(.bottom, 10)
@@ -93,6 +96,16 @@ struct PetDetailView: View {
                     }
                 }
                 .padding(.horizontal, 16)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(.black)
+                }
             }
         }
     }
