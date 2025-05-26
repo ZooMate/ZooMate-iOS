@@ -31,7 +31,7 @@ struct PetDetailView: View {
                             Text("\(pet.age)살")
                                 .font(.notoSansBold(size: 20))
                                 .padding(.trailing, 3)
-                            Image(pet.gender.rawValue == "male" ? "iconMale" : "iconFemail")
+                            Image(pet.gender.rawValue == "male" ? "iconMale" : "iconFemale")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .padding(.bottom, -5)
