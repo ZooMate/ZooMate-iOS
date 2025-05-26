@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PetCardListView: View {
-    @StateObject var data = DummyData()
+    @StateObject var data = DummyData1()
     var filteredCategories: Set<String>
     var selectedRegion: String?
     
@@ -21,7 +21,9 @@ struct PetCardListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredPets) { pet in
-                    PetCardCell(pet: pet)
+                    NavigationLink(destination: PetDetailView(pet: pet)) {
+                        PetCardCell(pet: pet)
+                    }
                 }
             }
             .padding(16)

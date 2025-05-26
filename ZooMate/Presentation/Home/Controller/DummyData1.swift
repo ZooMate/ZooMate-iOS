@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-class DummyData: ObservableObject {
+class DummyData1: ObservableObject {
     let dummyPets: [Pet] = [
         Pet(petId: "1", petName: "미미", age: 3, gender: .female, isNeutering: true, isPublic: true, breed: "페르시안", weight: 4.2, tag: ["온순함", "낮잠 좋아함"], photos: ["https://placekitten.com/300/300"], category: .cat, ownerId: "user1"),
-        Pet(petId: "2", petName: "콩이", age: 2, gender: .male, isNeutering: false, isPublic: false, breed: "푸들", weight: 5.0, tag: ["활발함", "산책 좋아함"], photos: ["https://images.dog.ceo/breeds/poodle-toy/n02113624_9550.jpg"], category: .dog, ownerId: "user2"),
+        Pet(petId: "2", petName: "콩이", age: 2, gender: .male, isNeutering: false, isPublic: false, breed: "푸들", weight: 5.0, tag: ["활발함", "산책 좋아함", "온순함", "낮잠 좋아함", "수다쟁이", "노래 잘함"], photos: ["https://images.dog.ceo/breeds/poodle-toy/n02113624_9550.jpg"], category: .dog, ownerId: "user2"),
         Pet(petId: "3", petName: "짹짹이", age: 1, gender: .male, isNeutering: false, isPublic: true, breed: "잉꼬", weight: 0.08, tag: ["수다쟁이", "노래 잘함"], photos: ["https://farm4.staticflickr.com/3075/3168662394_7d7103de7d_z_d.jpg"], category: .bird, ownerId: "user3"),
         Pet(petId: "4", petName: "초코", age: 4, gender: .female, isNeutering: true, isPublic: true, breed: "닥스훈트", weight: 6.3, tag: ["애교많음", "소심함"], photos: ["https://images.dog.ceo/breeds/dachshund/n02085782_1100.jpg"], category: .dog, ownerId: "user4"),
         Pet(petId: "5", petName: "냥이", age: 5, gender: .female, isNeutering: true, isPublic: false, breed: "코리안숏헤어", weight: 3.7, tag: ["도도함"], photos: ["https://placekitten.com/301/301"], category: .cat, ownerId: "user5"),
