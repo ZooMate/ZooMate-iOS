@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    
     @State var userId: String = ""
     @State var password: String = ""
     @State var userName: String = ""
@@ -67,7 +68,7 @@ struct SignUpView: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 50)
                         // FIXME: 회원 여부에 따른 이미지 가져오기, 기본 이미지 출력
-                        ProfileImageSelectedView(selectedImage: $selectedImage)
+                        ProfileImageSelectedView(selectedImage: $selectedImage, isNewUser: true)
                     }
                     .padding(.top)
                     
