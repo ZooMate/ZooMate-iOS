@@ -42,22 +42,30 @@ struct MyPageView: View {
                             }
                         }
                         
-                        VStack(alignment: .leading) {
-                            Text(isLoggedIn ? user.userName : "유저")
-                                .font(.notoSansBold(size: 24))
-                                .foregroundStyle(.mainText)
-                            
-                            Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
-                                .font(.notoSansRegular(size: 14))
-                                .foregroundStyle(.mainText)
+                        NavigationLink(destination: ProfileDetailView()) {
+                            VStack(alignment: .leading) {
+                                Text(isLoggedIn ? user.userName : "유저")
+                                    .font(.notoSansBold(size: 24))
+                                    .foregroundStyle(.mainText)
+                                
+                                Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                    .font(.notoSansRegular(size: 14))
+                                    .foregroundStyle(.mainText)
+                            }
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding(.horizontal)
                     
                     ZStack {
                         HStack(spacing: 16) {
-                            FeatureButton(title: "내 반려동물", systemImage: "pawprint")
-                            FeatureButton(title: "메이트", systemImage: "heart")
+                            NavigationLink(destination: MyPetListView()) {
+                                FeatureButton(title: "내 반려동물", systemImage: "pawprint")
+                            }
+                            NavigationLink(destination: MateListView()) {
+                                FeatureButton(title: "메이트", systemImage: "heart")
+                            }
                         }
                         .padding(.vertical, 30)
                     }

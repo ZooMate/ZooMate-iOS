@@ -13,43 +13,43 @@ struct ProfileDetailView: View {
     private let user = users[0]
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .top) {
-                ScrollView {
-                    ZStack(alignment: .top) {
-                        profileBackground
-                        VStack(spacing: 18) {
-                            Spacer().frame(height: 50)
-                            profileHeader
-                            petListSection
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 50)
-                        
-                        if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            
-                            KFImage(URL(string: profile))
-                                .placeholder {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle())
-                                        .frame(width: 100, height: 100)
-                                }
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                        }
-                        else {
-                            ProfileImageView()
-                        }
+        //NavigationStack {
+        ZStack(alignment: .top) {
+            ScrollView {
+                ZStack(alignment: .top) {
+                    profileBackground
+                    VStack(spacing: 18) {
+                        Spacer().frame(height: 50)
+                        profileHeader
+                        petListSection
                     }
-                    .padding(.top)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 50)
+                    
+                    if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        
+                        KFImage(URL(string: profile))
+                            .placeholder {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .frame(width: 100, height: 100)
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    }
+                    else {
+                        ProfileImageView()
+                    }
                 }
-                .background(Color.background.ignoresSafeArea())
-                .navigationTitle("내 프로필")
-                .navigationBarTitleDisplayMode(.inline)
+                .padding(.top)
             }
+            .background(Color.background.ignoresSafeArea())
+            .navigationTitle("내 프로필")
+            .navigationBarTitleDisplayMode(.inline)
         }
+        //}
     }
     
     private var profileBackground: some View {
@@ -68,15 +68,17 @@ struct ProfileDetailView: View {
                     .font(.notoSansBold(size: 20))
                 Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
-                Button {
-                    
-                } label: {
+                
+                NavigationLink(destination: ProfileEditView()) {
                     Text("프로필 편집")
                         .font(.notoSansMedium(size: 20))
                         .frame(maxWidth: .infinity)
                         .textFieldStyle()
                 }
                 .padding(.vertical, 24)
+                .buttonStyle(PlainButtonStyle())
+                
+                
             }
             .foregroundStyle(.mainText)
         }
