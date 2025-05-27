@@ -20,24 +20,24 @@ struct ChatMainView: View {
                 
                 VStack {
                     List {
-                        ForEach(data.chatRooms) { chatRoom in
-                            if chatRoom.receiverPetId == myId {
-                                let pet = getPet(by: chatRoom.senderPetId)
-                                let chat = getMessages(for: chatRoom.roomId)
-                                let name = getUserName(for: pet)
-                                ZStack {
-                                    ChatRoomCell(pet: pet, chat: chat, senderUserName: name)
-                                    NavigationLink(destination: MessageListView(message: chat)) {
-                                        EmptyView()
-                                    }
-                                    .opacity(0)
-                                    .buttonStyle(PlainButtonStyle())
+                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == myId || $0.secondPetId == myId }
+                        
+                        ForEach(filteredChatRooms) { chatRoom in
+                            let pet = getPet(by: chatRoom.firstPetId == myId ? chatRoom.secondPetId : chatRoom.firstPetId)
+                            let chat = getMessages(for: chatRoom.roomId)
+                            let name = getUserName(for: pet)
+                            ZStack {
+                                ChatRoomCell(pet: pet, chat: chat, senderUserName: name)
+                                NavigationLink(destination: MessageListView(message: chat)) {
+                                    EmptyView()
                                 }
-                                .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .listStyle(PlainListStyle())
+                                .opacity(0)
+                                .buttonStyle(PlainButtonStyle())
                             }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listStyle(PlainListStyle())
                         }
                     }
                     .listStyle(.plain)
@@ -67,5 +67,5 @@ struct ChatMainView: View {
 }
 
 #Preview {
-    ChatMainView()
+    ContentView()
 }

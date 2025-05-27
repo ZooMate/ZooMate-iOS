@@ -11,8 +11,8 @@ import SwiftUI
 struct ChatRoom: Codable, Identifiable {
     var id: String { roomId }
     let roomId: String
-    var senderPetId: String
-    var receiverPetId: String
+    var firstPetId: String
+    var secondPetId: String
     var createdAt: Date
 }
 

@@ -9,11 +9,11 @@ import SwiftUI
 
 class DummyData2: ObservableObject {
     let chatRooms: [ChatRoom] = [
-            ChatRoom(roomId: "room-1", senderPetId: "1", receiverPetId: "6", createdAt: Date()),
-            ChatRoom(roomId: "room-2", senderPetId: "2", receiverPetId: "6", createdAt: Date().addingTimeInterval(-86400)),
-            ChatRoom(roomId: "room-3", senderPetId: "3", receiverPetId: "6", createdAt: Date().addingTimeInterval(-172800)),
-            ChatRoom(roomId: "room-4", senderPetId: "4", receiverPetId: "6", createdAt: Date().addingTimeInterval(-259200)),
-            ChatRoom(roomId: "room-5", senderPetId: "5", receiverPetId: "6", createdAt: Date().addingTimeInterval(-345600)),
+        ChatRoom(roomId: "room-1", firstPetId: "1", secondPetId: "6", createdAt: Date()),
+            ChatRoom(roomId: "room-2", firstPetId: "2", secondPetId: "6", createdAt: Date().addingTimeInterval(-86400)),
+            ChatRoom(roomId: "room-3", firstPetId: "3", secondPetId: "6", createdAt: Date().addingTimeInterval(-172800)),
+            ChatRoom(roomId: "room-4", firstPetId: "4", secondPetId: "6", createdAt: Date().addingTimeInterval(-259200)),
+            ChatRoom(roomId: "room-5", firstPetId: "5", secondPetId: "6", createdAt: Date().addingTimeInterval(-345600)),
         ]
         
         let messages: [Message] = [
