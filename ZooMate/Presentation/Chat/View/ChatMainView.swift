@@ -25,8 +25,13 @@ struct ChatMainView: View {
                                 let pet = getPet(by: chatRoom.senderPetId)
                                 let chat = getMessages(for: chatRoom.roomId)
                                 let name = getUserName(for: pet)
-                                NavigationLink(destination: MessageListView(message: chat)) {
+                                ZStack {
                                     ChatRoomCell(pet: pet, chat: chat, senderUserName: name)
+                                    NavigationLink(destination: MessageListView(message: chat)) {
+                                        EmptyView()
+                                    }
+                                    .opacity(0)
+                                    .buttonStyle(PlainButtonStyle())
                                 }
                                 .listRowInsets(EdgeInsets())
                                 .listRowBackground(Color.clear)
