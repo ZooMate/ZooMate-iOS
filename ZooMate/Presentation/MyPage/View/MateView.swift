@@ -17,18 +17,20 @@ struct MateView: View {
     ]
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(matedPets) { pet in
+        //NavigationStack {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(matedPets) { pet in
+                    NavigationLink(destination: PetDetailView(pet: pet)) {
                         PetCardCell(pet: pet)
                     }
                 }
-                .padding(16)
-                .navigationTitle("메이트")
-                .navigationBarTitleDisplayMode(.inline)
             }
+            .padding(16)
+            .navigationTitle("메이트")
+            .navigationBarTitleDisplayMode(.inline)
         }
+        //}
     }
     
     private var matedPets: [Pet] {
