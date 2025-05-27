@@ -21,7 +21,6 @@ struct Message: Codable, Identifiable {
     var id: String {msgId}
     let msgId: String
     let senderPetId: String
-    let receiverPetId: String
     var roomId: String
     var content: String
     var sendMsgAt: Date

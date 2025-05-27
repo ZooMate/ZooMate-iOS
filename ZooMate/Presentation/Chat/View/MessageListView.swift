@@ -20,17 +20,16 @@ struct MessageListView: View {
             VStack {
                 List {
                     ForEach(message) { m in
-                        if m.receiverPetId == myId {
-                            SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
-                                .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                        } else {
-                            ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
-                                .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
+                        Group {
+                            if m.senderPetId == myId {
+                                SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
+                            } else {
+                                ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
+                            }
                         }
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
                 }
                 .listStyle(.plain)
