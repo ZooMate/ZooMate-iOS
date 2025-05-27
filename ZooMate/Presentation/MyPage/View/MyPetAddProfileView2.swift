@@ -14,66 +14,67 @@ struct MyPetAddProfileView2: View {
     @State var tag: [String] = []
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.background.ignoresSafeArea()
-                VStack {
-                    GeometryReader { geo in
-                        VStack {
-                            HStack(spacing: 12) {
-                                Text("품종")
-                                    .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                    .font(.notoSansMedium(size: 17))
-                                    .foregroundStyle(.mainText)
-                                
-                                TextField("ex) 슈나우저", text: Binding(
-                                    get: { breed ?? "" },
-                                    set: { breed = $0 }
-                                ))
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
-                            }
-                            
-                            HStack(spacing: 12) {
-                                Text("무게")
-                                    .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                    .font(.notoSansMedium(size: 17))
-                                    .foregroundStyle(.mainText)
-                                
-                                TextField("ex) 3.5", text: Binding(
-                                    get: { weight ?? "" },
-                                    set: { weight = $0 }
-                                ))
-                                .keyboardType(.decimalPad)
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
-                            }
-                            TagSelectionView()
-                        }
-                        .padding(.top, 35)
-                        .frame(width: geo.size.width)
-                        
-                        
-                            
-                        
-                    }
+        //NavigationView {
+        ZStack {
+            Color.background.ignoresSafeArea()
+            VStack(alignment: .leading) {
+                Text("프로필을 입력해주세요")
+                    .font(.notoSansBold(size: 30))
+                    .padding(.horizontal)
+                GeometryReader { geo in
                     VStack {
+                        HStack(spacing: 12) {
+                            Text("품종")
+                                .frame(width: geo.size.width * 0.2, alignment: .leading)
+                                .font(.notoSansMedium(size: 17))
+                                .foregroundStyle(.mainText)
+                            
+                            TextField("ex) 슈나우저", text: Binding(
+                                get: { breed ?? "" },
+                                set: { breed = $0 }
+                            ))
+                            .frame(width: geo.size.width * 0.6)
+                            .padding(20)
+                            .font(.notoSansRegular(size: 17))
+                            .foregroundStyle(.category)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(.sandBeige, lineWidth: 2)
+                            }
+                        }
+                        
+                        HStack(spacing: 12) {
+                            Text("무게")
+                                .frame(width: geo.size.width * 0.2, alignment: .leading)
+                                .font(.notoSansMedium(size: 17))
+                                .foregroundStyle(.mainText)
+                            
+                            TextField("ex) 3.5", text: Binding(
+                                get: { weight ?? "" },
+                                set: { weight = $0 }
+                            ))
+                            .keyboardType(.decimalPad)
+                            .frame(width: geo.size.width * 0.6)
+                            .padding(20)
+                            .font(.notoSansRegular(size: 17))
+                            .foregroundStyle(.category)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(.sandBeige, lineWidth: 2)
+                            }
+                        }
+                        TagSelectionView()
+                            .padding(.horizontal, -8)
+                    }
+                    .padding(.top, 35)
+                    .frame(width: geo.size.width)
+                }
+                VStack {
+                    NavigationLink(destination: MyPetListView()) {
                         Button {
                             
                         } label: {
@@ -81,12 +82,12 @@ struct MyPetAddProfileView2: View {
                         }
                         .inputButtonStyle()
                     }
-                    
                 }
+                .padding(.bottom)
+                
             }
-            .navigationTitle("프로필을 입력해주세요")
-            .navigationBarTitleDisplayMode(.large)
         }
+        //}
     }
 }
 
