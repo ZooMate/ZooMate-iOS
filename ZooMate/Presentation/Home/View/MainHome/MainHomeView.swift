@@ -90,32 +90,6 @@ struct MainHomeView: View {
         .fullScreenCover(isPresented: $showRegionSheet) {
             AddRegionList(chooseMenu: $chooseMenu, textMenu: $textMenu)
         }
-        // 전역 백버튼 코드
-        .onAppear {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithTransparentBackground()
-            
-            let backItemAppearance = UIBarButtonItemAppearance()
-            backItemAppearance.normal.titleTextAttributes = [
-                .foregroundColor : UIColor.clear
-            ]
-            appearance.backButtonAppearance = backItemAppearance
-            
-            let image = UIImage(systemName: "chevron.backward")?
-                .withTintColor(
-                    .mainText,
-                    renderingMode: .alwaysOriginal
-                )
-                .withAlignmentRectInsets(
-                    UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
-                )
-            appearance.setBackIndicatorImage(image, transitionMaskImage: image)
-
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().compactAppearance = appearance
-            UINavigationBar.appearance().compactScrollEdgeAppearance = appearance
-        }
     }
 }
 
