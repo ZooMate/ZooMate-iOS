@@ -41,22 +41,23 @@ struct LoginView: View {
                     }
                     .padding(.bottom, 35)
                     
-                    VStack {
-                        Button {
-                            
-                        } label: {
-                            Text("로그인")
+                    NavigationLink(destination: MyPageView(isLoggedIn: true)) {
+                        VStack {
+                            Button {
+                                
+                            } label: {
+                                Text("로그인")
+                            }
+                            .inputButtonStyle()
                         }
-                        .inputButtonStyle()
                     }
                     
                     HStack {
                         Spacer()
-                        Button {
-                            
-                        } label: {
+                        
+                        NavigationLink(destination: SignUpView()) {
                             Text("회원가입")
-                                .font((.notoSansMedium(size: 12)))
+                                .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
                                 .padding(20)
                         }
