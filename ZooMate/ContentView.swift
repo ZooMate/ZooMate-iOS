@@ -14,7 +14,7 @@ struct ContentView: View {
                 MainHomeView()
             }
             Tab("채팅", systemImage: "message") {
-                
+                ChatMainView()
             }
             Tab("마이페이지", systemImage: "person.fill") {
                 MyPageView(isLoggedIn: true)
