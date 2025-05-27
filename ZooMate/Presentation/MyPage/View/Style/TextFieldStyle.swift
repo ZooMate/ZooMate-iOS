@@ -17,6 +17,7 @@ struct TextFieldStyle: ViewModifier {
             .font(.notoSansMedium(size: 16))
             .foregroundStyle(.mainText)
             .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.category, lineWidth: 2)
