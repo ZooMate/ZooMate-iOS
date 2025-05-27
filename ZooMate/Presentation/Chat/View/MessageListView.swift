@@ -22,9 +22,9 @@ struct MessageListView: View {
                     ForEach(message) { m in
                         Group {
                             if m.senderPetId == myId {
-                                SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
+                                SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
                             } else {
-                                ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt))
+                                ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
                             }
                         }
                         .listRowInsets(EdgeInsets())

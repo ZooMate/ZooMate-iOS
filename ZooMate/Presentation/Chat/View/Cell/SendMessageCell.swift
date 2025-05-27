@@ -10,13 +10,19 @@ import SwiftUI
 struct SendMessageCell: View {
     let text: String
     let time: String
+    let isRead: Bool
     
     var body: some View {
         HStack(alignment: .bottom) {
             Spacer()
-            Text(time)
-                .font(.notoSansRegular(size: 10))
-                .foregroundStyle(.subText)
+            VStack(alignment: .trailing) {
+                Text(isRead ? "" : "1")
+                    .font(.notoSansRegular(size: 10))
+                    .foregroundStyle(.category)
+                Text(time)
+                    .font(.notoSansRegular(size: 10))
+                    .foregroundStyle(.subText)
+            }
             Text(text)
                 .font(.notoSansRegular(size: 15))
                 .foregroundColor(.black)
@@ -27,8 +33,4 @@ struct SendMessageCell: View {
         }
         .padding(.bottom, 14)
     }
-}
-
-#Preview {
-    SendMessageCell(text: "하이하이하이ㅏ", time: "00:00")
 }

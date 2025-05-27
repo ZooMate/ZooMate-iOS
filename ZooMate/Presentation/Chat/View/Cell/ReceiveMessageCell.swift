@@ -10,6 +10,7 @@ import SwiftUI
 struct ReceiveMessageCell: View {
     let text: String
     let time: String
+    let isRead: Bool
     
     var body: some View {
         HStack(alignment: .bottom){
@@ -24,15 +25,16 @@ struct ReceiveMessageCell: View {
                     RoundedRectangle(cornerRadius: 15)
                         .stroke(.sandBeige, lineWidth: 1)
                 )
-            Text(time)
-                .font(.notoSansRegular(size: 10))
-                .foregroundStyle(.subText)
+            VStack(alignment: .leading) {
+                Text(isRead ? "" : "1")
+                    .font(.notoSansRegular(size: 10))
+                    .foregroundStyle(.category)
+                Text(time)
+                    .font(.notoSansRegular(size: 10))
+                    .foregroundStyle(.subText)
+            }
             Spacer()
         }
         .padding(.bottom, 14)
     }
-}
-
-#Preview {
-    ReceiveMessageCell(text: "안녕하세요", time: "오후 7:58")
 }
