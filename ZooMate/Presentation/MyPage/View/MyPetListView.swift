@@ -38,11 +38,13 @@ struct MyPetListView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 .padding()
-            }
-        }
-        .overlay {
-            if showCategory {
-                CategoryList(showCategory: $showCategory)
+                
+                if showCategory {
+                    CategoryList(showCategory: $showCategory) { category in
+                        selectedCategory = category
+                        showCategory = false
+                    }
+                }
             }
         }
     }

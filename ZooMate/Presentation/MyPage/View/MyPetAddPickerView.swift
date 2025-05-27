@@ -9,32 +9,36 @@ import SwiftUI
 
 struct MyPetAddPickerView: View {
     
+    var category: Category
+    var onBack: () -> Void
+    
     var body: some View {
-        NavigationView {
+        //NavigationView {
             ZStack {
                 Color.background.ignoresSafeArea()
-                VStack {
+                VStack(alignment: .leading) {
+                    Text("사진을 선택해주세요")
+                        .font(.notoSansBold(size: 30))
+                        .padding(.horizontal)
                     GeometryReader { geo in
-                        Text("")
+                        VStack() {
+                            
+                        }
                     }
                     VStack {
-                        Button {
-                            
-                        } label: {
-                            Text("다음")
+                        NavigationLink(destination: MyPetAddProfileView1()) {
+                            Button {
+                                
+                            } label: {
+                                Text("다음")
+                            }
+                            .nextBtnStyle()
                         }
-                        .nextBtnStyle()
                     }
-                    
+                    .padding(.bottom)
                 }
             }
-            .navigationTitle("사진을 선택해주세요")
-            .navigationBarTitleDisplayMode(.large)
-        }
+        //}
     }
     
-}
-
-#Preview {
-    MyPetAddPickerView()
 }
