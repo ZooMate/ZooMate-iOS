@@ -72,14 +72,16 @@ struct SignUpView: View {
                     }
                     .padding(.top)
                     
-                    VStack {
-                        Button {
-                            
-                        } label: {
-                            Text("작성 완료")
+                    NavigationLink(destination: MyPageView(isLoggedIn: true)) {
+                        VStack {
+                            Button {
+                                
+                            } label: {
+                                Text("작성 완료")
+                            }
+                            .inputButtonStyle()
+                            .padding(.top)
                         }
-                        .inputButtonStyle()
-                        .padding(.top)
                     }
                 }
                 .background(Color.background.ignoresSafeArea())
