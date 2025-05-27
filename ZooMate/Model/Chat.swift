@@ -24,4 +24,5 @@ struct Message: Codable, Identifiable {
     var roomId: String
     var content: String
     var sendMsgAt: Date
+    var isRead: Bool
 }
