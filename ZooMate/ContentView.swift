@@ -9,13 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            Tab("홈", systemImage: "house") {
+                MainHomeView()
+            }
+            Tab("채팅", systemImage: "message") {
+                
+            }
+            Tab("마이페이지", systemImage: "person.fill") {
+                MyPageView(isLoggedIn: true)
+            }
         }
-        .padding()
+        .tint(Color.mainText)
+        .onAppear {
+            UITabBar.appearance().unselectedItemTintColor = .subText
+        }
     }
 }
 
