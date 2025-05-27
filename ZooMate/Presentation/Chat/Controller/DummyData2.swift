@@ -18,8 +18,12 @@ class DummyData2: ObservableObject {
         
         let messages: [Message] = [
             // room-1
-            Message(msgId: "msg-1", senderPetId: "1", receiverPetId: "6", roomId: "room-1", content: "안녕하세요! 반갑습니다.", sendMsgAt: Date().addingTimeInterval(-3500)),
-            Message(msgId: "msg-2", senderPetId: "6", receiverPetId: "1", roomId: "room-1", content: "안녕하세요! 저도 반가워요.", sendMsgAt: Date().addingTimeInterval(-3400)),
+            Message(msgId: "msg-1", senderPetId: "1", receiverPetId: "6", roomId: "room-1", content: "안녕하세요! 산책 자주 가세요?", sendMsgAt: Date().addingTimeInterval(-7200)), // 2시간 전
+            Message(msgId: "msg-2", senderPetId: "6", receiverPetId: "1", roomId: "room-1", content: "네! 아침마다 공원에 가요 😊", sendMsgAt: Date().addingTimeInterval(-7150)),
+            Message(msgId: "msg-11", senderPetId: "1", receiverPetId: "6", roomId: "room-1", content: "와! 우리도 자주 가는데 혹시 도그파크?", sendMsgAt: Date().addingTimeInterval(-7000)),
+            Message(msgId: "msg-12", senderPetId: "6", receiverPetId: "1", roomId: "room-1", content: "맞아요! 도그파크 자주 가요 🐶", sendMsgAt: Date().addingTimeInterval(-6950)),
+            Message(msgId: "msg-13", senderPetId: "1", receiverPetId: "6", roomId: "room-1", content: "그럼 거기서 봤을 수도 있겠네요!", sendMsgAt: Date().addingTimeInterval(-6800)),
+            Message(msgId: "msg-14", senderPetId: "6", receiverPetId: "1", roomId: "room-1", content: "다음엔 인사할게요 😄", sendMsgAt: Date().addingTimeInterval(-6750)),
             
             // room-2
             Message(msgId: "msg-3", senderPetId: "2", receiverPetId: "6", roomId: "room-2", content: "오늘 산책 다녀왔어요!", sendMsgAt: Date().addingTimeInterval(-90000)),
