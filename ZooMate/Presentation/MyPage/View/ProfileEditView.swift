@@ -25,41 +25,56 @@ struct ProfileEditView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .top) {
-                ScrollView {
-                    ZStack(alignment: .top) {
+        //NavigationView {
+        ZStack(alignment: .top) {
+            ScrollView {
+                ZStack(alignment: .top) {
+                    
+                    VStack(spacing: 24) {
+                        Spacer().frame(height: 50)
                         
-                        VStack(spacing: 24) {
-                            Spacer().frame(height: 50)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("아이디")
+                                .padding(.horizontal, 40)
+                                .font(.notoSansRegular(size: 16))
+                                .foregroundStyle(.mainText)
                             
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("아이디")
-                                    .padding(.horizontal, 40)
+                            Text(user.userId)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .textFieldStyle(paddingSpace: 24)
+                        }
+                        
+                        EdittingRow(title: "비밀번호", text: $password)
+                        EdittingRow(title: "닉네임", text: $userName)
+                        EdittingRow(title: "소개글", text: $desc, isMultiline: true)
+                        
+                        HStack(spacing: 24) {
+                            NavigationLink(destination: LoginView()) {
+                                Text("로그아웃")
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
-                                
-                                Text(user.userId)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .textFieldStyle(paddingSpace: 24)
                             }
                             
-                            EdittingRow(title: "비밀번호", text: $password)
-                            EdittingRow(title: "닉네임", text: $userName)
-                            EdittingRow(title: "소개글", text: $desc, isMultiline: true)
-                            
-                            Spacer().frame(height: 50)
+                            NavigationLink(destination: SignUpView()) {
+                                Text("회원탈퇴")
+                                    .font(.notoSansRegular(size: 16))
+                                    .foregroundStyle(.mainText)
+                            }
                         }
-                        .background(.sandBeige)
-                        .cornerRadius(20)
-                        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 50)
                         
-                        ProfileImageSelectedView(selectedImage: $selectedImage)
+                        Spacer().frame(height: 50)
                     }
-                    .padding(.top)
+                    .background(.sandBeige)
+                    .cornerRadius(20)
+                    .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 50)
                     
+                    ProfileImageSelectedView(selectedImage: $selectedImage)
+                }
+                .padding(.top)
+                
+                NavigationLink(destination: MyPageView(isLoggedIn: true)) {
                     VStack {
                         Button {
                             // 작성 완료 버튼 액션
@@ -70,11 +85,12 @@ struct ProfileEditView: View {
                         .padding(.top)
                     }
                 }
-                .background(Color.background.ignoresSafeArea())
-                .navigationTitle("프로필 수정")
-                .navigationBarTitleDisplayMode(.inline)
             }
+            .background(Color.background.ignoresSafeArea())
+            .navigationTitle("프로필 수정")
+            .navigationBarTitleDisplayMode(.inline)
         }
+        //}
     }
 }
 
