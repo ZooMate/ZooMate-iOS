@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct MyPetListView: View {
-    
     @State private var showCategory = false
+    @State private var selectedCategory: Category? = nil
     @State private var isOnDetail = false
     
     var body: some View {
-        
         ZStack {
-            
-            MyPetView(isOnDetail: $isOnDetail)
-            
-            if !isOnDetail {
+            if let category = selectedCategory {
+                MyPetAddPickerView(
+                    category: category,
+                    onBack: {
+                        selectedCategory = nil
+                    }
+                )
+            } else {
+                MyPetView(isOnDetail: $isOnDetail)
+                
                 Button {
                     showCategory.toggle()
                 } label: {
