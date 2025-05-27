@@ -29,11 +29,11 @@ class DummyData2: ObservableObject {
             
             // room-2
             Message(msgId: "msg-3", senderPetId: "2", roomId: "room-2", content: "오늘 산책 다녀왔어요!", sendMsgAt: Date().addingTimeInterval(-90000), isRead: true),
-            Message(msgId: "msg-4", senderPetId: "6", roomId: "room-2", content: "좋아요! 어디 다녀왔나요?", sendMsgAt: Date().addingTimeInterval(-88000), isRead: true),
+            Message(msgId: "msg-4", senderPetId: "6", roomId: "room-2", content: "좋아요! 어디 다녀왔나요?", sendMsgAt: Date().addingTimeInterval(-88000), isRead: false),
             
             // room-3
             Message(msgId: "msg-5", senderPetId: "3", roomId: "room-3", content: "우리 강아지 새 옷 샀어요.", sendMsgAt: Date().addingTimeInterval(-170000), isRead: true),
-            Message(msgId: "msg-6", senderPetId: "6", roomId: "room-3", content: "멋지네요! 사진 보여주세요.", sendMsgAt: Date().addingTimeInterval(-169000), isRead: true),
+            Message(msgId: "msg-6", senderPetId: "6", roomId: "room-3", content: "멋지네요! 사진 보여주세요.", sendMsgAt: Date().addingTimeInterval(-169000), isRead: false),
             
             // room-4
             Message(msgId: "msg-7", senderPetId: "4", roomId: "room-4", content: "강아지 훈련 잘 되고 있나요?", sendMsgAt: Date().addingTimeInterval(-258000), isRead: true),
