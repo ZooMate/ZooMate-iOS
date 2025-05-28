@@ -157,5 +157,5 @@ struct SettingRow: View {
 }
 
 #Preview {
-    MyPageView(isLoggedIn:  true)
+    MyPageView(isLoggedIn:  false)
 }

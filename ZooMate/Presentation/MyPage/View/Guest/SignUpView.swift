@@ -15,6 +15,7 @@ struct SignUpView: View {
     @State var desc: String = ""
     
     @State private var selectedImage: UIImage?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationView {
@@ -72,16 +73,14 @@ struct SignUpView: View {
                     }
                     .padding(.top)
                     
-                    NavigationLink(destination: LoginView()) {
-                        VStack {
-                            Button {
-                                
-                            } label: {
-                                Text("작성 완료")
-                            }
-                            .inputButtonStyle()
-                            .padding(.top)
+                    VStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("작성 완료")
                         }
+                        .inputButtonStyle()
+                        .padding(.top)
                     }
                 }
                 .background(Color.background.ignoresSafeArea())

@@ -11,6 +11,7 @@ struct LoginView: View {
     
     @State var userId: String = ""
     @State var password: String = ""
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         
@@ -41,15 +42,13 @@ struct LoginView: View {
                     }
                     .padding(.bottom, 35)
                     
-                    NavigationLink(destination: MyPageView(isLoggedIn: true)) {
-                        VStack {
-                            Button {
-                                
-                            } label: {
-                                Text("로그인")
-                            }
-                            .inputButtonStyle()
+                    VStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("로그인")
                         }
+                        .inputButtonStyle()
                     }
                     
                     HStack {
