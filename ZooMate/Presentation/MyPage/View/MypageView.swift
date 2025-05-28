@@ -9,13 +9,12 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
-    
+    @State var stack = NavigationPath()
     let isLoggedIn: Bool
     private let user = users[0]
     
     var body: some View {
-        
-        NavigationView {
+        NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {
                     
@@ -42,9 +41,8 @@ struct MyPageView: View {
                             }
                         }
                         
-                        if isLoggedIn
-                        {
-                            NavigationLink(destination: ProfileDetailView()) {
+                        if isLoggedIn {
+                            NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
                                     Text(isLoggedIn ? user.userName : "유저")
                                         .font(.notoSansBold(size: 24))
@@ -57,6 +55,11 @@ struct MyPageView: View {
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(PlainButtonStyle())
+                            .navigationDestination(for: String.self) { value in
+                                if value == "profileDetail" {
+                                    ProfileDetailView(stack: $stack)
+                                }
+                            }
                         } else {
                             NavigationLink(destination: LoginView()) {
                                 VStack(alignment: .leading) {
@@ -157,5 +160,5 @@ struct SettingRow: View {
 }
 
 #Preview {
-    MyPageView(isLoggedIn:  false)
+    MyPageView(isLoggedIn: true)
 }

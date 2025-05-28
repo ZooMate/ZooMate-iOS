@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileEditView: View {
-    
+    @Binding var stack: NavigationPath
     private let user = users[0]
     
     @State var userId: String = ""
@@ -16,12 +16,14 @@ struct ProfileEditView: View {
     @State var userName: String = ""
     @State var desc: String = ""
     @State private var selectedImage: UIImage?
+    @Environment(\.dismiss) private var dismiss
     
-    init() {
+    init(stack: Binding<NavigationPath>) {
         _userId = State(initialValue: user.userId)
         _password = State(initialValue: user.password)
         _userName = State(initialValue: user.userName)
         _desc = State(initialValue: user.desc ?? "")
+        self._stack = stack
     }
     
     var body: some View {
@@ -49,11 +51,17 @@ struct ProfileEditView: View {
                         EdittingRow(title: "소개글", text: $desc, isMultiline: true)
                         
                         HStack(spacing: 35) {
-                            NavigationLink(destination: LoginView()) {
+                            Button {
+                                stack = .init()
+                            } label: {
                                 Text("로그아웃")
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
-                                
+                            }
+                            
+                            Button {
+                                stack = .init()
+                            } label: {
                                 Text("회원탈퇴")
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
@@ -72,16 +80,14 @@ struct ProfileEditView: View {
                 }
                 .padding(.top)
                 
-                NavigationLink(destination: MyPageView(isLoggedIn: true)) {
-                    VStack {
-                        Button {
-                            // 작성 완료 버튼 액션
-                        } label: {
-                            Text("작성 완료")
-                        }
-                        .inputButtonStyle()
-                        .padding(.top)
+                VStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("작성 완료")
                     }
+                    .inputButtonStyle()
+                    .padding(.top)
                 }
             }
             .background(Color.background.ignoresSafeArea())
@@ -117,8 +123,4 @@ struct EdittingRow: View {
             }
         }
     }
-}
-
-#Preview {
-    ProfileEditView()
 }

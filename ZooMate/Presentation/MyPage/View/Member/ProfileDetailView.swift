@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileDetailView: View {
-    
+    @Binding var stack: NavigationPath
     private let user = users[0]
     
     var body: some View {
@@ -69,7 +69,8 @@ struct ProfileDetailView: View {
                 Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
                 
-                NavigationLink(destination: ProfileEditView()) {
+                NavigationLink(destination: ProfileEditView(stack: $stack)) {
+                    let _ = print(stack)
                     Text("프로필 편집")
                         .font(.notoSansMedium(size: 20))
                         .frame(maxWidth: .infinity)
@@ -134,6 +135,6 @@ struct ProfileDetailView: View {
     }
 }
 
-#Preview {
-    ProfileDetailView()
-}
+//#Preview {
+//    ProfileDetailView(firstNaviLinkActive: true)
+//}
