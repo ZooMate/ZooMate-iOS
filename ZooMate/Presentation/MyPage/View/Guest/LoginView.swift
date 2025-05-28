@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct LoginView: View {
+    
     @State var userId: String = ""
     @State var password: String = ""
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        
         GeometryReader { geo in
+            
             ZStack {
                 Color.background
                     .ignoresSafeArea()
+                
                 VStack {
+                    
                     VStack(alignment: .leading) {
                         Text("아이디")
                             .padding(.horizontal, 30)
@@ -38,7 +44,7 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            
+                            dismiss()
                         } label: {
                             Text("로그인")
                         }
@@ -47,11 +53,10 @@ struct LoginView: View {
                     
                     HStack {
                         Spacer()
-                        Button {
-                           
-                        } label: {
+                        
+                        NavigationLink(destination: SignUpView()) {
                             Text("회원가입")
-                                .font((.notoSansMedium(size: 12)))
+                                .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
                                 .padding(20)
                         }

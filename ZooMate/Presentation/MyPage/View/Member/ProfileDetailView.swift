@@ -9,49 +9,48 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileDetailView: View {
-    
+    @Binding var stack: NavigationPath
     private let user = users[0]
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .top) {
-                ScrollView {
-                    ZStack(alignment: .top) {
-                        profileBackground
-                        VStack(spacing: 18) {
-                            Spacer().frame(height: 50)
-                            profileHeader
-                            petListSection
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 50)
-                        
-                        if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            KFImage(URL(string: profile))
-                                .placeholder {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle())
-                                        .frame(width: 100, height: 100)
-                                }
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                        } else {
-                            ProfileImageView()
-                        }
-                        
+        //NavigationStack {
+        ZStack(alignment: .top) {
+            ScrollView {
+                ZStack(alignment: .top) {
+                    profileBackground
+                    VStack(spacing: 18) {
+                        Spacer().frame(height: 50)
+                        profileHeader
+                        petListSection
                     }
-                    .padding(.top)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 50)
+                    
+                    if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        
+                        KFImage(URL(string: profile))
+                            .placeholder {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .frame(width: 100, height: 100)
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    }
+                    else {
+                        ProfileImageView()
+                    }
                 }
-                .background(Color.background.ignoresSafeArea())
-                .navigationTitle("내 프로필")
-                .navigationBarTitleDisplayMode(.inline)
+                .padding(.top)
             }
+            .background(Color.background.ignoresSafeArea())
+            .navigationTitle("내 프로필")
+            .navigationBarTitleDisplayMode(.inline)
         }
+        //}
     }
-    
-    // MARK: - Components
     
     private var profileBackground: some View {
         Color.sandBeige
@@ -67,19 +66,20 @@ struct ProfileDetailView: View {
             VStack(alignment: .center, spacing: 18) {
                 Text(user.userName)
                     .font(.notoSansBold(size: 20))
-                
                 Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
                 
-                Button {
-                    // 편집 동작
-                } label: {
+                NavigationLink(destination: ProfileEditView(stack: $stack)) {
+                    let _ = print(stack)
                     Text("프로필 편집")
                         .font(.notoSansMedium(size: 20))
                         .frame(maxWidth: .infinity)
                         .textFieldStyle()
                 }
                 .padding(.vertical, 24)
+                .buttonStyle(PlainButtonStyle())
+                
+                
             }
             .foregroundStyle(.mainText)
         }
@@ -94,6 +94,7 @@ struct ProfileDetailView: View {
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {
+                        
                         KFImage(URL(string: photo))
                             .placeholder {
                                 ProgressView()
@@ -107,6 +108,7 @@ struct ProfileDetailView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
+                        
                         HStack {
                             Text(pet.petName)
                                 .font(.notoSansMedium(size: 16))
@@ -133,6 +135,6 @@ struct ProfileDetailView: View {
     }
 }
 
-#Preview {
-    ProfileDetailView()
-}
+//#Preview {
+//    ProfileDetailView(firstNaviLinkActive: true)
+//}

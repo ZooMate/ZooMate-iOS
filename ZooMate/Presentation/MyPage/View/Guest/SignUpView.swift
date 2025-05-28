@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct SignUpView: View {
+    
     @State var userId: String = ""
     @State var password: String = ""
     @State var userName: String = ""
     @State var desc: String = ""
     
     @State private var selectedImage: UIImage?
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationView {
@@ -66,14 +68,14 @@ struct SignUpView: View {
                         .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
                         .padding(.horizontal, 16)
                         .padding(.top, 50)
-                        
-                        ProfileImageSelectedView(selectedImage: $selectedImage)
+                        // FIXME: 회원 여부에 따른 이미지 가져오기, 기본 이미지 출력
+                        ProfileImageSelectedView(selectedImage: $selectedImage, isNewUser: true)
                     }
                     .padding(.top)
                     
                     VStack {
                         Button {
-                            
+                            dismiss()
                         } label: {
                             Text("작성 완료")
                         }

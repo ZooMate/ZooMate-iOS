@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileImageView: View {
+    // MARK: 기본 프로필 이미지 뷰
     var body: some View {
         ZStack {
             Circle().fill(Color.white)
