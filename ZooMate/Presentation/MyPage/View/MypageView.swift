@@ -12,6 +12,7 @@ struct MyPageView: View {
     @State var stack = NavigationPath()
     let isLoggedIn: Bool
     private let user = users[0]
+    @State private var showAlret = false
     
     var body: some View {
         NavigationStack(path: $stack) {
@@ -102,10 +103,20 @@ struct MyPageView: View {
                         
                         ZStack() {
                             VStack(spacing: 28) {
-                                SettingRow(title: "공지사항")
-                                SettingRow(title: "알림설정")
-                                SettingRow(title: "개선문의")
-                                SettingRow(title: "약관 및 정책")
+                                NavigationLink(destination: NoticeView()) {
+                                    SettingRow(title: "공지사항")
+                                }
+                                Button {
+                                    showAlret = true
+                                } label: {
+                                    SettingRow(title: "개선문의")
+                                }
+                                NavigationLink(destination: PushView()) {
+                                    SettingRow(title: "알림설정")
+                                }
+                                NavigationLink(destination: LegalView()) {
+                                    SettingRow(title: "약관 및 정책")
+                                }
                             }
                             .padding(.vertical, 35)
                         }
@@ -119,6 +130,11 @@ struct MyPageView: View {
             .background(Color.background.ignoresSafeArea())
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
+        }
+        .alert("문의사항", isPresented: $showAlret) {
+            Button("확인", role: .cancel) {}
+        } message: {
+            Text("nadana0929@gmail.com으로 문의주세요")
         }
     }
 }
