@@ -16,7 +16,6 @@ struct MyPetAddProfileView1: View {
     @State var isPublic: Bool = true
     
     var body: some View {
-        //NavigationView {
         ZStack {
             Color.background.ignoresSafeArea()
             VStack(alignment: .leading) {
@@ -210,7 +209,6 @@ struct MyPetAddProfileView1: View {
                 .padding(.bottom)
             }
         }
-        //}
     }
 }
 

@@ -14,7 +14,6 @@ struct MyPetAddProfileView2: View {
     @State var tag: [String] = []
     
     var body: some View {
-        //NavigationView {
         ZStack {
             Color.background.ignoresSafeArea()
             VStack(alignment: .leading) {
@@ -87,7 +86,6 @@ struct MyPetAddProfileView2: View {
                 
             }
         }
-        //}
     }
 }
 

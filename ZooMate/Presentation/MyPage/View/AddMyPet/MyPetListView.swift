@@ -11,40 +11,29 @@ struct MyPetListView: View {
     @State private var showCategory = false
     @State private var selectedCategory: Category? = nil
     @State private var isOnDetail = false
+    @State var isModal = false
     
     var body: some View {
         ZStack {
-            if let category = selectedCategory {
-                MyPetAddPickerView(
-                    category: category,
-                    onBack: {
-                        selectedCategory = nil
-                    }
-                )
-            } else {
-                MyPetView(isOnDetail: $isOnDetail)
-                
-                Button {
-                    showCategory.toggle()
-                } label: {
-                    ZStack {
-                        Circle().fill(.pointPink)
-                            .frame(width: 70 , height: 70)
-                        Image(systemName: "plus")
-                            .font(.system(size: 35))
-                            .foregroundColor(.category)
-                    }
-                    .padding()
+            MyPetView(isOnDetail: $isOnDetail)
+            
+            Button {
+                showCategory.toggle()
+            } label: {
+                ZStack {
+                    Circle().fill(.pointPink)
+                        .frame(width: 70 , height: 70)
+                    Image(systemName: "plus")
+                        .font(.system(size: 35))
+                        .foregroundColor(.category)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 .padding()
-                
-                if showCategory {
-                    CategoryList(showCategory: $showCategory) { category in
-                        selectedCategory = category
-                        showCategory = false
-                    }
-                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding()
+            
+            if showCategory {
+                CategoryList(showCategory: $showCategory, isModal: $isModal)
             }
         }
     }

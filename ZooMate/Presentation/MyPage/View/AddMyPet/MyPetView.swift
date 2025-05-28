@@ -17,7 +17,6 @@ struct MyPetView: View {
     ]
     // MARK: 등록한 반려동물의 상세 프로필 entry에 따른 버튼 출력 여부
     var body: some View {
-        //NavigationStack {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(pets, id: \.petId) { pet in
@@ -36,6 +35,5 @@ struct MyPetView: View {
             .navigationTitle("내 반려동물")
             .navigationBarTitleDisplayMode(.inline)
         }
-        //}
     }
 }

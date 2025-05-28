@@ -10,10 +10,9 @@ import SwiftUI
 struct MyPetAddPickerView: View {
     
     var category: Category
-    var onBack: () -> Void
     
     var body: some View {
-        //NavigationView {
+        NavigationStack {
             ZStack {
                 Color.background.ignoresSafeArea()
                 VStack(alignment: .leading) {
@@ -38,7 +37,7 @@ struct MyPetAddPickerView: View {
                     .padding(.bottom)
                 }
             }
-        //}
+        }
     }
     
 }
