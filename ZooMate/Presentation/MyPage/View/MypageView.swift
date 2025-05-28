@@ -42,19 +42,36 @@ struct MyPageView: View {
                             }
                         }
                         
-                        NavigationLink(destination: ProfileDetailView()) {
-                            VStack(alignment: .leading) {
-                                Text(isLoggedIn ? user.userName : "유저")
-                                    .font(.notoSansBold(size: 24))
-                                    .foregroundStyle(.mainText)
-                                
-                                Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
-                                    .font(.notoSansRegular(size: 14))
-                                    .foregroundStyle(.mainText)
+                        if isLoggedIn
+                        {
+                            NavigationLink(destination: ProfileDetailView()) {
+                                VStack(alignment: .leading) {
+                                    Text(isLoggedIn ? user.userName : "유저")
+                                        .font(.notoSansBold(size: 24))
+                                        .foregroundStyle(.mainText)
+                                    
+                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                        .font(.notoSansRegular(size: 14))
+                                        .foregroundStyle(.mainText)
+                                }
+                                .contentShape(Rectangle())
                             }
-                            .contentShape(Rectangle())
+                            .buttonStyle(PlainButtonStyle())
+                        } else {
+                            NavigationLink(destination: LoginView()) {
+                                VStack(alignment: .leading) {
+                                    Text(isLoggedIn ? user.userName : "유저")
+                                        .font(.notoSansBold(size: 24))
+                                        .foregroundStyle(.mainText)
+                                    
+                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                        .font(.notoSansRegular(size: 14))
+                                        .foregroundStyle(.mainText)
+                                }
+                                .contentShape(Rectangle())
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding(.horizontal)
                     

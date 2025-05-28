@@ -48,14 +48,12 @@ struct ProfileEditView: View {
                         EdittingRow(title: "닉네임", text: $userName)
                         EdittingRow(title: "소개글", text: $desc, isMultiline: true)
                         
-                        HStack(spacing: 24) {
+                        HStack(spacing: 35) {
                             NavigationLink(destination: LoginView()) {
                                 Text("로그아웃")
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
-                            }
-                            
-                            NavigationLink(destination: SignUpView()) {
+                                
                                 Text("회원탈퇴")
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)

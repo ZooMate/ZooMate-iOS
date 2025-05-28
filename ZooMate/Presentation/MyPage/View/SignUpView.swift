@@ -72,7 +72,7 @@ struct SignUpView: View {
                     }
                     .padding(.top)
                     
-                    NavigationLink(destination: MyPageView(isLoggedIn: true)) {
+                    NavigationLink(destination: LoginView()) {
                         VStack {
                             Button {
                                 
