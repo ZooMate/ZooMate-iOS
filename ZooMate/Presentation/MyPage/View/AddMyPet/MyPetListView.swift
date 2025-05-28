@@ -35,6 +35,7 @@ struct MyPetListView: View {
                 CategoryList(showCategory: $showCategory)
             }
         }
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

@@ -11,6 +11,7 @@ struct MateListView: View {
     
     var body: some View {
         MateView(data: DummyData1())
+            .toolbar(.hidden, for: .tabBar)
     }
 }
 
