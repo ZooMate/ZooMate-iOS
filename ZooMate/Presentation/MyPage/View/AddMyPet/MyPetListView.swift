@@ -11,7 +11,6 @@ struct MyPetListView: View {
     @State private var showCategory = false
     @State private var selectedCategory: Category? = nil
     @State private var isOnDetail = false
-    @State var isModal = false
     
     var body: some View {
         ZStack {
@@ -33,7 +32,7 @@ struct MyPetListView: View {
             .padding()
             
             if showCategory {
-                CategoryList(showCategory: $showCategory, isModal: $isModal)
+                CategoryList(showCategory: $showCategory)
             }
         }
     }

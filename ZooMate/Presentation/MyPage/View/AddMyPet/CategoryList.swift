@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryList: View {
     
     @Binding var showCategory: Bool
-    @Binding var isModal: Bool
+    @State var isModal = false
     @State var selectCategory = Category.bird
     
     var body: some View {
@@ -47,7 +47,7 @@ struct CategoryList: View {
         }
         .fullScreenCover(isPresented: $isModal) {
             MyPetAddPickerView(
-                category: selectCategory, isModal: $isModal
+                category: selectCategory, isModal: $showCategory
             )
         }
     }
