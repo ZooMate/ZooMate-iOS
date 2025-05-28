@@ -199,12 +199,8 @@ struct MyPetAddProfileView1: View {
                 
                 VStack {
                     NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
-                        Button {
-                            
-                        } label: {
-                            Text("다음")
-                        }
-                        .nextBtnStyle()
+                        Text("다음")
+                            .nextBtnStyle()
                     }
                 }
                 .padding(.bottom)

@@ -27,12 +27,8 @@ struct MyPetAddPickerView: View {
                     }
                     VStack {
                         NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
-                            Button {
-                                
-                            } label: {
-                                Text("다음")
-                            }
-                            .nextBtnStyle()
+                            Text("다음")
+                                .nextBtnStyle()
                         }
                     }
                     .padding(.bottom)

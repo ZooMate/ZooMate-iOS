@@ -78,8 +78,8 @@ struct MyPetAddProfileView2: View {
                         isModal = false
                     } label: {
                         Text("확인")
+                            .inputButtonStyle()
                     }
-                    .inputButtonStyle()
                 }
                 .padding(.bottom)
                 
