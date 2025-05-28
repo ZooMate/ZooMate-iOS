@@ -12,6 +12,7 @@ struct MyPetAddProfileView2: View {
     @State var breed: String? = nil
     @State var weight: String? = nil
     @State var tag: [String] = []
+    @Binding var isModal: Bool
     
     var body: some View {
         ZStack {
@@ -73,22 +74,16 @@ struct MyPetAddProfileView2: View {
                     .frame(width: geo.size.width)
                 }
                 VStack {
-                    NavigationLink(destination: MyPetListView()) {
-                        Button {
-                            
-                        } label: {
-                            Text("확인")
-                        }
-                        .inputButtonStyle()
+                    Button {
+                        isModal = false
+                    } label: {
+                        Text("확인")
                     }
+                    .inputButtonStyle()
                 }
                 .padding(.bottom)
                 
             }
         }
     }
-}
-
-#Preview {
-    MyPetAddProfileView2()
 }

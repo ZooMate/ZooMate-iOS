@@ -14,6 +14,7 @@ struct MyPetAddProfileView1: View {
     @State var gender: Gender = .male
     @State var isNeutering: Bool = false
     @State var isPublic: Bool = true
+    @Binding var isModal: Bool
     
     var body: some View {
         ZStack {
@@ -197,7 +198,7 @@ struct MyPetAddProfileView1: View {
                 Spacer()
                 
                 VStack {
-                    NavigationLink(destination: MyPetAddProfileView2()) {
+                    NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
                         Button {
                             
                         } label: {
@@ -210,9 +211,5 @@ struct MyPetAddProfileView1: View {
             }
         }
     }
-}
-
-#Preview {
-    MyPetAddProfileView1()
 }
 

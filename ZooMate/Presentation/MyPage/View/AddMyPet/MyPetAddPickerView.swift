@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPetAddPickerView: View {
     
     var category: Category
+    @Binding var isModal: Bool
     
     var body: some View {
         NavigationStack {
@@ -25,7 +26,7 @@ struct MyPetAddPickerView: View {
                         }
                     }
                     VStack {
-                        NavigationLink(destination: MyPetAddProfileView1()) {
+                        NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
                             Button {
                                 
                             } label: {
