@@ -88,7 +88,7 @@ struct ProfileDetailView: View {
             Text("\(data.dummyUsers[0].userName)님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
-            ForEach(pets, id: \.id) { pet in
+            ForEach(data.dummyPets, id: \.id) { pet in
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MateView: View {
-    
     @StateObject var data = DummyData1()
     
     let columns = [
@@ -19,7 +18,7 @@ struct MateView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(matedPets) { pet in
+                ForEach(matedPets, id: \.id) { pet in
                     if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
                         NavigationLink(destination: PetDetailView(pet: pet)) {
                             PetCardCell(pet: pet, user: owner)
@@ -34,6 +33,10 @@ struct MateView: View {
     }
     
     private var matedPets: [Pet] {
-        data.dummyPets
+        let myMatePetIds = data.dummyMates
+            .filter { $0.userrId == MyData.myId }
+            .map { $0.petId }
+
+        return data.dummyPets.filter { myMatePetIds.contains($0.id) }
     }
 }

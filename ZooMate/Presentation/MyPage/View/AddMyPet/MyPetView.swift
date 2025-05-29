@@ -8,28 +8,27 @@
 import SwiftUI
 
 struct MyPetView: View {
-    
     @Binding var isOnDetail: Bool
+    @StateObject var data = DummyData1()
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible())
     ]
-    // MARK: 등록한 반려동물의 상세 프로필 entry에 따른 버튼 출력 여부
+    
     var body: some View {
+        let user = data.dummyUsers[MyData.myId]
+        let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
+        
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(pets, id: \.id) { pet in
-                    let user = users.first { $0.id == pet.ownerId }
-
+                ForEach(myPets, id: \.id) { pet in
                     NavigationLink(
                         destination: MyPetDetailView(pet: pet)
                             .onAppear { isOnDetail = true }
                             .onDisappear { isOnDetail = false }
                     ) {
-                        if let user = user {
-                            PetCardCell(pet: pet, user: user)
-                        }
+                        PetCardCell(pet: pet, user: user)
                     }
                 }
             }

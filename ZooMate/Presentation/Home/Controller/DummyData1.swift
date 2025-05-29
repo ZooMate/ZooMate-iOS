@@ -31,6 +31,14 @@ class DummyData1: ObservableObject {
         Pet(id: 20, petName: "하니", age: 3, gender: .female, isNeutering: true, isPublic: true, breed: "개구리", weight: 4.0, tag: ["활동적", "호기심많음"], photos: ["https://images.unsplash.com/photo-1534062518571-b4d839eac102?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"], category: .reptile, ownerId: 10)
     ]
     
+    var dummyMates: [Mate] {
+        return [
+            Mate(userrId: 6, petId: 8),
+            Mate(userrId: 6, petId: 9),
+            Mate(userrId: 6, petId: 10)
+        ]
+    }
+    
     var dummyUsers: [User] {
         return [
             User(
