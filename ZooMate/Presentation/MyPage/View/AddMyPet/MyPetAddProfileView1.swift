@@ -33,7 +33,8 @@ struct MyPetAddProfileView1: View {
                             
                             TextField("반려동물의 이름", text: $petName)
                                 .frame(width: geo.size.width * 0.6)
-                                .padding(20)
+                                .padding(.vertical, 15)
+                                .padding(.horizontal, 20)
                                 .font(.notoSansRegular(size: 17))
                                 .foregroundStyle(.category)
                                 .background(.white)
@@ -52,7 +53,8 @@ struct MyPetAddProfileView1: View {
                             
                             TextField("반려동물의 나이", text: $age)
                                 .frame(width: geo.size.width * 0.6)
-                                .padding(20)
+                                .padding(.vertical, 15)
+                                .padding(.horizontal, 20)
                                 .font(.notoSansRegular(size: 17))
                                 .foregroundStyle(.category)
                                 .background(.white)
@@ -208,4 +210,3 @@ struct MyPetAddProfileView1: View {
         }
     }
 }
-

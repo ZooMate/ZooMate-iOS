@@ -18,7 +18,7 @@ struct InputBtnStyle: ViewModifier {
             .foregroundStyle(.mainText)
             .background(.pointPink)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 10)
     }
 }
 

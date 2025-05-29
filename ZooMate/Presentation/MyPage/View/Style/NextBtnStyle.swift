@@ -18,7 +18,7 @@ struct NextBtnStyle: ViewModifier {
             .foregroundStyle(.mainText)
             .background(Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 10)
     }
 }
 

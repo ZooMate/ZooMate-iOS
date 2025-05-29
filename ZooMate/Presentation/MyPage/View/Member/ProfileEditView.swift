@@ -32,7 +32,7 @@ struct ProfileEditView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("아이디")
-                                .padding(.horizontal, 40)
+                                .padding(.horizontal, 30)
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
                             
@@ -102,7 +102,7 @@ struct EdittingRow: View {
         
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 30)
                 .font(.notoSansRegular(size: 16))
                 .foregroundStyle(.mainText)
             
