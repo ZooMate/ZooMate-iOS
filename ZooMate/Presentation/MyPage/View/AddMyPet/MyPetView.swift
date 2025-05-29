@@ -17,24 +17,28 @@ struct MyPetView: View {
     ]
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
-        let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
-        
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(myPets, id: \.id) { pet in
-                    NavigationLink(
-                        destination: MyPetDetailView(pet: pet)
-                            .onAppear { isOnDetail = true }
-                            .onDisappear { isOnDetail = false }
-                    ) {
-                        PetCardCell(pet: pet, user: user)
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
+            let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+            let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
+            
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(myPets, id: \.id) { pet in
+                        NavigationLink(
+                            destination: MyPetDetailView(pet: pet)
+                                .onAppear { isOnDetail = true }
+                                .onDisappear { isOnDetail = false }
+                        ) {
+                            PetCardCell(pet: pet, user: user)
+                        }
                     }
                 }
+                .padding(16)
+                .navigationTitle("내 반려동물")
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .padding(16)
-            .navigationTitle("내 반려동물")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
