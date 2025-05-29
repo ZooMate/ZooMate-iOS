@@ -16,19 +16,24 @@ struct MateView: View {
     ]
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(matedPets, id: \.id) { pet in
-                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
-                        NavigationLink(destination: PetDetailView(pet: pet)) {
-                            PetCardCell(pet: pet, user: owner)
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
+            
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(matedPets, id: \.id) { pet in
+                        if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
+                            NavigationLink(destination: PetDetailView(pet: pet)) {
+                                PetCardCell(pet: pet, user: owner)
+                            }
                         }
                     }
                 }
+                .padding(16)
+                .navigationTitle("메이트")
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .padding(16)
-            .navigationTitle("메이트")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
