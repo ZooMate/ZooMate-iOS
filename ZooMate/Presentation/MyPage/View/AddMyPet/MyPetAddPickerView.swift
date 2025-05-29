@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyPetAddPickerView: View {
-    
+    @Environment(\.dismiss) var dismiss
     var category: Category
     @Binding var isModal: Bool
     
@@ -34,7 +34,17 @@ struct MyPetAddPickerView: View {
                     .padding(.bottom)
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .foregroundStyle(.mainText)
+                            .fontWeight(.semibold)
+                    }
+                }
+            }
         }
     }
-    
 }
