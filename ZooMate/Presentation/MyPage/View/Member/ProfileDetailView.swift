@@ -14,6 +14,7 @@ struct ProfileDetailView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            
             ScrollView {
                 ZStack(alignment: .top) {
                     profileBackground
@@ -25,7 +26,8 @@ struct ProfileDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 50)
                     
-                    if let profile = data.dummyUsers[0].profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+                    if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         
                         KFImage(URL(string: profile))
                             .placeholder {
@@ -60,17 +62,18 @@ struct ProfileDetailView: View {
     }
     
     private var profileHeader: some View {
-        Group {
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        
+        return Group {
             VStack(alignment: .center, spacing: 18) {
-                Text(data.dummyUsers[0].userName)
+                Text(user.userName)
                     .font(.notoSansBold(size: 20))
-                Text(data.dummyUsers[0].desc ?? "소개글을 등록하여 나를 표현해보세요")
+                Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
                 
                 NavigationLink(destination: ProfileEditView(stack: $stack)) {
-                    let _ = print(stack)
                     Text("프로필 편집")
-                        .font(.notoSansMedium(size: 20))
+                        .font(.notoSansMedium(size: 16))
                         .frame(maxWidth: .infinity)
                         .textFieldStyle()
                 }
@@ -84,11 +87,14 @@ struct ProfileDetailView: View {
     }
     
     private var petListSection: some View {
-        VStack(alignment: .leading) {
-            Text("\(data.dummyUsers[0].userName)님의 반려동물")
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
+        
+        return VStack(alignment: .leading) {
+            Text("\(user.userName)님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
-            ForEach(data.dummyPets, id: \.id) { pet in
+            ForEach(myPets, id: \.id) { pet in
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {

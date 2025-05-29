@@ -93,7 +93,7 @@ class DummyData1: ObservableObject {
             ),
             User(
                 id: 6,
-                userId: "user1",
+                userId: "user6",
                 userName: "유저6",
                 password: "password123",
                 region: "광진구",
