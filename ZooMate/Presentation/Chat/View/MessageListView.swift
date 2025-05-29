@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MessageListView: View {
     let message: [Message]
-    let myId = 6
     @State var msg = ""
     
     var body: some View {
@@ -21,7 +20,7 @@ struct MessageListView: View {
                 List {
                     ForEach(message) { m in
                         Group {
-                            if m.senderPetId == myId {
+                            if m.senderPetId == MyData.myId {
                                 SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
                             } else {
                                 ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)

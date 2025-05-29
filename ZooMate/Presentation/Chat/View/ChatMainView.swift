@@ -10,7 +10,6 @@ import SwiftUI
 struct ChatMainView: View {
     @StateObject private var data = DummyData2()
     @StateObject private var data2 = DummyData1()
-    let myId = 6
     
     var body: some View {
         NavigationStack {
@@ -20,10 +19,10 @@ struct ChatMainView: View {
                 
                 VStack {
                     List {
-                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == myId || $0.secondPetId == myId }
+                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == MyData.myId || $0.secondPetId == MyData.myId }
                         
                         ForEach(filteredChatRooms) { chatRoom in
-                            let pet = getPet(by: chatRoom.firstPetId == myId ? chatRoom.secondPetId : chatRoom.firstPetId)
+                            let pet = getPet(by: chatRoom.firstPetId == MyData.myId ? chatRoom.secondPetId : chatRoom.firstPetId)
                             let chat = getMessages(for: chatRoom.id)
                             let name = getUserName(for: pet)
                             ZStack {

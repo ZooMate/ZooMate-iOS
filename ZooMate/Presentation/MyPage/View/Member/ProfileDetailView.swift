@@ -10,10 +10,9 @@ import Kingfisher
 
 struct ProfileDetailView: View {
     @Binding var stack: NavigationPath
-    private let user = users[0]
+    @StateObject var data = DummyData1()
     
     var body: some View {
-        //NavigationStack {
         ZStack(alignment: .top) {
             ScrollView {
                 ZStack(alignment: .top) {
@@ -26,7 +25,7 @@ struct ProfileDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 50)
                     
-                    if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if let profile = data.dummyUsers[0].profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         
                         KFImage(URL(string: profile))
                             .placeholder {
@@ -49,7 +48,6 @@ struct ProfileDetailView: View {
             .navigationTitle("내 프로필")
             .navigationBarTitleDisplayMode(.inline)
         }
-        //}
     }
     
     private var profileBackground: some View {
@@ -64,9 +62,9 @@ struct ProfileDetailView: View {
     private var profileHeader: some View {
         Group {
             VStack(alignment: .center, spacing: 18) {
-                Text(user.userName)
+                Text(data.dummyUsers[0].userName)
                     .font(.notoSansBold(size: 20))
-                Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
+                Text(data.dummyUsers[0].desc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
                 
                 NavigationLink(destination: ProfileEditView(stack: $stack)) {
@@ -87,7 +85,7 @@ struct ProfileDetailView: View {
     
     private var petListSection: some View {
         VStack(alignment: .leading) {
-            Text("\(user.userName)님의 반려동물")
+            Text("\(data.dummyUsers[0].userName)님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
             ForEach(pets, id: \.id) { pet in
