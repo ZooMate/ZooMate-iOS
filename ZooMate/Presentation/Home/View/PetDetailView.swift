@@ -99,16 +99,18 @@ struct PetDetailView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button {
-                        // TODO: 삭제기능
+            if pet.ownerId == MyData.myId {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button {
+                            // TODO: 삭제기능
+                        } label: {
+                            Text("삭제")
+                        }
                     } label: {
-                        Text("삭제")
+                        Image(systemName: "ellipsis")
+                            .foregroundStyle(.black)
                     }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(.black)
                 }
             }
         }

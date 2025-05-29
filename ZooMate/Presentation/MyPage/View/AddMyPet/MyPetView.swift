@@ -17,7 +17,7 @@ struct MyPetView: View {
     ]
     
     var body: some View {
-        let user = data.dummyUsers[MyData.myId]
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
         let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
         
         ScrollView {
