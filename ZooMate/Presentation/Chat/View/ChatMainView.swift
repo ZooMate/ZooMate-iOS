@@ -10,7 +10,6 @@ import SwiftUI
 struct ChatMainView: View {
     @StateObject private var data = DummyData2()
     @StateObject private var data2 = DummyData1()
-    let myId = "6"
     
     var body: some View {
         NavigationStack {
@@ -20,11 +19,11 @@ struct ChatMainView: View {
                 
                 VStack {
                     List {
-                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == myId || $0.secondPetId == myId }
+                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == MyData.myId || $0.secondPetId == MyData.myId }
                         
                         ForEach(filteredChatRooms) { chatRoom in
-                            let pet = getPet(by: chatRoom.firstPetId == myId ? chatRoom.secondPetId : chatRoom.firstPetId)
-                            let chat = getMessages(for: chatRoom.roomId)
+                            let pet = getPet(by: chatRoom.firstPetId == MyData.myId ? chatRoom.secondPetId : chatRoom.firstPetId)
+                            let chat = getMessages(for: chatRoom.id)
                             let name = getUserName(for: pet)
                             ZStack {
                                 ChatRoomCell(pet: pet, chat: chat, senderUserName: name)
@@ -50,18 +49,18 @@ struct ChatMainView: View {
         }
     }
     
-    private func getPet(by petId: String) -> Pet {
+    private func getPet(by petId: Int) -> Pet {
         let pet = data2.dummyPets.first(where: { $0.id == petId })
-        return pet ?? Pet(petId: "", petName: "", age: 0, gender: .female, isNeutering: true, isPublic: true, tag: [], photos: [], category: .bird, ownerId: "")
+        return pet ?? Pet(id: 0, petName: "", age: 0, gender: .female, isNeutering: true, isPublic: true, tag: [], photos: [], category: .bird, ownerId: 0)
     }
     
-    private func getMessages(for roomId: String) -> [Message] {
+    private func getMessages(for roomId: Int) -> [Message] {
         let messages = data.messages.filter{ $0.roomId == roomId }.map{ $0 }
         return messages
     }
     
     private func getUserName(for pet: Pet) -> String {
-        let user = data2.dummyUsers.first(where: { $0.userId == pet.ownerId })
+        let user = data2.dummyUsers.first(where: { $0.id == pet.ownerId })
         return user?.userName ?? "이름정보없음"
     }
 }

@@ -86,12 +86,8 @@ struct PetDetailView: View {
                             
                         } label: {
                             Text("채팅")
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 45)
-                                .background(.pointPink)
-                                .cornerRadius(15)
-                                .foregroundStyle(.black)
-                                .font(.notoSansMedium(size: 16))
+                                .inputButtonStyle()
+                                .padding(.horizontal, -16)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -99,16 +95,18 @@ struct PetDetailView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button {
-                        // TODO: 삭제기능
+            if pet.ownerId == MyData.myId {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button {
+                            // TODO: 삭제기능
+                        } label: {
+                            Text("삭제")
+                        }
                     } label: {
-                        Text("삭제")
+                        Image(systemName: "ellipsis")
+                            .foregroundStyle(.black)
                     }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(.black)
                 }
             }
         }

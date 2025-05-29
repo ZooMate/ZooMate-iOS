@@ -27,7 +27,7 @@ struct SignUpView: View {
                             Group {
                                 VStack(alignment: .leading) {
                                     Text("아이디*")
-                                        .padding(.horizontal, 40)
+                                        .padding(.horizontal, 30)
                                         .font(.notoSansRegular(size: 16))
                                         .foregroundStyle(.mainText)
                                     TextField("아이디 입력", text: $userId)
@@ -36,7 +36,7 @@ struct SignUpView: View {
                                 
                                 VStack(alignment: .leading) {
                                     Text("비밀번호*")
-                                        .padding(.horizontal, 40)
+                                        .padding(.horizontal, 30)
                                         .font(.notoSansRegular(size: 16))
                                         .foregroundStyle(.mainText)
                                     SecureField("비밀번호 입력", text: $password)
@@ -45,7 +45,7 @@ struct SignUpView: View {
                                 
                                 VStack(alignment: .leading) {
                                     Text("닉네임*")
-                                        .padding(.horizontal, 40)
+                                        .padding(.horizontal, 30)
                                         .font(.notoSansRegular(size: 16))
                                         .foregroundStyle(.mainText)
                                     TextField("예시) 호도도 내리는 솔방울", text: $userName)
@@ -54,7 +54,7 @@ struct SignUpView: View {
                                 
                                 VStack(alignment: .leading) {
                                     Text("소개글")
-                                        .padding(.horizontal, 40)
+                                        .padding(.horizontal, 30)
                                         .font(.notoSansRegular(size: 16))
                                         .foregroundStyle(.mainText)
                                     TextField("간단하게 나를 소개해보세요", text: $desc)

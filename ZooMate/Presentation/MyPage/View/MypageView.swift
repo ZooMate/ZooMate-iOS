@@ -11,10 +11,11 @@ import Kingfisher
 struct MyPageView: View {
     @State var stack = NavigationPath()
     let isLoggedIn: Bool
-    private let user = users[0]
+    @StateObject var data = DummyData1()
     @State private var showAlret = false
     
     var body: some View {
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
         NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {

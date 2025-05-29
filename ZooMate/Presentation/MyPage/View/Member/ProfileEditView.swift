@@ -9,9 +9,7 @@ import SwiftUI
 
 struct ProfileEditView: View {
     @Binding var stack: NavigationPath
-    private let user = users[0]
-    
-    @State var userId: String = ""
+    @StateObject var data = DummyData1()
     @State var password: String = ""
     @State var userName: String = ""
     @State var desc: String = ""
@@ -19,15 +17,12 @@ struct ProfileEditView: View {
     @Environment(\.dismiss) private var dismiss
     
     init(stack: Binding<NavigationPath>) {
-        _userId = State(initialValue: user.userId)
-        _password = State(initialValue: user.password)
-        _userName = State(initialValue: user.userName)
-        _desc = State(initialValue: user.desc ?? "")
         self._stack = stack
     }
     
     var body: some View {
-        //NavigationView {
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        
         ZStack(alignment: .top) {
             ScrollView {
                 ZStack(alignment: .top) {
@@ -37,7 +32,7 @@ struct ProfileEditView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("아이디")
-                                .padding(.horizontal, 40)
+                                .padding(.horizontal, 30)
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
                             
@@ -94,7 +89,6 @@ struct ProfileEditView: View {
             .navigationTitle("프로필 수정")
             .navigationBarTitleDisplayMode(.inline)
         }
-        //}
     }
 }
 
@@ -108,7 +102,7 @@ struct EdittingRow: View {
         
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 30)
                 .font(.notoSansRegular(size: 16))
                 .foregroundStyle(.mainText)
             

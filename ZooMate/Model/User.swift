@@ -9,7 +9,8 @@ import SwiftUI
 
 // MARK: - 사용자 정보
 struct User: Codable {
-    let userId: String              // 사용자 고유 ID
+    let id: Int             // 사용자 고유 ID
+    var userId: String
     var userName: String            // 사용자 이름
     var password: String            // 사용자 암호
     var region: String?             // 사용자 지역(구)
