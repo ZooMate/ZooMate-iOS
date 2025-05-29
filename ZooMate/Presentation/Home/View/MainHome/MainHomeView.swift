@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainHomeView: View {
     @State var textMenu: String = "전체지역"
-    @State var chooseMenu: String = "강동구"
     @State private var selectedCategories: Set<String> = []
     @State private var showRegionSheet = false
     
@@ -40,12 +39,12 @@ struct MainHomeView: View {
                             }
                             
                             Button {
-                                self.textMenu = chooseMenu
+                                self.textMenu = MyData.region
                             } label: {
                                 Label {
-                                    Text(chooseMenu)
+                                    Text(MyData.region)
                                 } icon: {
-                                    if textMenu == chooseMenu {
+                                    if textMenu == MyData.region {
                                         Image(systemName: "checkmark")
                                     }
                                 }
@@ -88,7 +87,7 @@ struct MainHomeView: View {
             }
         }
         .fullScreenCover(isPresented: $showRegionSheet) {
-            AddRegionList(chooseMenu: $chooseMenu, textMenu: $textMenu)
+            AddRegionList(textMenu: $textMenu)
         }
     }
 }

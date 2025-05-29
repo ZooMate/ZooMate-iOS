@@ -10,7 +10,6 @@ import SwiftUI
 struct AddRegionList: View {
     @Environment(\.dismiss) var dismiss
     @State private var searchText: String = ""
-    @Binding var chooseMenu: String
     @Binding var textMenu: String
     
     private let regions: [String] = [
@@ -65,7 +64,7 @@ struct AddRegionList: View {
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             .onTapGesture {
-                                chooseMenu = region
+                                MyData.region = region
                                 textMenu = region
                                 dismiss()
                             }
