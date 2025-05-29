@@ -17,12 +17,13 @@ struct MateView: View {
     ]
     
     var body: some View {
-        //NavigationStack {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(matedPets) { pet in
-                    NavigationLink(destination: PetDetailView(pet: pet)) {
-                        PetCardCell(pet: pet)
+                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
+                        NavigationLink(destination: PetDetailView(pet: pet)) {
+                            PetCardCell(pet: pet, user: owner)
+                        }
                     }
                 }
             }
@@ -30,7 +31,6 @@ struct MateView: View {
             .navigationTitle("메이트")
             .navigationBarTitleDisplayMode(.inline)
         }
-        //}
     }
     
     private var matedPets: [Pet] {

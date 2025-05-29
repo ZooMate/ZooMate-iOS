@@ -20,15 +20,17 @@ struct MyPetView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(pets, id: \.id) { pet in
-                    NavigationLink (destination: MyPetDetailView(pet: pet)
-                        .onAppear {
-                            isOnDetail = true
+                    let user = users.first { $0.id == pet.ownerId }
+
+                    NavigationLink(
+                        destination: MyPetDetailView(pet: pet)
+                            .onAppear { isOnDetail = true }
+                            .onDisappear { isOnDetail = false }
+                    ) {
+                        if let user = user {
+                            PetCardCell(pet: pet, user: user)
                         }
-                        .onDisappear {
-                            isOnDetail = false
-                        }){
-                            PetCardCell(pet: pet)
-                        }
+                    }
                 }
             }
             .padding(16)

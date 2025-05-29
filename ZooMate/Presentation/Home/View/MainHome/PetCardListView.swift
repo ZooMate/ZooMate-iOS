@@ -21,8 +21,10 @@ struct PetCardListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(filteredPets) { pet in
-                    NavigationLink(destination: PetDetailView(pet: pet)) {
-                        PetCardCell(pet: pet)
+                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
+                        NavigationLink(destination: PetDetailView(pet: pet)) {
+                            PetCardCell(pet: pet, user: owner)
+                        }
                     }
                 }
             }
