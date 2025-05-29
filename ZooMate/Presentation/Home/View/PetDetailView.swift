@@ -86,12 +86,8 @@ struct PetDetailView: View {
                             
                         } label: {
                             Text("채팅")
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 45)
-                                .background(.pointPink)
-                                .cornerRadius(15)
-                                .foregroundStyle(.black)
-                                .font(.notoSansMedium(size: 16))
+                                .inputButtonStyle()
+                                .padding(.horizontal, -16)
                         }
                     }
                     .padding(.horizontal, 16)
