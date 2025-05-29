@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MessageListView: View {
     let message: [Message]
-    let myId = "6"
+    let myId = 6
     @State var msg = ""
     
     var body: some View {

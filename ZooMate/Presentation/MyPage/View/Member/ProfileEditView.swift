@@ -10,8 +10,6 @@ import SwiftUI
 struct ProfileEditView: View {
     @Binding var stack: NavigationPath
     private let user = users[0]
-    
-    @State var userId: String = ""
     @State var password: String = ""
     @State var userName: String = ""
     @State var desc: String = ""
@@ -19,7 +17,6 @@ struct ProfileEditView: View {
     @Environment(\.dismiss) private var dismiss
     
     init(stack: Binding<NavigationPath>) {
-        _userId = State(initialValue: user.userId)
         _password = State(initialValue: user.password)
         _userName = State(initialValue: user.userName)
         _desc = State(initialValue: user.desc ?? "")

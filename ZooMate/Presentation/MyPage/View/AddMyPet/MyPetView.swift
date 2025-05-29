@@ -19,7 +19,7 @@ struct MyPetView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(pets, id: \.petId) { pet in
+                ForEach(pets, id: \.id) { pet in
                     NavigationLink (destination: MyPetDetailView(pet: pet)
                         .onAppear {
                             isOnDetail = true

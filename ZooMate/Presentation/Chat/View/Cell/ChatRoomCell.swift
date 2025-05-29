@@ -12,7 +12,7 @@ struct ChatRoomCell: View {
     let pet: Pet
     let chat: [Message]
     let senderUserName: String
-    let myId = "6"
+    let myId = 6
     
     var body: some View {
         HStack {

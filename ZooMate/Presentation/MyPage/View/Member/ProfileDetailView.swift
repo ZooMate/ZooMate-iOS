@@ -90,7 +90,7 @@ struct ProfileDetailView: View {
             Text("\(user.userName)님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
-            ForEach(pets, id: \.petId) { pet in
+            ForEach(pets, id: \.id) { pet in
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {

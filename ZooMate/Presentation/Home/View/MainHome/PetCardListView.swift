@@ -33,7 +33,7 @@ struct PetCardListView: View {
     private var filteredPets: [Pet] {
         data.dummyPets.filter { pet in
             let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(pet.category.rawValue)
-            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || data.dummyUsers.first(where: { $0.userId == pet.ownerId })?.region == selectedRegion
+            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || data.dummyUsers.first(where: { $0.id == pet.ownerId })?.region == selectedRegion
 
             return matchesCategory && matchesRegion
         }
