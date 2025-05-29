@@ -16,6 +16,8 @@ struct ProfileImageSelectedView: View {
     var isNewUser: Bool = false
     
     var body: some View {
+        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        
         Button {
             isPickerPresented = true
         }
@@ -33,7 +35,7 @@ struct ProfileImageSelectedView: View {
                     )
             }
             else {
-                if !isNewUser ,let profile = data.dummyUsers[MyData.myId].profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                if !isNewUser ,let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 {
                     KFImage(URL(string: profile))
                         .placeholder {
