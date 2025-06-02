@@ -26,7 +26,7 @@ struct LoginView: View {
                     
                     VStack(alignment: .leading) {
                         Text("아이디")
-                            .padding(.horizontal, 30)
+                            .padding(.horizontal, 17)
                             .font(.notoSansRegular(size: 16))
                             .foregroundStyle(.mainText)
                         TextField("아이디 입력", text: $userId)
@@ -35,7 +35,7 @@ struct LoginView: View {
                     
                     VStack(alignment: .leading) {
                         Text("비밀번호")
-                            .padding(.horizontal, 30)
+                            .padding(.horizontal, 17)
                             .font(.notoSansRegular(size: 16))
                             .foregroundStyle(.mainText)
                         SecureField("비밀번호 입력", text: $password)

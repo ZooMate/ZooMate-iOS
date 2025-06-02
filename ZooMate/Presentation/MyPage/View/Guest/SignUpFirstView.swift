@@ -27,62 +27,64 @@ struct SignUpFirstView: View {
                 
                 VStack {
                     ZStack(alignment: .top) {
-                        
-                        VStack {
-                            Group {
-                                VStack(alignment: .leading) {
-                                    Text("아이디*")
-                                        .padding(.horizontal, 30)
-                                        .font(.notoSansRegular(size: 16))
-                                        .foregroundStyle(.mainText)
-                                    HStack {
-                                        TextField("아이디 입력", text: $userId)
-                                            .textFieldStyle(paddingSpace: 24)
-                                            .padding(.trailing, -20)
-                                            .overlay(
-                                                HStack {
-                                                    Spacer()
-                                                    Image(systemName: checkId ? "checkmark" : "xmark")
-                                                        .foregroundColor(checkId ? .green : .red)
-                                                        .padding(.trailing, 20)
-                                                        .padding(.bottom, 8)
-                                                }
-                                            )
-                                        Button {
-                                            checkId.toggle()
-                                        } label : {
-                                            Text("중복검사")
-                                                .foregroundStyle(Color.background)
+                        ZStack {
+                            Color.sandBeige
+                                .onTapGesture {
+                                    UIApplication.shared.endEditing()
+                                }
+                            
+                            VStack {
+                                Group {
+                                    VStack(alignment: .leading) {
+                                        Text("아이디*")
+                                            .padding(.horizontal, 30)
+                                            .font(.notoSansRegular(size: 16))
+                                            .foregroundStyle(.mainText)
+                                        HStack {
+                                            TextField("아이디 입력", text: $userId)
+                                                .textFieldStyle(paddingSpace: 24)
+                                                .padding(.trailing, -20)
+                                                .overlay(
+                                                    HStack {
+                                                        Spacer()
+                                                        Image(systemName: checkId ? "checkmark" : "xmark")
+                                                            .foregroundColor(checkId ? .green : .red)
+                                                            .padding(.trailing, 20)
+                                                            .padding(.bottom, 8)
+                                                    }
+                                                )
+                                            Button {
+                                                checkId.toggle()
+                                            } label : {
+                                                Text("중복검사")
+                                                    .foregroundStyle(Color.background)
+                                            }
+                                            .padding()
+                                            .padding(.vertical, 5)
+                                            .background(.category)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            .buttonStyle(.plain)
+                                            .padding(.bottom, 8)
+                                            .padding(.trailing, 10)
                                         }
-                                        .padding()
-                                        .padding(.vertical, 5)
-                                        .background(.category)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        .buttonStyle(.plain)
-                                        .padding(.bottom, 8)
-                                        .padding(.trailing, 10)
+                                    }
+                                    .padding(.top, 50)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("비밀번호*")
+                                            .padding(.horizontal, 30)
+                                            .font(.notoSansRegular(size: 16))
+                                            .foregroundStyle(.mainText)
+                                        SecureField("비밀번호 입력", text: $password)
+                                            .textFieldStyle(paddingSpace: 24)
+                                        
+                                        SecureField("비밀번호 재입력", text: $password2)
+                                            .textFieldStyle(paddingSpace: 24)
                                     }
                                 }
-                                .padding(.top, 50)
                                 
-                                VStack(alignment: .leading) {
-                                    Text("비밀번호*")
-                                        .padding(.horizontal, 30)
-                                        .font(.notoSansRegular(size: 16))
-                                        .foregroundStyle(.mainText)
-                                    SecureField("비밀번호 입력", text: $password)
-                                        .textFieldStyle(paddingSpace: 24)
-                                    
-                                    SecureField("비밀번호 재입력", text: $password2)
-                                        .textFieldStyle(paddingSpace: 24)
-                                }
+                                Spacer()
                             }
-                            
-                            Spacer()
-                        }
-                        .background(.sandBeige)
-                        .onTapGesture {
-                            UIApplication.shared.endEditing()
                         }
                         .cornerRadius(20)
                         .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)

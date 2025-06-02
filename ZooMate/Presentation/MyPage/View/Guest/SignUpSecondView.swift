@@ -55,7 +55,8 @@ struct SignUpSecondView: View {
                                         .font(.notoSansMedium(size: 16))
                                         .foregroundStyle(.mainText)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(20)
+                                        .padding(15)
+                                        .padding(.horizontal, 5)
                                         .background(Color.background)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .overlay(

@@ -13,7 +13,8 @@ struct TextFieldStyle: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .padding(20) // TextField 내부 placeholder padding
+            .padding(15) // TextField 내부 placeholder padding
+            .padding(.horizontal, 5)
             .font(.notoSansMedium(size: 16))
             .foregroundStyle(.mainText)
             .background(.white)
