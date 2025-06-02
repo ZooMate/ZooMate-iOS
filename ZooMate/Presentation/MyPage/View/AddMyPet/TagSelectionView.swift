@@ -13,7 +13,7 @@ struct TagSelectionView: View {
     @State private var selectedTags: Set<String> = []
     
     var body: some View {
-        let columns = [GridItem(.adaptive(minimum: 100), spacing: 10)]
+        let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 4)
         
         VStack(alignment: .leading, spacing: 16) {
             Text("성격 태그")
@@ -21,30 +21,32 @@ struct TagSelectionView: View {
                 .foregroundStyle(.mainText)
                 .padding(.top, 8)
             
-            LazyVGrid(columns: columns, alignment: .center, spacing: 12) {
-                ForEach(allTags, id: \.self) { tag in
-                    Button(action: {
-                        if selectedTags.contains(tag) {
-                            selectedTags.remove(tag)
-                        } else {
-                            selectedTags.insert(tag)
+            ScrollView {
+                LazyVGrid(columns: columns, alignment: .center, spacing: 12) {
+                    ForEach(allTags, id: \.self) { tag in
+                        Button(action: {
+                            if selectedTags.contains(tag) {
+                                selectedTags.remove(tag)
+                            } else {
+                                selectedTags.insert(tag)
+                            }
+                        }) {
+                            Text(tag)
+                                .font(.notoSansRegular(size: 14))
+                                .frame(maxWidth: .infinity, minHeight: 30)
+                                .background(
+                                    selectedTags.contains(tag) ? Color.sandBeige : Color.white
+                                )
+                                .foregroundColor(Color.category)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.category, lineWidth: 2)
+                                )
+                                .clipShape(Capsule())
                         }
-                    }) {
-                        Text(tag)
-                            .font(.notoSansRegular(size: 14))
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(
-                                selectedTags.contains(tag) ? Color.sandBeige : Color.white
-                            )
-                            .foregroundColor(Color.category)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.category, lineWidth: 2)
-                            )
-                            .clipShape(Capsule())
                     }
                 }
+                .padding(.horizontal, 5)
             }
         }
         .padding(.horizontal, 20)

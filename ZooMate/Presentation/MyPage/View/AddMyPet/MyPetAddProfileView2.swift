@@ -11,6 +11,7 @@ struct MyPetAddProfileView2: View {
     
     @State var breed: String? = nil
     @State var weight: String? = nil
+    @State var desc: String? = ""
     @State var tag: [String] = []
     @Binding var isModal: Bool
     
@@ -30,7 +31,7 @@ struct MyPetAddProfileView2: View {
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
                             
-                            TextField("ex) 슈나우저", text: Binding(
+                            TextField("슈나우저", text: Binding(
                                 get: { breed ?? "" },
                                 set: { breed = $0 }
                             ))
@@ -53,23 +54,56 @@ struct MyPetAddProfileView2: View {
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
                             
-                            TextField("ex) 3.5", text: Binding(
-                                get: { weight ?? "" },
-                                set: { weight = $0 }
+                            ZStack(alignment: .bottomTrailing){
+                                TextField("3.5", text: Binding(
+                                    get: { weight ?? "" },
+                                    set: { weight = $0 }
+                                ))
+                                .keyboardType(.decimalPad)
+                                .frame(width: geo.size.width * 0.6)
+                                .padding(.vertical, 15)
+                                .padding(.horizontal, 20)
+                                .font(.notoSansRegular(size: 17))
+                                .foregroundStyle(.category)
+                                .background(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(.sandBeige, lineWidth: 2)
+                                }
+                                
+                                Text("kg")
+                                    .font(.notoSansMedium(size: 17))
+                                    .foregroundStyle(.subText)
+                                    .padding(.trailing, 15)
+                                    .padding(.bottom, 18)
+                            }
+                        }
+                        
+                        HStack(alignment: .top, spacing: 12) {
+                            Text("소개글")
+                                .frame(width: geo.size.width * 0.2, alignment: .leading)
+                                .font(.notoSansMedium(size: 17))
+                                .foregroundStyle(.mainText)
+                            
+                            TextEditor(text: Binding(
+                                get: { desc ?? "" },
+                                set: { desc = $0 }
                             ))
-                            .keyboardType(.decimalPad)
-                            .frame(width: geo.size.width * 0.6)
+                            .frame(width: geo.size.width * 0.6, height: 100)
+                            .font(.notoSansRegular(size: 17))
+                            .scrollContentBackground(.hidden)
                             .padding(.vertical, 15)
                             .padding(.horizontal, 20)
-                            .font(.notoSansRegular(size: 17))
+                            .background(Color.white)
                             .foregroundStyle(.category)
-                            .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .overlay {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(.sandBeige, lineWidth: 2)
                             }
                         }
+                        
                         TagSelectionView()
                             .padding(.horizontal, -8)
                     }
