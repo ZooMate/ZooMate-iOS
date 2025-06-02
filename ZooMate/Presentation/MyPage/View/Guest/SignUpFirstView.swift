@@ -60,7 +60,7 @@ struct SignUpFirstView: View {
                                                     .foregroundStyle(Color.background)
                                             }
                                             .padding()
-                                            .padding(.vertical, 5)
+                                            .padding(.vertical, 2)
                                             .background(.category)
                                             .clipShape(RoundedRectangle(cornerRadius: 10))
                                             .buttonStyle(.plain)

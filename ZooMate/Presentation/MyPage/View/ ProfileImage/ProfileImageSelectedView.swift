@@ -55,10 +55,10 @@ struct ProfileImageSelectedView: View {
                             .frame(width: 100, height: 100)
                             .overlay(
                                 Circle()
-                                    .stroke(.category, lineWidth: 2)
+                                    .stroke(.sandBeige, lineWidth: 3)
                             )
-                        Image(systemName: "person")
-                            .font(.system(size: 50))
+                        Image(systemName: "camera")
+                            .font(.system(size: 40))
                             .foregroundColor(.sandBeige)
                     }
                 }
