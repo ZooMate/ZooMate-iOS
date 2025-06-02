@@ -12,17 +12,26 @@ struct PetDetailView: View {
     let pet: Pet
     @State var isFavorite: Bool = false
     @State var isLogin: Bool = true
+    @State private var selectedPhotoIndex: Int = 0
     
     var body: some View {
-        ScrollView {
-            ZStack {
-                Color.background
-                    .ignoresSafeArea()
-                VStack {
-                    KFImage(URL(string: pet.photos[0]))
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.bottom, 10)
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
+            
+            VStack {
+                ScrollView {
+                    TabView(selection: $selectedPhotoIndex) {
+                        ForEach(pet.photos.indices, id: \.self) { index in
+                            KFImage(URL(string: pet.photos[index]))
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .clipped()
+                                .tag(index)
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+                    .tabViewStyle(PageTabViewStyle())
                     
                     VStack(alignment: .leading) {
                         HStack {
@@ -46,14 +55,10 @@ struct PetDetailView: View {
                         }
                         .padding(.bottom, 10)
                         
-                        Text("""
-                우리 시루는요 어쩌구 저쩌구
-                집에만있지만 아무튼 외로워서
-                친구를 구한다고 합니다
-                """)
-                        .frame(maxHeight: .infinity)
-                        .font(.notoSansRegular(size: 16))
-                        .padding(.bottom, 15)
+                        Text(pet.petDesc)
+                            .frame(maxHeight: .infinity)
+                            .font(.notoSansRegular(size: 16))
+                            .padding(.bottom, 15)
                         
                         Text("프로필")
                             .font(.notoSansBold(size: 20))
@@ -62,7 +67,7 @@ struct PetDetailView: View {
                         HStack {
                             Text("\(pet.category)")
                                 .frame(width: 100, alignment: .leading)
-                            Text("\(pet.gender) / 중성화 \(pet.isNeutering ? "O" : "X")")
+                            Text("중성화 \(pet.isNeutering ? "O" : "X")")
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 2)
@@ -81,19 +86,18 @@ struct PetDetailView: View {
                         
                         TagWrapView(tags: pet.tag)
                             .padding(.bottom, 10)
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("채팅")
-                                .inputButtonStyle()
-                                .padding(.horizontal, -16)
-                        }
                     }
                     .padding(.horizontal, 16)
                 }
+                Button {
+                    
+                } label: {
+                    Text("채팅")
+                        .inputButtonStyle()
+                }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             if pet.ownerId == MyData.myId {
                 ToolbarItem(placement: .topBarTrailing) {

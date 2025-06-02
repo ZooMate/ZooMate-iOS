@@ -14,22 +14,28 @@ struct MyPetDetailView: View {
     
     @State var isPublic: Bool = true
     @State var isLogin: Bool = true
+    @State private var selectedPhotoIndex: Int = 0
     
     var body: some View {
-        
-        ScrollView {
-            ZStack {
-                Color.background
-                    .ignoresSafeArea()
-                
-                VStack {
-                    KFImage(URL(string: pet.photos[0]))
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.bottom, 10)
+        ZStack(alignment: .bottom) {
+            Color.background
+                .ignoresSafeArea()
+            
+            VStack {
+                ScrollView {
+                    TabView(selection: $selectedPhotoIndex) {
+                        ForEach(pet.photos.indices, id: \.self) { index in
+                            KFImage(URL(string: pet.photos[index]))
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .clipped()
+                                .tag(index)
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+                    .tabViewStyle(PageTabViewStyle())
                     
                     VStack(alignment: .leading) {
-                        
                         HStack {
                             Text(pet.petName)
                                 .font(.notoSansBold(size: 25))
@@ -50,14 +56,9 @@ struct MyPetDetailView: View {
                         }
                         .padding(.bottom, 10)
                         
-                        Text("""
-                            우리 시루는요 어쩌구 저쩌구
-                            집에만있지만 아무튼 외로워서
-                            친구를 구한다고 합니다
-                            """)
-                        .frame(maxHeight: .infinity)
-                        .font(.notoSansRegular(size: 16))
-                        .padding(.bottom, 15)
+                        Text(pet.petDesc)
+                            .font(.notoSansRegular(size: 16))
+                            .padding(.bottom, 15)
                         
                         Text("프로필")
                             .font(.notoSansBold(size: 20))
@@ -66,8 +67,7 @@ struct MyPetDetailView: View {
                         HStack {
                             Text("\(pet.category)")
                                 .frame(width: 100, alignment: .leading)
-                            
-                            Text("\(pet.gender) / 중성화 \(pet.isNeutering ? "O" : "X")")
+                            Text("중성화 \(pet.isNeutering ? "O" : "X")")
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 2)
@@ -75,7 +75,7 @@ struct MyPetDetailView: View {
                         HStack {
                             Text(pet.breed ?? "")
                                 .frame(width: 100, alignment: .leading)
-                            Text(pet.weight != nil ? (String(format: "%.1f", pet.weight!)) + "kg" : "무게정보없음")
+                            Text(pet.weight != nil ? String(format: "%.1fkg", pet.weight!) : "무게정보없음")
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 15)
@@ -85,20 +85,21 @@ struct MyPetDetailView: View {
                             .padding(.bottom, 5)
                         
                         TagWrapView(tags: pet.tag)
-                            .padding(.bottom, 10)
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("채팅")
-                                .inputButtonStyle()
-                                .padding(.horizontal, -16)
-                        }
+                            .padding(.bottom, 20)
                     }
                     .padding(.horizontal, 16)
                 }
+                
+                // ✅ 하단 고정 버튼
+                Button {
+                    // 채팅 액션
+                } label: {
+                    Text("채팅")
+                        .inputButtonStyle()
+                }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
