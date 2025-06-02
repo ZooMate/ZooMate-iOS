@@ -53,6 +53,10 @@ struct MyPetAddProfileView1: View {
                                 .foregroundStyle(.mainText)
                             
                             TextField("반려동물의 나이", text: $age)
+                                .keyboardType(.numberPad)
+                                .onChange(of: age) {
+                                    age = age.filter{ $0.isNumber }
+                                }
                                 .frame(width: geo.size.width * 0.6)
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 20)
@@ -214,5 +218,6 @@ struct MyPetAddProfileView1: View {
                 .padding(.bottom)
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
 }

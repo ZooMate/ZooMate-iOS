@@ -60,6 +60,14 @@ struct MyPetAddProfileView2: View {
                                     set: { weight = $0 }
                                 ))
                                 .keyboardType(.decimalPad)
+                                .onChange(of: weight) {
+                                    var filtered = weight?.filter { "0123456789.".contains($0) } ?? ""
+                                    let components = filtered.split(separator: ".")
+                                    if components.count > 1 {
+                                        filtered = components[0] + "." + components[1...].joined()
+                                    }
+                                    weight = filtered
+                                }
                                 .frame(width: geo.size.width * 0.6)
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 20)
@@ -122,5 +130,6 @@ struct MyPetAddProfileView2: View {
                 
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
