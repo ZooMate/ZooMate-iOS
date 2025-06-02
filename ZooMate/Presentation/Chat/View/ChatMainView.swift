@@ -51,7 +51,7 @@ struct ChatMainView: View {
     
     private func getPet(by petId: Int) -> Pet {
         let pet = data2.dummyPets.first(where: { $0.id == petId })
-        return pet ?? Pet(id: 0, petName: "", age: 0, gender: .female, isNeutering: true, isPublic: true, tag: [], photos: [], category: .bird, ownerId: 0)
+        return pet ?? Pet(id: 0, petName: "", age: 0, gender: .female, isNeutering: true, isPublic: true, tag: [], photos: [], category: .bird, ownerId: 0, petDesc: "")
     }
     
     private func getMessages(for roomId: Int) -> [Message] {

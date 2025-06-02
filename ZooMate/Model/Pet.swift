@@ -21,7 +21,7 @@ struct Pet: Codable, Identifiable {
     var photos: [String]            // 반려동물 사진 리스트
     var category: Category          // 종 (고양이, 강아지 등)
     var ownerId: Int                // 사용자 ID
-    var petDesc: String?            // 펫 소개글
+    var petDesc: String             // 펫 소개글
 }
 
 // MARK: - 성별 enum

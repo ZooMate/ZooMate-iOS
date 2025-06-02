@@ -11,7 +11,7 @@ struct MyPetAddProfileView2: View {
     
     @State var breed: String? = nil
     @State var weight: String? = nil
-    @State var desc: String? = ""
+    @State var desc: String = ""
     @State var tag: [String] = []
     @Binding var isModal: Bool
     
@@ -93,13 +93,13 @@ struct MyPetAddProfileView2: View {
                         }
                         
                         HStack(alignment: .top, spacing: 12) {
-                            Text("소개글")
+                            Text("소개글 *")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
                             
                             TextEditor(text: Binding(
-                                get: { desc ?? "" },
+                                get: { desc },
                                 set: { desc = $0 }
                             ))
                             .frame(width: geo.size.width * 0.6, height: 100)
@@ -116,18 +116,23 @@ struct MyPetAddProfileView2: View {
                             }
                         }
                         
-                        TagSelectionView()
+                        TagSelectionView(selectedTags: $tag)
                             .padding(.horizontal, -8)
                     }
                     .padding(.top, 35)
                     .frame(width: geo.size.width)
                 }
                 VStack {
-                    Button {
-                        isModal = false
-                    } label: {
+                    if desc.isEmpty || tag.isEmpty {
                         Text("확인")
-                            .inputButtonStyle()
+                            .nextBtnStyle()
+                    } else {
+                        Button {
+                            isModal = false
+                        } label: {
+                            Text("확인")
+                                .inputButtonStyle()
+                        }
                     }
                 }
                 .padding(.bottom)
