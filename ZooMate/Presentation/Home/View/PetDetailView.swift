@@ -67,7 +67,7 @@ struct PetDetailView: View {
                         HStack {
                             Text("\(pet.category)")
                                 .frame(width: 100, alignment: .leading)
-                            Text("\(pet.gender) / 중성화 \(pet.isNeutering ? "O" : "X")")
+                            Text("중성화 \(pet.isNeutering ? "O" : "X")")
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 2)
