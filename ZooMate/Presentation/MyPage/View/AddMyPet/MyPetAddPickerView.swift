@@ -20,12 +20,14 @@ struct MyPetAddPickerView: View {
                 VStack(alignment: .leading) {
                     Text("사진을 선택해주세요")
                         .font(.notoSansBold(size: 25))
+                        .foregroundStyle(.mainText)
                         .padding(.horizontal, 16)
                         .padding(.bottom, 1)
                     Text("최소 1장의 사진을 선택해주세요.")
                         .font(.notoSansMedium(size: 12))
                         .foregroundStyle(.subText)
                         .padding(.horizontal, 16)
+                        .padding(.bottom, 15)
                     GeometryReader { geo in
                         PetImageSelectedView(selectedItems: $selectedItems)
                     }

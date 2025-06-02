@@ -12,7 +12,7 @@ struct PetImageSelectedView: View {
     @Binding var selectedItems: [(id: String, image: UIImage)]
     @State private var isPickerPresented = false
 
-    private let imageSize: CGFloat = 115
+    private let imageSize: CGFloat = 116
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
 
     var body: some View {
@@ -28,12 +28,12 @@ struct PetImageSelectedView: View {
                                 .frame(width: imageSize, height: imageSize)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 22)
-                                        .stroke(.category, lineWidth: 2)
+                                        .stroke(.sandBeige, lineWidth: 2)
                                 )
                                 .padding(2)
                             Image(systemName: "camera")
                                 .font(.system(size: 30))
-                                .foregroundColor(.sandBeige)
+                                .foregroundColor(.category)
                         }
                     }
 
@@ -45,7 +45,7 @@ struct PetImageSelectedView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 22)
-                                    .stroke(.category, lineWidth: 2)
+                                    .stroke(.sandBeige, lineWidth: 2)
                             )
                             .padding(2)
                             .clipped()

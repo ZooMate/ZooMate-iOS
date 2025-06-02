@@ -21,12 +21,13 @@ struct MyPetAddProfileView1: View {
             Color.background.ignoresSafeArea()
             VStack(alignment: .leading) {
                 Text("프로필을 입력해주세요")
-                    .font(.notoSansBold(size: 30))
+                    .font(.notoSansBold(size: 25))
+                    .foregroundStyle(.mainText)
                     .padding(.horizontal)
                 GeometryReader { geo in
                     VStack {
                         HStack(spacing: 12) {
-                            Text("이름")
+                            Text("이름 *")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
@@ -46,7 +47,7 @@ struct MyPetAddProfileView1: View {
                         }
                         
                         HStack(spacing: 12) {
-                            Text("나이")
+                            Text("나이 *")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
@@ -66,7 +67,7 @@ struct MyPetAddProfileView1: View {
                         }
                         
                         HStack(spacing: 12) {
-                            Text("성별")
+                            Text("성별 *")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
@@ -108,7 +109,7 @@ struct MyPetAddProfileView1: View {
                         .padding(.top, 2)
                         
                         HStack(spacing: 12) {
-                            Text("중성화")
+                            Text("중성화 *")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .font(.notoSansMedium(size: 17))
                                 .foregroundStyle(.mainText)
@@ -150,7 +151,7 @@ struct MyPetAddProfileView1: View {
                         .padding(.top, 2)
                         
                         HStack(spacing: 12) {
-                            Text("프로필\n공개여부")
+                            Text("프로필 *\n공개여부")
                                 .frame(width: geo.size.width * 0.2, alignment: .leading)
                                 .fixedSize(horizontal: false, vertical: true) // 여러 줄도 보이게끔
                                 .font(.notoSansMedium(size: 17))
@@ -200,9 +201,14 @@ struct MyPetAddProfileView1: View {
                 Spacer()
                 
                 VStack {
-                    NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
+                    if petName.isEmpty || age.isEmpty {
                         Text("다음")
                             .nextBtnStyle()
+                    } else {
+                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
+                            Text("다음")
+                                .inputButtonStyle()
+                        }
                     }
                 }
                 .padding(.bottom)

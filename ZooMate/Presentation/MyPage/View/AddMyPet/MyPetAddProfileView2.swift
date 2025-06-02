@@ -19,7 +19,8 @@ struct MyPetAddProfileView2: View {
             Color.background.ignoresSafeArea()
             VStack(alignment: .leading) {
                 Text("프로필을 입력해주세요")
-                    .font(.notoSansBold(size: 30))
+                    .font(.notoSansBold(size: 25))
+                    .foregroundStyle(.mainText)
                     .padding(.horizontal)
                 GeometryReader { geo in
                     VStack {
