@@ -12,6 +12,7 @@ struct CategoryList: View {
     @Binding var showCategory: Bool
     @State var isModal = false
     @State var selectCategory = Category.bird
+    @State var selectedImages: [UIImage] = []
     
     var body: some View {
         ZStack {
@@ -47,7 +48,7 @@ struct CategoryList: View {
         }
         .fullScreenCover(isPresented: $isModal) {
             MyPetAddPickerView(
-                category: selectCategory, isModal: $showCategory
+                category: selectCategory, isModal: $showCategory, selectedImages: $selectedImages
             )
         }
     }
