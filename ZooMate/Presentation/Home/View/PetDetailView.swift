@@ -12,6 +12,7 @@ struct PetDetailView: View {
     let pet: Pet
     @State var isFavorite: Bool = false
     @State var isLogin: Bool = true
+    @State private var selectedPhotoIndex: Int = 0
     
     var body: some View {
         ZStack {
@@ -20,10 +21,17 @@ struct PetDetailView: View {
             
             VStack {
                 ScrollView {
-                    KFImage(URL(string: pet.photos[0]))
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.bottom, 10)
+                    TabView(selection: $selectedPhotoIndex) {
+                        ForEach(pet.photos.indices, id: \.self) { index in
+                            KFImage(URL(string: pet.photos[index]))
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .clipped()
+                                .tag(index)
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+                    .tabViewStyle(PageTabViewStyle())
                     
                     VStack(alignment: .leading) {
                         HStack {
