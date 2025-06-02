@@ -11,6 +11,7 @@ struct MyPetAddPickerView: View {
     @Environment(\.dismiss) var dismiss
     var category: Category
     @Binding var isModal: Bool
+    @State private var selectedItems: [(id: String, image: UIImage)] = []
     
     var body: some View {
         NavigationStack {
@@ -18,15 +19,25 @@ struct MyPetAddPickerView: View {
                 Color.background.ignoresSafeArea()
                 VStack(alignment: .leading) {
                     Text("사진을 선택해주세요")
-                        .font(.notoSansBold(size: 30))
-                        .padding(.horizontal)
+                        .font(.notoSansBold(size: 25))
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 1)
+                    Text("최소 1장의 사진을 선택해주세요.")
+                        .font(.notoSansMedium(size: 12))
+                        .foregroundStyle(.subText)
+                        .padding(.horizontal, 16)
                     GeometryReader { geo in
-                        PetImageSelectedView()
+                        PetImageSelectedView(selectedItems: $selectedItems)
                     }
                     VStack {
-                        NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
+                        if selectedItems.isEmpty {
                             Text("다음")
                                 .nextBtnStyle()
+                        } else {
+                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
+                                Text("다음")
+                                    .inputButtonStyle()
+                            }
                         }
                     }
                     .padding(.bottom)

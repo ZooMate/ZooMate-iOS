@@ -9,10 +9,10 @@ import SwiftUI
 import Kingfisher
 
 struct PetImageSelectedView: View {
-    @State private var selectedItems: [(id: String, image: UIImage)] = []
+    @Binding var selectedItems: [(id: String, image: UIImage)]
     @State private var isPickerPresented = false
 
-    private let imageSize: CGFloat = 120
+    private let imageSize: CGFloat = 115
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
 
     var body: some View {
