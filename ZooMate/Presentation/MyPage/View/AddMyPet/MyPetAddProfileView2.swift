@@ -18,6 +18,10 @@ struct MyPetAddProfileView2: View {
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
+            
             VStack(alignment: .leading) {
                 Text("프로필을 입력해주세요")
                     .font(.notoSansBold(size: 25))
