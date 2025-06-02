@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpSecondView: View {
     @Binding var showSingUp: Bool
+    @State var showRegionSheet = false
     @State var userName: String = ""
     @State var userRegion: String = ""
     @State var desc: String = ""
@@ -47,8 +48,31 @@ struct SignUpSecondView: View {
                                     .padding(.horizontal, 30)
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
-                                SecureField("지역 선택", text: $userRegion)
-                                    .textFieldStyle(paddingSpace: 24)
+                                Button {
+                                    showRegionSheet = true
+                                } label: {
+                                    Text(userRegion.isEmpty ? "지역선택" : userRegion)
+                                        .font(.notoSansMedium(size: 16))
+                                        .foregroundStyle(.mainText)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(20)
+                                        .background(Color.background)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(.category, lineWidth: 2)
+                                        )
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 8)
+                                }
+                                .overlay(
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName:"chevron.down")
+                                            .padding(.trailing, 40)
+                                            .padding(.bottom, 8)
+                                    }
+                                )
                             }
                             
                             VStack(alignment: .leading) {
@@ -68,14 +92,23 @@ struct SignUpSecondView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 50)
                 
-                Button {
-                    showSingUp = false
-                } label: {
+                if userName.isEmpty || userRegion.isEmpty {
                     Text("작성 완료")
+                        .nextBtnStyle()
+                        .padding(.top)
+                } else {
+                    Button {
+                        showSingUp = false
+                    } label: {
+                        Text("작성 완료")
+                            .inputButtonStyle()
+                    }
+                    .padding(.top)
                 }
-                .inputButtonStyle()
-                .padding(.top)
             }
+        }
+        .fullScreenCover(isPresented: $showRegionSheet) {
+            AddRegionList(textMenu: $userRegion)
         }
         .ignoresSafeArea(.keyboard)
         .navigationTitle("회원가입")

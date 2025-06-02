@@ -11,7 +11,6 @@ import Kingfisher
 struct PetDetailView: View {
     let pet: Pet
     @State var isFavorite: Bool = false
-    @State var isLogin: Bool = true
     @State private var selectedPhotoIndex: Int = 0
     
     var body: some View {

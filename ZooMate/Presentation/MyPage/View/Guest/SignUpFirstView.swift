@@ -39,12 +39,15 @@ struct SignUpFirstView: View {
                                         TextField("아이디 입력", text: $userId)
                                             .textFieldStyle(paddingSpace: 24)
                                             .padding(.trailing, -20)
-                                            .overlay {
-                                                Image(systemName: checkId ? "checkmark" : "xmark")
-                                                    .foregroundColor(checkId ? .green : .red)
-                                                    .padding(.leading, 200)
-                                                    .padding(.bottom, 8)
-                                            }
+                                            .overlay(
+                                                HStack {
+                                                    Spacer()
+                                                    Image(systemName: checkId ? "checkmark" : "xmark")
+                                                        .foregroundColor(checkId ? .green : .red)
+                                                        .padding(.trailing, 20)
+                                                        .padding(.bottom, 8)
+                                                }
+                                            )
                                         Button {
                                             checkId.toggle()
                                         } label : {

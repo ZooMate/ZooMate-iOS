@@ -13,7 +13,6 @@ struct MyPetDetailView: View {
     let pet: Pet
     
     @State var isPublic: Bool = true
-    @State var isLogin: Bool = true
     @State private var selectedPhotoIndex: Int = 0
     
     var body: some View {
