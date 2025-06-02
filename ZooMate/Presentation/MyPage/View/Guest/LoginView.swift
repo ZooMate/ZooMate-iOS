@@ -11,6 +11,7 @@ struct LoginView: View {
     
     @State var userId: String = ""
     @State var password: String = ""
+    @State var showSignUp: Bool = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -54,7 +55,9 @@ struct LoginView: View {
                     HStack {
                         Spacer()
                         
-                        NavigationLink(destination: SignUpView()) {
+                        Button {
+                            showSignUp = true
+                        } label: {
                             Text("회원가입")
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
@@ -63,6 +66,9 @@ struct LoginView: View {
                     }
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showSignUp) {
+            SignUpFirstView(showSingUp: $showSignUp)
         }
     }
 }
