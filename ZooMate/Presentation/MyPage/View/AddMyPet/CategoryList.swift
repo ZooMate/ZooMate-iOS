@@ -48,7 +48,7 @@ struct CategoryList: View {
         }
         .fullScreenCover(isPresented: $isModal) {
             MyPetAddPickerView(
-                category: selectCategory, isModal: $showCategory, selectedImages: $selectedImages
+                category: selectCategory, isModal: $showCategory
             )
         }
     }

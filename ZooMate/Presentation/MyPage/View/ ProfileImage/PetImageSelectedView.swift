@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct PetImageSelectedView: View {
-    @Binding var selectedImages: [UIImage]
+    @State private var selectedItems: [(id: String, image: UIImage)] = []
     @State private var isPickerPresented = false
 
     private let imageSize: CGFloat = 120
@@ -36,9 +36,9 @@ struct PetImageSelectedView: View {
                                 .foregroundColor(.sandBeige)
                         }
                     }
-                    
-                    ForEach(selectedImages, id: \.self) { image in
-                        Image(uiImage: image)
+
+                    ForEach(selectedItems, id: \.id) { item in
+                        Image(uiImage: item.image)
                             .resizable()
                             .scaledToFill()
                             .frame(width: imageSize, height: imageSize)
@@ -55,7 +55,7 @@ struct PetImageSelectedView: View {
             }
         }
         .sheet(isPresented: $isPickerPresented) {
-            PHPickerMultiImage(selectedImages: $selectedImages)
+            PHPickerMultiImage(selectedItems: $selectedItems)
         }
     }
 }

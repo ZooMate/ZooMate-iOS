@@ -11,7 +11,6 @@ struct MyPetAddPickerView: View {
     @Environment(\.dismiss) var dismiss
     var category: Category
     @Binding var isModal: Bool
-    @Binding var selectedImages: [UIImage]
     
     var body: some View {
         NavigationStack {
@@ -22,7 +21,7 @@ struct MyPetAddPickerView: View {
                         .font(.notoSansBold(size: 30))
                         .padding(.horizontal)
                     GeometryReader { geo in
-                        PetImageSelectedView(selectedImages: $selectedImages)
+                        PetImageSelectedView()
                     }
                     VStack {
                         NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
