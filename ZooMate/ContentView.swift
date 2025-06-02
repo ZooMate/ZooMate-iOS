@@ -20,6 +20,7 @@ struct ContentView: View {
                 MyPageView(isLoggedIn: true)
             }
         }
+        .background(Color.background)
         .tint(Color.mainText)
         .onAppear {
             UITabBar.appearance().unselectedItemTintColor = .subText

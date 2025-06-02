@@ -14,11 +14,12 @@ struct PetDetailView: View {
     @State var isLogin: Bool = true
     
     var body: some View {
-        ScrollView {
-            ZStack {
-                Color.background
-                    .ignoresSafeArea()
-                VStack {
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
+            
+            VStack {
+                ScrollView {
                     KFImage(URL(string: pet.photos[0]))
                         .resizable()
                         .scaledToFit()
@@ -46,14 +47,10 @@ struct PetDetailView: View {
                         }
                         .padding(.bottom, 10)
                         
-                        Text("""
-                우리 시루는요 어쩌구 저쩌구
-                집에만있지만 아무튼 외로워서
-                친구를 구한다고 합니다
-                """)
-                        .frame(maxHeight: .infinity)
-                        .font(.notoSansRegular(size: 16))
-                        .padding(.bottom, 15)
+                        Text(pet.petDesc)
+                            .frame(maxHeight: .infinity)
+                            .font(.notoSansRegular(size: 16))
+                            .padding(.bottom, 15)
                         
                         Text("프로필")
                             .font(.notoSansBold(size: 20))
@@ -81,19 +78,18 @@ struct PetDetailView: View {
                         
                         TagWrapView(tags: pet.tag)
                             .padding(.bottom, 10)
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("채팅")
-                                .inputButtonStyle()
-                                .padding(.horizontal, -16)
-                        }
                     }
                     .padding(.horizontal, 16)
                 }
+                Button {
+                    
+                } label: {
+                    Text("채팅")
+                        .inputButtonStyle()
+                }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             if pet.ownerId == MyData.myId {
                 ToolbarItem(placement: .topBarTrailing) {
