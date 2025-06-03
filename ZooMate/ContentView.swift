@@ -17,7 +17,7 @@ struct ContentView: View {
                 ChatMainView()
             }
             Tab("마이페이지", systemImage: "person.fill") {
-                MyPageView(isLoggedIn: true)
+                MyPageView(isLoggedIn: !MyData.token.isEmpty)
             }
         }
         .background(Color.background)
