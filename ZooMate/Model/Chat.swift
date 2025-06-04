@@ -10,8 +10,7 @@ import SwiftUI
 // MARK: - ChatRoom
 struct ChatRoom: Codable, Identifiable {
     var id: Int
-    var firstPetId: Int
-    var secondPetId: Int
+    var pets: [Pet]
     var createdAt: Date
 }
 
