@@ -9,8 +9,8 @@ import Foundation
 import Security
 
 class MyData {
-    static var myId = 6
-    static var token = "123" // TODO: 키체인
+    static var myId = 6 // 토큰 불러오는데 성공하면 id값 저장해주기 (이래야 사용하기 편함)
+    static var token = KeychainHelper.read(forAccount: "token") ?? ""
 }
 
 class KeychainHelper {
