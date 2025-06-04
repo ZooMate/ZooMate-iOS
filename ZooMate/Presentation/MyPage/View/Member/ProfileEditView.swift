@@ -94,6 +94,7 @@ struct ProfileEditView: View {
                         
                         HStack(spacing: 10) {
                             Button {
+                                LogoutNetwork.logout()
                                 stack = .init()
                             } label: {
                                 Text("로그아웃")

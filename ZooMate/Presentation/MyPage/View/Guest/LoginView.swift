@@ -45,7 +45,14 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            dismiss()
+                            LoginNetwork.login(userId: "ZooMate", password: "password") { result in
+                                switch result {
+                                case .success(_):
+                                    dismiss()
+                                case .failure(let error):
+                                    print("에러: \(error)")
+                                }
+                            }
                         } label: {
                             Text("로그인")
                         }
