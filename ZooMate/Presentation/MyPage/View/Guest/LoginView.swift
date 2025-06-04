@@ -45,7 +45,7 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            LoginNetwork.login(userId: "ZooMate", password: "password") { result in
+                            SignNetwork.login(userId: "ZooMate", password: "password") { result in
                                 switch result {
                                 case .success(_):
                                     dismiss()
