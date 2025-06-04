@@ -20,7 +20,7 @@ struct MessageListView: View {
                 List {
                     ForEach(message) { m in
                         Group {
-                            if m.senderPetId == MyData.myId {
+                            if m.senderPetId == MyData.shared.myId {
                                 SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
                             } else {
                                 ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)

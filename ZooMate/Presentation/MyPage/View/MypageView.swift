@@ -15,7 +15,7 @@ struct MyPageView: View {
     @State private var showAlret = false
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
         NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {

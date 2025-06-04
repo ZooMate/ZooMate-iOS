@@ -26,7 +26,7 @@ struct ProfileDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 50)
                     
-                    let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+                    let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
                     if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         
                         KFImage(URL(string: profile))
@@ -62,7 +62,7 @@ struct ProfileDetailView: View {
     }
     
     private var profileHeader: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
         
         return Group {
             VStack(alignment: .center, spacing: 18) {
@@ -87,8 +87,8 @@ struct ProfileDetailView: View {
     }
     
     private var petListSection: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
-        let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
+        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
+        let myPets = data.dummyPets.filter { $0.ownerId == MyData.shared.myId }
         
         return VStack(alignment: .leading) {
             Text("\(user.userName)님의 반려동물")

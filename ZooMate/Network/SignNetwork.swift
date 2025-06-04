@@ -37,6 +37,11 @@ class SignNetwork {
                     } else {
                         KeychainHelper.update(token: data.accessToken, forAccount: "token")
                     }
+                    
+                    DispatchQueue.main.async {
+                        MyData.shared.token = data.accessToken
+                    }
+                    
                     completion(.success(data.accessToken))
                     
                 case .failure(let error):
@@ -48,5 +53,8 @@ class SignNetwork {
     
     static func logout() {
         KeychainHelper.delete(forAccount: "token")
+        DispatchQueue.main.async {
+            MyData.shared.token = ""
+        }
     }
 }
