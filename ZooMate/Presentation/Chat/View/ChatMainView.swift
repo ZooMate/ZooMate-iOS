@@ -11,6 +11,10 @@ struct ChatMainView: View {
     @StateObject private var data = DummyData2()
     @StateObject private var data2 = DummyData1()
     
+    private var filteredChatRooms: [ChatRoom] {
+        data.chatRooms.filter { $0.pets.contains{ $0.ownerId == MyData.myId} }
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -19,10 +23,8 @@ struct ChatMainView: View {
                 
                 VStack {
                     List {
-                        let filteredChatRooms = data.chatRooms.filter { $0.firstPetId == MyData.myId || $0.secondPetId == MyData.myId }
-                        
                         ForEach(filteredChatRooms) { chatRoom in
-                            let pet = getPet(by: chatRoom.firstPetId == MyData.myId ? chatRoom.secondPetId : chatRoom.firstPetId)
+                            let pet = chatRoom.pets.first(where: { $0.ownerId != MyData.myId })!
                             let chat = getMessages(for: chatRoom.id)
                             let name = getUserName(for: pet)
                             ZStack {
@@ -47,11 +49,6 @@ struct ChatMainView: View {
             .navigationTitle("채팅")
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-    
-    private func getPet(by petId: Int) -> Pet {
-        let pet = data2.dummyPets.first(where: { $0.id == petId })
-        return pet ?? Pet(id: 0, petName: "", age: 0, gender: .female, isNeutering: true, isPublic: true, tag: [], photos: [], category: .bird, ownerId: 0, petDesc: "")
     }
     
     private func getMessages(for roomId: Int) -> [Message] {
