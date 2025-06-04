@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainHomeView: View {
     @State var textMenu: String = "전체지역"
+    @State var region: String = "서초구"
     @State private var selectedCategories: Set<String> = []
     @State private var showRegionSheet = false
     
@@ -39,12 +40,12 @@ struct MainHomeView: View {
                             }
                             
                             Button {
-                                self.textMenu = MyData.region
+                                self.textMenu = region
                             } label: {
                                 Label {
-                                    Text(MyData.region)
+                                    Text(region)
                                 } icon: {
-                                    if textMenu == MyData.region {
+                                    if textMenu == region {
                                         Image(systemName: "checkmark")
                                     }
                                 }
