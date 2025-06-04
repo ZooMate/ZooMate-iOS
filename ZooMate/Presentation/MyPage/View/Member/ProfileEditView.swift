@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ProfileEditView: View {
     @Binding var stack: NavigationPath
+    @State var showRegionSheet = false
     @StateObject var data = DummyData1()
-    @State var password: String = ""
+    @State var userRegion: String = ""
     @State var userName: String = ""
     @State var desc: String = ""
     @State private var selectedImage: UIImage?
@@ -28,42 +29,95 @@ struct ProfileEditView: View {
                 ZStack(alignment: .top) {
                     
                     VStack(spacing: 24) {
-                        Spacer().frame(height: 50)
-                        
                         VStack(alignment: .leading, spacing: 8) {
                             Text("아이디")
                                 .padding(.horizontal, 30)
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
-                            
                             Text(user.userId)
+                                .font(.notoSansMedium(size: 16))
+                                .foregroundStyle(.subText)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .textFieldStyle(paddingSpace: 24)
+                                .padding(15)
+                                .padding(.horizontal, 5)
+                                .background(Color.background)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.category, lineWidth: 2)
+                                )
+                                .padding(.horizontal, 24)
+                                .padding(.bottom, 4)
+                        }
+                        .padding(.top, 50)
+                        
+                        EdittingRow(title: "닉네임", text: $userName)
+                            .padding(.bottom, -4)
+                        
+                        VStack(alignment: .leading) {
+                            Text("지역*")
+                                .padding(.horizontal, 30)
+                                .font(.notoSansRegular(size: 16))
+                                .foregroundStyle(.mainText)
+                            Button {
+                                showRegionSheet = true
+                            } label: {
+                                Text(userRegion.isEmpty ? "지역선택" : userRegion)
+                                    .font(.notoSansMedium(size: 16))
+                                    .foregroundStyle(.mainText)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(15)
+                                    .padding(.horizontal, 5)
+                                    .background(Color.background)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.category, lineWidth: 2)
+                                    )
+                                    .padding(.horizontal, 24)
+                                    .padding(.bottom, 4)
+                            }
+                            .overlay(
+                                HStack {
+                                    Spacer()
+                                    Image(systemName:"chevron.down")
+                                        .padding(.trailing, 40)
+                                        .padding(.bottom, 4)
+                                }
+                            )
                         }
                         
-                        EdittingRow(title: "비밀번호", text: $password)
-                        EdittingRow(title: "닉네임", text: $userName)
                         EdittingRow(title: "소개글", text: $desc, isMultiline: true)
+                            .padding(.bottom, -4)
                         
-                        HStack(spacing: 35) {
+                        Spacer()
+                        
+                        HStack(spacing: 10) {
                             Button {
                                 stack = .init()
                             } label: {
                                 Text("로그아웃")
-                                    .font(.notoSansRegular(size: 16))
-                                    .foregroundStyle(.mainText)
+                                    .font(.notoSansRegular(size: 12))
+                                    .foregroundStyle(.subText)
                             }
                             
                             Button {
                                 stack = .init()
                             } label: {
                                 Text("회원탈퇴")
-                                    .font(.notoSansRegular(size: 16))
-                                    .foregroundStyle(.mainText)
+                                    .font(.notoSansRegular(size: 12))
+                                    .foregroundStyle(.subText)
+                            }
+                            
+                            Button {
+                                stack = .init()
+                            } label: {
+                                Text("비밀번호변경")
+                                    .font(.notoSansRegular(size: 12))
+                                    .foregroundStyle(.subText)
                             }
                         }
-                        
-                        Spacer().frame(height: 50)
+                        .padding(.vertical, 20)
                     }
                     .background(.sandBeige)
                     .cornerRadius(20)
@@ -85,9 +139,20 @@ struct ProfileEditView: View {
                     .padding(.top)
                 }
             }
+            .onAppear {
+                userName = user.userName
+                userRegion = user.region!
+                desc = user.desc ?? ""
+            }
             .background(Color.background.ignoresSafeArea())
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
             .navigationTitle("프로필 수정")
             .navigationBarTitleDisplayMode(.inline)
+            .fullScreenCover(isPresented: $showRegionSheet) {
+                AddRegionList(textMenu: $userRegion)
+            }
         }
     }
 }
