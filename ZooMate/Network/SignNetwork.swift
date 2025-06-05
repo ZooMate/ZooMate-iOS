@@ -32,17 +32,18 @@ class SignNetwork {
                 case .success(let data):
                     print("✅ 로그인 성공: \(data.accessToken)")
                     
+                    let success: Bool
                     if KeychainHelper.read(forAccount: "token") == nil {
-                        KeychainHelper.create(token: data.accessToken, forAccount: "token")
+                        success = KeychainHelper.create(token: data.accessToken, forAccount: "token")
                     } else {
-                        KeychainHelper.update(token: data.accessToken, forAccount: "token")
+                        success = KeychainHelper.update(token: data.accessToken, forAccount: "token")
                     }
                     
-                    DispatchQueue.main.async {
-                        MyData.shared.token = data.accessToken
+                    if success {
+                        completion(.success(data.accessToken))
+                    } else {
+                        completion(.failure(NSError(domain: "KeychainError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to save token to Keychain"])))
                     }
-                    
-                    completion(.success(data.accessToken))
                     
                 case .failure(let error):
                     print("❌ 로그인 실패: \(error)")
@@ -54,7 +55,7 @@ class SignNetwork {
     static func logout() {
         KeychainHelper.delete(forAccount: "token")
         DispatchQueue.main.async {
-            MyData.shared.token = ""
+            MyData.shared.myId = 0
         }
     }
 }

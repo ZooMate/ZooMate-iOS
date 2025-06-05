@@ -15,7 +15,6 @@ struct MyPageView: View {
     @State private var showAlret = false
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
         NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -24,6 +23,7 @@ struct MyPageView: View {
                         
                         ZStack {
                             if isLoggedIn {
+                                let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
                                 if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
@@ -44,6 +44,7 @@ struct MyPageView: View {
                         }
                         
                         if isLoggedIn {
+                            let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
                                     Text(isLoggedIn ? user.userName : "유저")
@@ -65,11 +66,11 @@ struct MyPageView: View {
                         } else {
                             NavigationLink(destination: LoginView()) {
                                 VStack(alignment: .leading) {
-                                    Text(isLoggedIn ? user.userName : "유저")
+                                    Text("유저")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                    Text("로그인해주세요 :)")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }
