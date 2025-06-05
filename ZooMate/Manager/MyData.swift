@@ -9,6 +9,5 @@ import Foundation
 
 class MyData: ObservableObject {
     static let shared = MyData()
-    
-    @Published var myId: Int = 0
+    @Published var myInfo: UserResponse?
 }

@@ -22,7 +22,7 @@ struct ProfileEditView: View {
     }
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
+        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
         
         ZStack(alignment: .top) {
             ScrollView {

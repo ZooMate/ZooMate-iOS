@@ -23,7 +23,7 @@ struct MyPageView: View {
                         
                         ZStack {
                             if isLoggedIn {
-                                let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
+                                let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
                                 if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
@@ -44,7 +44,7 @@ struct MyPageView: View {
                         }
                         
                         if isLoggedIn {
-                            let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myId })!
+                            let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
                                     Text(isLoggedIn ? user.userName : "유저")
@@ -105,6 +105,12 @@ struct MyPageView: View {
                         
                         ZStack() {
                             VStack(spacing: 28) {
+                                Button {
+                                    KeychainHelper.delete(forAccount: "token")
+                                    SignNetwork.logout()
+                                } label: {
+                                    SettingRow(title: "로그아웃")
+                                }
                                 NavigationLink(destination: NoticeView()) {
                                     SettingRow(title: "공지사항")
                                 }

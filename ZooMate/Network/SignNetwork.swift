@@ -39,10 +39,20 @@ class SignNetwork {
                         success = KeychainHelper.update(token: data.accessToken, forAccount: "token")
                     }
                     
-                    if success {
-                        completion(.success(data.accessToken))
-                    } else {
+                    guard success else {
                         completion(.failure(NSError(domain: "KeychainError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to save token to Keychain"])))
+                        return
+                    }
+                    
+                    UserNetwork.fetchMyData { result in
+                        switch result {
+                        case .success(let user):
+                            MyData.shared.myInfo = user
+                            completion(.success(data.accessToken))
+                        case .failure(let fetchError):
+                            print("❌ 사용자 정보 가져오기 실패: \(fetchError.localizedDescription)")
+                            completion(.failure(fetchError)) // fetch 실패도 처리
+                        }
                     }
                     
                 case .failure(let error):
@@ -55,7 +65,7 @@ class SignNetwork {
     static func logout() {
         KeychainHelper.delete(forAccount: "token")
         DispatchQueue.main.async {
-            MyData.shared.myId = 0
+            MyData.shared.myInfo = nil
         }
     }
 }

@@ -36,7 +36,7 @@ struct ChatRoomCell: View {
                     .font(.notoSansMedium(size: 12))
                     .foregroundStyle(.subText)
                     .padding(.bottom, 2)
-                let count = chat.filter{!$0.isRead && $0.senderPetId != MyData.shared.myId}.count
+                let count = chat.filter{!$0.isRead && $0.senderPetId != MyData.shared.myInfo?.id}.count
                 if count > 0 {
                     Text("\(count)")
                         .font(.notoSansMedium(size: 12))
