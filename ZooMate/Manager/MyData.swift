@@ -5,11 +5,44 @@
 //  Created by Song Kim on 5/29/25.
 //
 
-import SwiftUI
+import Foundation
 
-// TODO: 유저디폴트
-class MyData {
-    static var myId = 6
-    static var token = "" // TODO: 키체인
-    static var region = "서초구"
+class MyData: ObservableObject {
+    @Published var myInfo: UserResponse? {
+        didSet {
+            saveToUserDefaults()
+        }
+    }
+
+    private let userDefaultsKey = "myInfo"
+
+    init() {
+        loadFromUserDefaults()
+    }
+
+    private func saveToUserDefaults() {
+        guard let info = myInfo else {
+            UserDefaults.standard.removeObject(forKey: userDefaultsKey)
+            return
+        }
+        if let encoded = try? JSONEncoder().encode(info) {
+            UserDefaults.standard.set(encoded, forKey: userDefaultsKey)
+        }
+    }
+
+    private func loadFromUserDefaults() {
+        if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+           let decoded = try? JSONDecoder().decode(UserResponse.self, from: data) {
+            myInfo = decoded
+        }
+    }
+
+    func save() {
+        saveToUserDefaults()
+    }
+
+    func clear() {
+        myInfo = nil
+        UserDefaults.standard.removeObject(forKey: userDefaultsKey)
+    }
 }

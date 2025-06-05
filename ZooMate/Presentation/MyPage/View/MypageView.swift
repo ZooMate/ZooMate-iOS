@@ -9,22 +9,19 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
+    @ObservedObject var myData: MyData
     @State var stack = NavigationPath()
-    let isLoggedIn: Bool
-    @StateObject var data = DummyData1()
     @State private var showAlret = false
+    let isLoggedIn: Bool
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
         NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {
-                    
                     HStack(spacing: 16) {
-                        
                         ZStack {
                             if isLoggedIn {
-                                if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                if let profile = myData.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
                                             ProgressView()
@@ -46,11 +43,11 @@ struct MyPageView: View {
                         if isLoggedIn {
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
-                                    Text(isLoggedIn ? user.userName : "유저")
+                                    Text(myData.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                    Text(myData.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }
@@ -59,17 +56,17 @@ struct MyPageView: View {
                             .buttonStyle(PlainButtonStyle())
                             .navigationDestination(for: String.self) { value in
                                 if value == "profileDetail" {
-                                    ProfileDetailView(stack: $stack)
+                                    ProfileDetailView(stack: $stack, myData: myData)
                                 }
                             }
                         } else {
-                            NavigationLink(destination: LoginView()) {
+                            NavigationLink(destination: LoginView(myData: myData)) {
                                 VStack(alignment: .leading) {
-                                    Text(isLoggedIn ? user.userName : "유저")
+                                    Text("유저")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                    Text("로그인해주세요 :)")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }
@@ -104,6 +101,12 @@ struct MyPageView: View {
                         
                         ZStack() {
                             VStack(spacing: 28) {
+                                Button {
+                                    KeychainHelper.delete(forAccount: "token")
+                                    myData.clear()
+                                } label: {
+                                    SettingRow(title: "로그아웃")
+                                }
                                 NavigationLink(destination: NoticeView()) {
                                     SettingRow(title: "공지사항")
                                 }
@@ -174,8 +177,4 @@ struct SettingRow: View {
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-}
-
-#Preview {
-    MyPageView(isLoggedIn: false)
 }

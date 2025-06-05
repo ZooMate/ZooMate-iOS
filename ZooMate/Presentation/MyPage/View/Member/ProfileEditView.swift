@@ -8,33 +8,33 @@
 import SwiftUI
 
 struct ProfileEditView: View {
+    @Environment(\.dismiss) private var dismiss
     @Binding var stack: NavigationPath
+    @ObservedObject var myData: MyData
     @State var showRegionSheet = false
-    @StateObject var data = DummyData1()
     @State var userRegion: String = ""
     @State var userName: String = ""
-    @State var desc: String = ""
+    @State var userDesc: String = ""
     @State private var selectedImage: UIImage?
-    @Environment(\.dismiss) private var dismiss
     
-    init(stack: Binding<NavigationPath>) {
+    init(stack: Binding<NavigationPath>, myData: MyData) {
         self._stack = stack
+        self.myData = myData
     }
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
+        let user = myData.myInfo
         
         ZStack(alignment: .top) {
             ScrollView {
                 ZStack(alignment: .top) {
-                    
                     VStack(spacing: 24) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("아이디")
                                 .padding(.horizontal, 30)
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
-                            Text(user.userId)
+                            Text(user?.userId ?? "")
                                 .font(.notoSansMedium(size: 16))
                                 .foregroundStyle(.subText)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,13 +87,14 @@ struct ProfileEditView: View {
                             )
                         }
                         
-                        EdittingRow(title: "소개글", text: $desc, isMultiline: true)
+                        EdittingRow(title: "소개글", text: $userDesc, isMultiline: true)
                             .padding(.bottom, -4)
                         
                         Spacer()
                         
                         HStack(spacing: 10) {
                             Button {
+                                SignNetwork.logout()
                                 stack = .init()
                             } label: {
                                 Text("로그아웃")
@@ -132,6 +133,24 @@ struct ProfileEditView: View {
                 VStack {
                     Button {
                         dismiss()
+                        let updatedUser = UserResponse(
+                            id: user?.id ?? 0,
+                            userId: user?.userId ?? "",
+                            userName: userName,
+                            region: userRegion,
+                            userDesc: userDesc,
+                            profile: user?.profile ?? ""
+                        )
+
+                        UserNetwork.updateUserInfo(user: updatedUser) { result in
+                            switch result {
+                            case .success(_):
+                                myData.myInfo = updatedUser
+                                myData.save()
+                            case .failure(let error):
+                                print("❌ 업데이트 실패: \(error.localizedDescription)")
+                            }
+                        }
                     } label: {
                         Text("작성 완료")
                     }
@@ -140,9 +159,9 @@ struct ProfileEditView: View {
                 }
             }
             .onAppear {
-                userName = user.userName
-                userRegion = user.region!
-                desc = user.desc ?? ""
+                userName = user?.userName ?? "이름정보없음"
+                userRegion = user?.region ?? "지역정보없음"
+                userDesc = user?.userDesc ?? ""
             }
             .background(Color.background.ignoresSafeArea())
             .onTapGesture {

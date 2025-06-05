@@ -11,6 +11,7 @@ import Kingfisher
 struct ProfileDetailView: View {
     @Binding var stack: NavigationPath
     @StateObject var data = DummyData1()
+    @ObservedObject var myData: MyData
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -26,8 +27,8 @@ struct ProfileDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 50)
                     
-                    let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
-                    if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    let user = myData.myInfo
+                    if let profile = user?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         
                         KFImage(URL(string: profile))
                             .placeholder {
@@ -62,16 +63,14 @@ struct ProfileDetailView: View {
     }
     
     private var profileHeader: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
-        
         return Group {
             VStack(alignment: .center, spacing: 18) {
-                Text(user.userName)
+                Text(myData.myInfo?.userName ?? "이름정보없음")
                     .font(.notoSansBold(size: 20))
-                Text(user.desc ?? "소개글을 등록하여 나를 표현해보세요")
+                Text(myData.myInfo?.userDesc ?? "소개글을 등록하여 나를 표현해보세요")
                     .font(.notoSansRegular(size: 14))
                 
-                NavigationLink(destination: ProfileEditView(stack: $stack)) {
+                NavigationLink(destination: ProfileEditView(stack: $stack, myData: myData)) {
                     Text("프로필 편집")
                         .font(.notoSansMedium(size: 16))
                         .frame(maxWidth: .infinity)
@@ -87,8 +86,8 @@ struct ProfileDetailView: View {
     }
     
     private var petListSection: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.myId })!
-        let myPets = data.dummyPets.filter { $0.ownerId == MyData.myId }
+        let user = data.dummyUsers.first(where: { $0.id == MyData().myInfo?.id })!
+        let myPets = data.dummyPets.filter { $0.ownerId == MyData().myInfo?.id }
         
         return VStack(alignment: .leading) {
             Text("\(user.userName)님의 반려동물")

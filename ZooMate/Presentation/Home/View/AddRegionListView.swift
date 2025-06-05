@@ -64,7 +64,6 @@ struct AddRegionList: View {
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             .onTapGesture {
-                                MyData.region = region
                                 textMenu = region
                                 dismiss()
                             }

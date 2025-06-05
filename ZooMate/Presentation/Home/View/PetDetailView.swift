@@ -98,7 +98,7 @@ struct PetDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
-            if pet.ownerId == MyData.myId {
+            if pet.ownerId == MyData().myInfo?.id {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button {

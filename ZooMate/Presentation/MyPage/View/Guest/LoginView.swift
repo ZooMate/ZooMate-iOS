@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    
+    @ObservedObject var myData: MyData
     @State var userId: String = ""
     @State var password: String = ""
     @State var showSignUp: Bool = false
@@ -17,13 +17,11 @@ struct LoginView: View {
     var body: some View {
         
         GeometryReader { geo in
-            
             ZStack {
                 Color.background
                     .ignoresSafeArea()
                 
                 VStack {
-                    
                     VStack(alignment: .leading) {
                         Text("아이디")
                             .padding(.horizontal, 17)
@@ -45,7 +43,24 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            dismiss()
+                            SignNetwork.login(userId: userId, password: password) { result in
+                                switch result {
+                                case .success(_):
+                                    UserNetwork.fetchMyData { result in
+                                        switch result {
+                                        case .success(let user):
+                                            DispatchQueue.main.async {
+                                                myData.myInfo = user
+                                                dismiss() // ✅ 여기선 sheet 또는 fullScreenCover일 때만 작동
+                                            }
+                                        case .failure(let fetchError):
+                                            print("❌ 사용자 정보 가져오기 실패: \(fetchError.localizedDescription)")
+                                        }
+                                    }
+                                case .failure(let error):
+                                    print("에러: \(error)")
+                                }
+                            }
                         } label: {
                             Text("로그인")
                         }
@@ -71,8 +86,4 @@ struct LoginView: View {
             SignUpFirstView(showSingUp: $showSignUp)
         }
     }
-}
-
-#Preview {
-    LoginView()
 }
