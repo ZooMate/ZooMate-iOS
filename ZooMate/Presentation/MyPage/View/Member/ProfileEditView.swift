@@ -126,7 +126,7 @@ struct ProfileEditView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 50)
                     
-                    ProfileImageSelectedView(selectedImage: $selectedImage)
+                    ProfileImageSelectedView(myData: myData, selectedImage: $selectedImage)
                 }
                 .padding(.top)
                 

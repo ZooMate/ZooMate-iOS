@@ -8,15 +8,14 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileImageSelectedView: View {
-    
+    @ObservedObject var myData: MyData
     @Binding var selectedImage: UIImage?
     @State private var isPickerPresented = false
-    @StateObject var data = DummyData1()
     
     var isNewUser: Bool = false
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData().myInfo?.id })!
+        let user = myData.myInfo
         
         Button {
             isPickerPresented = true
@@ -35,7 +34,7 @@ struct ProfileImageSelectedView: View {
                     )
             }
             else {
-                if !isNewUser ,let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                if !isNewUser ,let profile = user?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 {
                     KFImage(URL(string: profile))
                         .placeholder {

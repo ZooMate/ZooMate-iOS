@@ -91,7 +91,7 @@ struct SignUpFirstView: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 50)
                         // FIXME: 회원 여부에 따른 이미지 가져오기, 기본 이미지 출력
-                        ProfileImageSelectedView(selectedImage: $selectedImage, isNewUser: true)
+                        ProfileImageSelectedView(myData: MyData(), selectedImage: $selectedImage, isNewUser: true)
                     }
                     .padding(.top)
                     
