@@ -39,7 +39,7 @@ struct MateView: View {
     
     private var matedPets: [Pet] {
         let myMatePetIds = data.dummyMates
-            .filter { $0.userrId == MyData.shared.myInfo?.id }
+            .filter { $0.userrId == MyData().myInfo?.id }
             .map { $0.petId }
 
         return data.dummyPets.filter { myMatePetIds.contains($0.id) }

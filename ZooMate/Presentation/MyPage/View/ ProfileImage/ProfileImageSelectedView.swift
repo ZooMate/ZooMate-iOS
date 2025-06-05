@@ -16,7 +16,7 @@ struct ProfileImageSelectedView: View {
     var isNewUser: Bool = false
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
+        let user = data.dummyUsers.first(where: { $0.id == MyData().myInfo?.id })!
         
         Button {
             isPickerPresented = true

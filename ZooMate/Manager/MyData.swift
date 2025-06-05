@@ -8,14 +8,12 @@
 import Foundation
 
 class MyData: ObservableObject {
-    static let shared = MyData()
-    
     @Published var myInfo: UserResponse? {
         didSet {
-            saveToUserDefaults() // 값이 바뀌면 자동으로 저장
+            saveToUserDefaults()
         }
     }
-    
+
     private let userDefaultsKey = "myInfo"
 
     init() {
@@ -38,7 +36,7 @@ class MyData: ObservableObject {
             myInfo = decoded
         }
     }
-    
+
     func save() {
         saveToUserDefaults()
     }

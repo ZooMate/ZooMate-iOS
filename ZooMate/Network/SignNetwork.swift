@@ -39,7 +39,7 @@ class SignNetwork {
                     UserNetwork.fetchMyData { result in
                         switch result {
                         case .success(let user):
-                            MyData.shared.myInfo = user
+                            MyData().myInfo = user
                             completion(.success(data.accessToken))
                         case .failure(let fetchError):
                             print("❌ 사용자 정보 가져오기 실패: \(fetchError.localizedDescription)")
@@ -57,7 +57,7 @@ class SignNetwork {
     static func logout() {
         KeychainHelper.delete(forAccount: "token")
         DispatchQueue.main.async {
-            MyData.shared.clear()
+            MyData().clear()
         }
     }
 }

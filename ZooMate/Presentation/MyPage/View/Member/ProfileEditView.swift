@@ -21,7 +21,7 @@ struct ProfileEditView: View {
     }
     
     var body: some View {
-        let user = MyData.shared.myInfo
+        let user = MyData().myInfo
         
         ZStack(alignment: .top) {
             ScrollView {
@@ -143,8 +143,8 @@ struct ProfileEditView: View {
 
                         UserNetwork.updateUserInfo(user: updatedUser) { result in
                             switch result {
-                            case .success(let data):
-                                MyData.shared.myInfo = updatedUser
+                            case .success(_):
+                                MyData().myInfo = updatedUser
                             case .failure(let error):
                                 print("❌ 업데이트 실패: \(error.localizedDescription)")
                             }

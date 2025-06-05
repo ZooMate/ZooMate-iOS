@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var myData = MyData.shared
-    
     var body: some View {
         TabView {
             Tab("홈", systemImage: "house") {
@@ -19,7 +17,7 @@ struct ContentView: View {
                 ChatMainView()
             }
             Tab("마이페이지", systemImage: "person.fill") {
-                MyPageView(isLoggedIn: MyData.shared.myInfo != nil)
+                MyPageView(isLoggedIn: MyData().myInfo != nil)
             }
         }
         .background(Color.background)

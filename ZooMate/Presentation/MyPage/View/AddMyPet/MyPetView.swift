@@ -20,8 +20,8 @@ struct MyPetView: View {
         ZStack {
             Color.background
                 .ignoresSafeArea()
-            let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
-            let myPets = data.dummyPets.filter { $0.ownerId == MyData.shared.myInfo?.id }
+            let user = data.dummyUsers.first(where: { $0.id == MyData().myInfo?.id })!
+            let myPets = data.dummyPets.filter { $0.ownerId == MyData().myInfo?.id }
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {

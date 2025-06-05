@@ -9,10 +9,10 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
+    @StateObject var user = MyData()
     @State var stack = NavigationPath()
-    let isLoggedIn: Bool
-    @StateObject var data = DummyData1()
     @State private var showAlret = false
+    let isLoggedIn: Bool
     
     var body: some View {
         NavigationStack(path: $stack) {
@@ -21,7 +21,7 @@ struct MyPageView: View {
                     HStack(spacing: 16) {
                         ZStack {
                             if isLoggedIn {
-                                if let profile = MyData.shared.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                if let profile = user.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
                                             ProgressView()
@@ -43,11 +43,11 @@ struct MyPageView: View {
                         if isLoggedIn {
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
-                                    Text(MyData.shared.myInfo?.userName ?? "이름정보없음")
+                                    Text(user.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(MyData.shared.myInfo?.region ?? "지역정보없음")
+                                    Text(user.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }

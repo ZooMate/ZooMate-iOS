@@ -12,7 +12,7 @@ struct ChatMainView: View {
     @StateObject private var data2 = DummyData1()
     
     private var filteredChatRooms: [ChatRoom] {
-        data.chatRooms.filter { $0.pets.contains{ $0.ownerId == MyData.shared.myInfo?.id} }
+        data.chatRooms.filter { $0.pets.contains{ $0.ownerId == MyData().myInfo?.id} }
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct ChatMainView: View {
                 VStack {
                     List {
                         ForEach(filteredChatRooms) { chatRoom in
-                            let pet = chatRoom.pets.first(where: { $0.ownerId != MyData.shared.myInfo?.id })!
+                            let pet = chatRoom.pets.first(where: { $0.ownerId != MyData().myInfo?.id })!
                             let chat = getMessages(for: chatRoom.id)
                             let name = getUserName(for: pet)
                             ZStack {
