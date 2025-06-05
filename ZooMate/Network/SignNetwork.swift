@@ -8,14 +8,6 @@
 import SwiftUI
 import Alamofire
 
-struct LoginResponse: Decodable {
-    let accessToken: String
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-    }
-}
-
 class SignNetwork {
     static func login(userId: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
         let url = "http://74.227.131.81/auth/login"

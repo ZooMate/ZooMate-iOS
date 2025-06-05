@@ -8,16 +8,6 @@
 import SwiftUI
 import Alamofire
 
-struct UserResponse: Decodable {
-    let id: Int
-    let userId: String
-    let userName: String
-    let userPassword: String
-    let region: String
-    let userDesc: String?
-    let profile: String?
-}
-
 class UserNetwork {
     static func fetchMyData(completion: @escaping (Result<UserResponse, Error>) -> Void) {
         let url = "http://74.227.131.81/users/me"
