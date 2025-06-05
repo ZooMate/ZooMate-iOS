@@ -10,7 +10,7 @@ import Alamofire
 
 class UserNetwork {
     static func fetchMyData(completion: @escaping (Result<UserResponse, Error>) -> Void) {
-        let url = "http://74.227.131.81/users/me"
+        let url = "\(BaseURL.url)/user/me"
 
         guard let token = KeychainHelper.read(forAccount: "token") else {
             print("❌ Access Token이 없습니다.")
@@ -38,10 +38,7 @@ class UserNetwork {
     }
 
     static func updateUserInfo(user: UserResponse, completion: @escaping (Result<UserEditResponse, Error>) -> Void) {
-        guard let url = URL(string: "http://74.227.131.81/users/me") else {
-            print("Invalid URL")
-            return
-        }
+        let url = "\(BaseURL.url)/user/me"
         
         guard let token = KeychainHelper.read(forAccount: "token") else {
             print("❌ Access Token이 없습니다.")
@@ -58,8 +55,8 @@ class UserNetwork {
             "userName": user.userName,
             "userPassword": user.userPassword,
             "region": user.region,  // ✅ 수정됨
-            "userDesc": user.userDesc,
-            "profile": user.profile
+            "userDesc": user.userDesc ?? "",
+            "profile": user.profile ?? ""
         ]
         
         AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers)

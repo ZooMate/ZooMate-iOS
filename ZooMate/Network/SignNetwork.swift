@@ -10,7 +10,7 @@ import Alamofire
 
 class SignNetwork {
     static func login(userId: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let url = "http://74.227.131.81/auth/login"
+        let url = "\(BaseURL.url)/user/login"
         
         let parameters: [String: Any] = [
             "userId": userId,
