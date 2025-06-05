@@ -18,13 +18,10 @@ struct MyPageView: View {
         NavigationStack(path: $stack) {
             ScrollView {
                 VStack(alignment: .leading) {
-                    
                     HStack(spacing: 16) {
-                        
                         ZStack {
                             if isLoggedIn {
-                                let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
-                                if let profile = user.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                if let profile = MyData.shared.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
                                             ProgressView()
@@ -44,14 +41,13 @@ struct MyPageView: View {
                         }
                         
                         if isLoggedIn {
-                            let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
-                                    Text(isLoggedIn ? user.userName : "유저")
+                                    Text(MyData.shared.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(isLoggedIn ? "🌱 서울시 \(user.region ?? "OO구 (불러오는 중...)")" : "로그인해주세요 :)")
+                                    Text(MyData.shared.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }

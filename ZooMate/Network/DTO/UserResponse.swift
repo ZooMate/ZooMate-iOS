@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserResponse: Decodable {
+struct UserResponse: Codable {
     let id: Int
     let userId: String
     let userName: String

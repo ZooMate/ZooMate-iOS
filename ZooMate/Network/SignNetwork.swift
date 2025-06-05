@@ -57,7 +57,7 @@ class SignNetwork {
     static func logout() {
         KeychainHelper.delete(forAccount: "token")
         DispatchQueue.main.async {
-            MyData.shared.myInfo = nil
+            MyData.shared.clear()
         }
     }
 }
