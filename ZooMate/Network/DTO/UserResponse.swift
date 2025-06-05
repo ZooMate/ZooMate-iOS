@@ -16,3 +16,12 @@ struct UserResponse: Codable {
     let userDesc: String?
     let profile: String?
 }
+
+struct UserEditResponse: Codable {
+    let id: Int
+    let userId: String
+    let userName: String
+    let region: String
+    let userDesc: String?
+    let profile: String?
+}

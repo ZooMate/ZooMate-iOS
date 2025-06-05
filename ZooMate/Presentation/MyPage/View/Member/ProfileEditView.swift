@@ -10,10 +10,9 @@ import SwiftUI
 struct ProfileEditView: View {
     @Binding var stack: NavigationPath
     @State var showRegionSheet = false
-    @StateObject var data = DummyData1()
     @State var userRegion: String = ""
     @State var userName: String = ""
-    @State var desc: String = ""
+    @State var userDesc: String = ""
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
     
@@ -22,19 +21,18 @@ struct ProfileEditView: View {
     }
     
     var body: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData.shared.myInfo?.id })!
+        let user = MyData.shared.myInfo
         
         ZStack(alignment: .top) {
             ScrollView {
                 ZStack(alignment: .top) {
-                    
                     VStack(spacing: 24) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("아이디")
                                 .padding(.horizontal, 30)
                                 .font(.notoSansRegular(size: 16))
                                 .foregroundStyle(.mainText)
-                            Text(user.userId)
+                            Text(user?.userId ?? "")
                                 .font(.notoSansMedium(size: 16))
                                 .foregroundStyle(.subText)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,7 +85,7 @@ struct ProfileEditView: View {
                             )
                         }
                         
-                        EdittingRow(title: "소개글", text: $desc, isMultiline: true)
+                        EdittingRow(title: "소개글", text: $userDesc, isMultiline: true)
                             .padding(.bottom, -4)
                         
                         Spacer()
@@ -133,6 +131,24 @@ struct ProfileEditView: View {
                 VStack {
                     Button {
                         dismiss()
+                        let updatedUser = UserResponse(
+                            id: user?.id ?? 0,
+                            userId: user?.userId ?? "",
+                            userName: userName,
+                            userPassword: user?.userPassword ?? "",
+                            region: userRegion,
+                            userDesc: userDesc,
+                            profile: user?.profile ?? ""
+                        )
+
+                        UserNetwork.updateUserInfo(user: updatedUser) { result in
+                            switch result {
+                            case .success(let data):
+                                MyData.shared.myInfo = updatedUser
+                            case .failure(let error):
+                                print("❌ 업데이트 실패: \(error.localizedDescription)")
+                            }
+                        }
                     } label: {
                         Text("작성 완료")
                     }
@@ -141,9 +157,9 @@ struct ProfileEditView: View {
                 }
             }
             .onAppear {
-                userName = user.userName
-                userRegion = user.region!
-                desc = user.desc ?? ""
+                userName = user?.userName ?? "이름정보없음"
+                userRegion = user?.region ?? "지역정보없음"
+                userDesc = user?.userDesc ?? ""
             }
             .background(Color.background.ignoresSafeArea())
             .onTapGesture {
