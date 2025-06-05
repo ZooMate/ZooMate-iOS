@@ -137,7 +137,6 @@ struct ProfileEditView: View {
                             id: user?.id ?? 0,
                             userId: user?.userId ?? "",
                             userName: userName,
-                            userPassword: user?.userPassword ?? "",
                             region: userRegion,
                             userDesc: userDesc,
                             profile: user?.profile ?? ""

@@ -11,7 +11,6 @@ struct UserResponse: Codable {
     let id: Int
     let userId: String
     let userName: String
-    let userPassword: String
     let region: String
     let userDesc: String?
     let profile: String?

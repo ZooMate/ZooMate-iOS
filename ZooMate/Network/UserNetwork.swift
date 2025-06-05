@@ -53,7 +53,6 @@ class UserNetwork {
         
         let parameters: [String: Any] = [
             "userName": user.userName,
-            "userPassword": user.userPassword,
             "region": user.region,  // ✅ 수정됨
             "userDesc": user.userDesc ?? "",
             "profile": user.profile ?? ""
