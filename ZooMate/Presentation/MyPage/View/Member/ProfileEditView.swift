@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct ProfileEditView: View {
+    @Environment(\.dismiss) private var dismiss
     @Binding var stack: NavigationPath
+    @ObservedObject var myData: MyData
     @State var showRegionSheet = false
     @State var userRegion: String = ""
     @State var userName: String = ""
     @State var userDesc: String = ""
     @State private var selectedImage: UIImage?
-    @Environment(\.dismiss) private var dismiss
     
-    init(stack: Binding<NavigationPath>) {
+    init(stack: Binding<NavigationPath>, myData: MyData) {
         self._stack = stack
+        self.myData = myData
     }
     
     var body: some View {
-        let user = MyData().myInfo
+        let user = myData.myInfo
         
         ZStack(alignment: .top) {
             ScrollView {
@@ -144,7 +146,8 @@ struct ProfileEditView: View {
                         UserNetwork.updateUserInfo(user: updatedUser) { result in
                             switch result {
                             case .success(_):
-                                MyData().myInfo = updatedUser
+                                myData.myInfo = updatedUser
+                                myData.save()
                             case .failure(let error):
                                 print("❌ 업데이트 실패: \(error.localizedDescription)")
                             }

@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct MyPageView: View {
-    @StateObject var user = MyData()
+    @ObservedObject var myData: MyData
     @State var stack = NavigationPath()
     @State private var showAlret = false
     let isLoggedIn: Bool
@@ -21,7 +21,7 @@ struct MyPageView: View {
                     HStack(spacing: 16) {
                         ZStack {
                             if isLoggedIn {
-                                if let profile = user.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                if let profile = myData.myInfo?.profile, !profile.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                     KFImage(URL(string: profile))
                                         .placeholder {
                                             ProgressView()
@@ -43,11 +43,11 @@ struct MyPageView: View {
                         if isLoggedIn {
                             NavigationLink(value: "profileDetail") {
                                 VStack(alignment: .leading) {
-                                    Text(user.myInfo?.userName ?? "이름정보없음")
+                                    Text(myData.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
                                     
-                                    Text(user.myInfo?.region ?? "지역정보없음")
+                                    Text(myData.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
                                 }
@@ -56,11 +56,11 @@ struct MyPageView: View {
                             .buttonStyle(PlainButtonStyle())
                             .navigationDestination(for: String.self) { value in
                                 if value == "profileDetail" {
-                                    ProfileDetailView(stack: $stack)
+                                    ProfileDetailView(stack: $stack, myData: myData)
                                 }
                             }
                         } else {
-                            NavigationLink(destination: LoginView()) {
+                            NavigationLink(destination: LoginView(myData: myData)) {
                                 VStack(alignment: .leading) {
                                     Text("유저")
                                         .font(.notoSansBold(size: 24))
@@ -103,7 +103,7 @@ struct MyPageView: View {
                             VStack(spacing: 28) {
                                 Button {
                                     KeychainHelper.delete(forAccount: "token")
-                                    SignNetwork.logout()
+                                    myData.clear()
                                 } label: {
                                     SettingRow(title: "로그아웃")
                                 }
@@ -177,8 +177,4 @@ struct SettingRow: View {
         .padding(.horizontal, 20)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-}
-
-#Preview {
-    MyPageView(isLoggedIn: false)
 }

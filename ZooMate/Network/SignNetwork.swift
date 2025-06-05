@@ -35,18 +35,7 @@ class SignNetwork {
                         completion(.failure(NSError(domain: "KeychainError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to save token to Keychain"])))
                         return
                     }
-                    
-                    UserNetwork.fetchMyData { result in
-                        switch result {
-                        case .success(let user):
-                            MyData().myInfo = user
-                            completion(.success(data.accessToken))
-                        case .failure(let fetchError):
-                            print("❌ 사용자 정보 가져오기 실패: \(fetchError.localizedDescription)")
-                            completion(.failure(fetchError)) // fetch 실패도 처리
-                        }
-                    }
-                    
+                    completion(.success(data.accessToken))
                 case .failure(let error):
                     print("❌ 로그인 실패: \(error)")
                     completion(.failure(error))
