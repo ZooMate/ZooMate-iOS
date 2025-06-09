@@ -94,16 +94,18 @@ struct ProfileEditView: View {
                         
                         HStack(spacing: 10) {
                             Button {
-                                AuthNetwork.logout()
-                                stack = .init()
-                            } label: {
-                                Text("로그아웃")
-                                    .font(.notoSansRegular(size: 12))
-                                    .foregroundStyle(.subText)
-                            }
-                            
-                            Button {
-                                stack = .init()
+                                AuthNetwork.deleteUser { result in
+                                    switch result {
+                                    case .success(let success):
+                                        if success {
+                                            stack = .init()
+                                            KeychainHelper.delete(forAccount: "token")
+                                            myData.clear()
+                                        }
+                                    case .failure(_ ):
+                                        print("")
+                                    }
+                                }
                             } label: {
                                 Text("회원탈퇴")
                                     .font(.notoSansRegular(size: 12))

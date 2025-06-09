@@ -9,6 +9,33 @@ import SwiftUI
 import Alamofire
 
 class AuthNetwork {
+    static func deleteUser(completion: @escaping (Result<Bool, Error>) -> Void) {
+        let url = "\(BaseURL.url)/user/me"
+
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+
+        AF.request(url, method: .delete, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: DeleteUserResponse.self) { response in
+                switch response.result {
+                case .success(_):
+                    completion(.success(true))
+                case .failure(let error):
+                    print("❌ 탈퇴 실패: \(error.localizedDescription)")
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     static func signupUser(user: SignupRequest, completion: @escaping (Result<SignupResponse, Error>) -> Void) {
         let url = "http://localhost:3000/user/signup"
         

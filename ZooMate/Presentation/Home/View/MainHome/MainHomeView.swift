@@ -93,7 +93,7 @@ struct MainHomeView: View {
             AddRegionList(textMenu: $textMenu)
         }
         .onAppear {
-            self.region = myData.myInfo!.region
+            self.region = myData.myInfo?.region ?? "지역정보없음"
         }
     }
     
