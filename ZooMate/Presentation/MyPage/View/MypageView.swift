@@ -12,6 +12,7 @@ struct MyPageView: View {
     @ObservedObject var myData: MyData
     @State var stack = NavigationPath()
     @State private var showAlret = false
+    @State var myPetList: [PetList] = []
     let isLoggedIn: Bool
     
     var body: some View {
@@ -29,7 +30,12 @@ struct MyPageView: View {
                                                 .frame(width: 100, height: 100)
                                         }
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
+                                        .background(.white)
+                                        .overlay(
+                                            Circle()
+                                                .stroke(.sandBeige, lineWidth: 10)
+                                        )
+                                        .aspectRatio(contentMode: .fill)
                                         .frame(width: 100, height: 100)
                                         .clipShape(Circle())
                                 } else {
@@ -46,6 +52,16 @@ struct MyPageView: View {
                                     Text(myData.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
+                                        .onAppear {
+                                            PetNetwork.fetchMyPetList { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    myPetList = data
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
+                                        }
                                     
                                     Text(myData.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))

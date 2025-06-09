@@ -33,10 +33,14 @@ struct PetList: Codable {
     let petName: String
     let age: Int
     let gender: String
-    let photos: [String]
+    let breed: String
     let category: String
-    let ownerId: Int
-    let ownerProfile: String
+    let photos: [String]
+    let owner: OwnerProfile
+}
+
+struct OwnerProfile: Codable{
+    let profile: String
 }
 
 // 반려동물 디테일

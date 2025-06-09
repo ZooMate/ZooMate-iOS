@@ -59,7 +59,6 @@ class PetNetwork {
         }
     }
     
-    
     static func fetchMyPetList(completion: @escaping (Result<[PetList], Error>) -> Void) {
         let url = "\(BaseURL.url)/pet/myList"
         
