@@ -211,7 +211,7 @@ struct MyPetAddProfileView1: View {
                 VStack {
                     if petName.isEmpty || age.isEmpty {
                         Text("다음")
-                            .nextBtnStyle()
+                            .grayButtonStyle()
                     } else {
                         NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
                             Text("다음")

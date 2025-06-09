@@ -124,7 +124,7 @@ struct SignUpFirstView: View {
                             }
                         } else {
                             Text("다음")
-                                .nextBtnStyle()
+                                .grayButtonStyle()
                         }
                     }
                     .padding(.top)

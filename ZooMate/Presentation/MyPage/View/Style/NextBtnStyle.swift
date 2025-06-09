@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct NextBtnStyle: ViewModifier {
-    
+struct GrayButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, minHeight: 50)
@@ -23,7 +22,7 @@ struct NextBtnStyle: ViewModifier {
 }
 
 extension View {
-    func nextBtnStyle() -> some View {
-        self.modifier(NextBtnStyle())
+    func grayButtonStyle() -> some View {
+        self.modifier(GrayButtonStyle())
     }
 }

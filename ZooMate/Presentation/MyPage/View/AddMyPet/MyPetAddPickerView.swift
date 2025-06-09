@@ -34,7 +34,7 @@ struct MyPetAddPickerView: View {
                     VStack {
                         if selectedItems.isEmpty {
                             Text("다음")
-                                .nextBtnStyle()
+                                .grayButtonStyle()
                         } else {
                             NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
                                 Text("다음")

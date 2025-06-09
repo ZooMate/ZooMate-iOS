@@ -102,7 +102,7 @@ struct SignUpSecondView: View {
                 
                 if userName.isEmpty || userRegion.isEmpty {
                     Text("작성 완료")
-                        .nextBtnStyle()
+                        .grayButtonStyle()
                         .padding(.top)
                 } else {
                     Button {
