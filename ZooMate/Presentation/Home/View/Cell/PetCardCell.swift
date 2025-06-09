@@ -46,6 +46,7 @@ struct PetCardCell: View {
             if let image = user.profile, let url = URL(string: image) {
                 KFImage(url)
                     .resizable()
+                    .background(.white)
                     .scaledToFill()
                     .frame(width: 45, height: 45)
                     .clipShape(Circle())
