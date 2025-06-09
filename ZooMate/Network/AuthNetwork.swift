@@ -8,7 +8,51 @@
 import SwiftUI
 import Alamofire
 
-class SignNetwork {
+class AuthNetwork {
+    static func singUp(user: SignUpResponse, completion: @escaping (Result<SignUpResponse, Error>) -> Void) {
+        let url = "\(BaseURL.url)/user/signup"
+        
+        let parameters: [String: Any] = [
+            "userId": user.userId,
+            "userName": user.userName,
+            "userPassword": user.userPassword,
+            "region": user.userDesc ?? "",
+            "profile": user.profile ?? ""
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: SignUpResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let err):
+                    print(err)
+                }
+            }
+    }
+    
+    static func checkId(userId: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let url = "\(BaseURL.url)/user/checkId"
+        
+        let parameters: [String: Any] = [
+            "userId": userId
+        ]
+        
+        print(userId)
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: CheckIdResponse.self) { response in
+                switch response.result {
+                case .success(let res):
+                    completion(.success(res.isTaken))
+                case .failure(let err):
+                    print(err)
+                }
+                
+            }
+    }
+    
     static func login(userId: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
         let url = "\(BaseURL.url)/user/login"
         

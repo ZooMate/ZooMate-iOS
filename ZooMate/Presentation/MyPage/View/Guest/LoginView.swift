@@ -43,7 +43,7 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            SignNetwork.login(userId: userId, password: password) { result in
+                            AuthNetwork.login(userId: userId, password: password) { result in
                                 switch result {
                                 case .success(_):
                                     UserNetwork.fetchMyData { result in

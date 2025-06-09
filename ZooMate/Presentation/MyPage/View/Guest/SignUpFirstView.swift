@@ -13,6 +13,7 @@ struct SignUpFirstView: View {
     @State var password: String = ""
     @State var password2: String = ""
     @State var checkId: Bool = false
+    @State var user: UserResponse = UserResponse(id: 0, userId: "", userName: "", region: "", userDesc: "", profile: "")
     
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
@@ -43,6 +44,8 @@ struct SignUpFirstView: View {
                                         HStack {
                                             TextField("아이디 입력", text: $userId)
                                                 .textFieldStyle(paddingSpace: 24)
+                                                .textInputAutocapitalization(.never)
+                                                .autocorrectionDisabled(true)
                                                 .padding(.trailing, -20)
                                                 .overlay(
                                                     HStack {
@@ -53,8 +56,18 @@ struct SignUpFirstView: View {
                                                             .padding(.bottom, 8)
                                                     }
                                                 )
+                                                .onChange(of: userId) {
+                                                    checkId = false
+                                                }
                                             Button {
-                                                checkId.toggle()
+                                                AuthNetwork.checkId(userId: userId) { result in
+                                                    switch result {
+                                                    case .success(let check):
+                                                        checkId = !check
+                                                    case .failure(_ ):
+                                                        print("")
+                                                    }
+                                                }
                                             } label : {
                                                 Text("중복검사")
                                                     .foregroundStyle(Color.background)
@@ -77,9 +90,13 @@ struct SignUpFirstView: View {
                                             .foregroundStyle(.mainText)
                                         SecureField("비밀번호 입력", text: $password)
                                             .textFieldStyle(paddingSpace: 24)
+                                            .textInputAutocapitalization(.never)
+                                            .autocorrectionDisabled(true)
                                         
                                         SecureField("비밀번호 재입력", text: $password2)
                                             .textFieldStyle(paddingSpace: 24)
+                                            .textInputAutocapitalization(.never)
+                                            .autocorrectionDisabled(true)
                                     }
                                 }
                                 
