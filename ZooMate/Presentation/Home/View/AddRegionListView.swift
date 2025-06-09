@@ -12,7 +12,7 @@ struct AddRegionList: View {
     @State private var searchText: String = ""
     @State private var selectedCity: String? = nil
     @Binding var textMenu: String
-    
+
     private var filteredCities: [String] {
         if searchText.isEmpty {
             return Array(cityDistricts.keys).sorted()
@@ -20,7 +20,7 @@ struct AddRegionList: View {
             return cityDistricts.keys.filter { $0.localizedCaseInsensitiveContains(searchText) }.sorted()
         }
     }
-    
+
     private var filteredDistricts: [String] {
         guard let selectedCity = selectedCity,
               let districts = cityDistricts[selectedCity] else { return [] }
@@ -35,22 +35,9 @@ struct AddRegionList: View {
         ZStack {
             Color.background
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 HStack {
-                    Button(action: {
-                        if selectedCity != nil {
-                            selectedCity = nil
-                        } else {
-                            dismiss()
-                        }
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .foregroundColor(.category)
-                    }
-                    .padding(.trailing, 6)
-                    
                     TextField("지역 이름을 검색하세요", text: $searchText)
                         .padding(8)
                         .background(.white)
@@ -59,9 +46,41 @@ struct AddRegionList: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(.category, lineWidth: 2)
                         )
+
+                    Button(action: {
+                        if selectedCity != nil {
+                            selectedCity = nil
+                            searchText = ""
+                        } else {
+                            dismiss()
+                        }
+                    }) {
+                        Image(systemName: "xmark")
+                            .bold()
+                            .foregroundColor(.category)
+                    }
                 }
                 .padding()
-                
+
+                if let selectedCity = selectedCity {
+                    HStack {
+                        Button(action: {
+                            self.selectedCity = nil
+                            self.searchText = ""
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.category)
+                                .bold()
+                        }
+                        Text(selectedCity)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+                }
+
                 List {
                     if selectedCity == nil {
                         ForEach(filteredCities, id: \.self) { city in
@@ -71,7 +90,7 @@ struct AddRegionList: View {
                                 .listRowSeparator(.hidden)
                                 .onTapGesture {
                                     selectedCity = city
-                                    searchText = "" // 구 선택 시 검색 초기화
+                                    searchText = ""
                                 }
                         }
                     } else {

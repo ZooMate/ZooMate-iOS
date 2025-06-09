@@ -115,7 +115,3 @@ struct PetDetailView: View {
         }
     }
 }
-
-#Preview {
-    MainHomeView()
-}
