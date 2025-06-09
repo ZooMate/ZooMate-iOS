@@ -120,7 +120,7 @@ struct SignUpSecondView: View {
                         }
                     } label: {
                         Text("작성 완료")
-                            .inputButtonStyle()
+                            .pinkButtonStyle()
                     }
                     .padding(.top)
                 }

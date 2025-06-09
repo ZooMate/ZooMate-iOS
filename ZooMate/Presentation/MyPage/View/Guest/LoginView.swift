@@ -64,7 +64,7 @@ struct LoginView: View {
                         } label: {
                             Text("로그인")
                         }
-                        .inputButtonStyle()
+                        .pinkButtonStyle()
                     }
                     
                     HStack {

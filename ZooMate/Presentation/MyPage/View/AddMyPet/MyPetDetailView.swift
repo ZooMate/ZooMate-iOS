@@ -94,7 +94,7 @@ struct MyPetDetailView: View {
                     // 채팅 액션
                 } label: {
                     Text("채팅")
-                        .inputButtonStyle()
+                        .pinkButtonStyle()
                 }
             }
         }

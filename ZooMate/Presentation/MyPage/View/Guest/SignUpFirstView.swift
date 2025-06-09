@@ -120,7 +120,7 @@ struct SignUpFirstView: View {
                         if (password == password2) && checkId && !password.isEmpty{
                             NavigationLink(destination: SignUpSecondView(showSignUp: $showSignUp, user: $user)) {
                                 Text("다음")
-                                    .inputButtonStyle()
+                                    .pinkButtonStyle()
                             }
                         } else {
                             Text("다음")

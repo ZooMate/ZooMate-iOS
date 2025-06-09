@@ -215,7 +215,7 @@ struct MyPetAddProfileView1: View {
                     } else {
                         NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
                             Text("다음")
-                                .inputButtonStyle()
+                                .pinkButtonStyle()
                         }
                     }
                 }

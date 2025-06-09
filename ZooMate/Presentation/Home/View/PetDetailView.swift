@@ -92,7 +92,7 @@ struct PetDetailView: View {
                     
                 } label: {
                     Text("채팅")
-                        .inputButtonStyle()
+                        .pinkButtonStyle()
                 }
             }
         }

@@ -57,7 +57,7 @@ struct ChangePasswordView: View {
                             } label: {
                                 Text("비밀번호 변경")
                             }
-                            .inputButtonStyle()
+                            .pinkButtonStyle()
                         } else {
                             Text("비밀번호 변경")
                                 .grayButtonStyle()
