@@ -102,8 +102,7 @@ struct MyPageView: View {
                         ZStack() {
                             VStack(spacing: 28) {
                                 Button {
-                                    KeychainHelper.delete(forAccount: "token")
-                                    myData.clear()
+                                    AuthNetwork.logout(myData: myData)
                                 } label: {
                                     SettingRow(title: "로그아웃")
                                 }
@@ -114,9 +113,6 @@ struct MyPageView: View {
                                     showAlret = true
                                 } label: {
                                     SettingRow(title: "개선문의")
-                                }
-                                NavigationLink(destination: PushView()) {
-                                    SettingRow(title: "알림설정")
                                 }
                                 NavigationLink(destination: LegalView()) {
                                     SettingRow(title: "약관 및 정책")

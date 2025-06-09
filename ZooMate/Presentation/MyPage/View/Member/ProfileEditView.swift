@@ -99,8 +99,7 @@ struct ProfileEditView: View {
                                     case .success(let success):
                                         if success {
                                             stack = .init()
-                                            KeychainHelper.delete(forAccount: "token")
-                                            myData.clear()
+                                            AuthNetwork.logout(myData: myData)
                                         }
                                     case .failure(_ ):
                                         print("")
