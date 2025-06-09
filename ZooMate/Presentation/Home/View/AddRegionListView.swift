@@ -78,7 +78,7 @@ struct AddRegionList: View {
                         Spacer()
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, 8)
+                    .padding(.vertical, 16)
                 }
 
                 List {
