@@ -9,8 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct MyPetDetailView: View {
-    
-    let pet: Pet
+    let pet: PetDetail
     
     @State var isPublic: Bool = true
     @State private var selectedPhotoIndex: Int = 0
@@ -41,7 +40,7 @@ struct MyPetDetailView: View {
                             Text("\(pet.age)살")
                                 .font(.notoSansBold(size: 20))
                                 .padding(.trailing, 3)
-                            Image(pet.gender.rawValue == "male" ? "iconMale" : "iconFemale")
+                            Image(pet.gender == "male" ? "iconMale" : "iconFemale")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .padding(.bottom, -5)
@@ -72,9 +71,9 @@ struct MyPetDetailView: View {
                         .padding(.bottom, 2)
                         
                         HStack {
-                            Text(pet.breed ?? "")
+                            Text(pet.breed)
                                 .frame(width: 100, alignment: .leading)
-                            Text(pet.weight != nil ? String(format: "%.1fkg", pet.weight!) : "무게정보없음")
+                            Text(String(format: "%.1fkg", pet.weight))
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 15)
@@ -87,14 +86,6 @@ struct MyPetDetailView: View {
                             .padding(.bottom, 20)
                     }
                     .padding(.horizontal, 16)
-                }
-                
-                // ✅ 하단 고정 버튼
-                Button {
-                    // 채팅 액션
-                } label: {
-                    Text("채팅")
-                        .pinkButtonStyle()
                 }
             }
         }

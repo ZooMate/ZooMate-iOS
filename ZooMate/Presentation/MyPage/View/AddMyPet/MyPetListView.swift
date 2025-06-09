@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPetListView: View {
     @ObservedObject var myData: MyData
+    @Binding var myPetList: [PetList]
     @State private var showCategory = false
     @State private var selectedCategory: Category? = nil
     @State private var isOnDetail = false
@@ -18,7 +19,7 @@ struct MyPetListView: View {
             if myData.myInfo == nil {
                 LoginPromptView()
             } else {
-                MyPetView(isOnDetail: $isOnDetail)
+                MyPetView(isOnDetail: $isOnDetail, myPetList: $myPetList)
                 
                 Button {
                     showCategory.toggle()

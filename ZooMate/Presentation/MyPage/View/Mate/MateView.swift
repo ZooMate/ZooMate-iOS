@@ -20,20 +20,20 @@ struct MateView: View {
             Color.background
                 .ignoresSafeArea()
             
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(matedPets, id: \.id) { pet in
-                        if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
-                            NavigationLink(destination: PetDetailView(pet: pet)) {
-                                PetCardCell(pet: pet, user: owner)
-                            }
-                        }
-                    }
-                }
-                .padding(16)
-                .navigationTitle("메이트")
-                .navigationBarTitleDisplayMode(.inline)
-            }
+//            ScrollView {
+//                LazyVGrid(columns: columns, spacing: 16) {
+//                    ForEach(matedPets, id: \.id) { pet in
+//                        if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
+//                            NavigationLink(destination: PetDetailView(pet: pet)) {
+//                                PetCardCell(pet: pet, user: owner)
+//                            }
+//                        }
+//                    }
+//                }
+//                .padding(16)
+//                .navigationTitle("메이트")
+//                .navigationBarTitleDisplayMode(.inline)
+//            }
         }
     }
     

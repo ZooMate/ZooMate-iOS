@@ -19,16 +19,16 @@ struct PetCardListView: View {
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(filteredPets) { pet in
-                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
-                        NavigationLink(destination: PetDetailView(pet: pet)) {
-                            PetCardCell(pet: pet, user: owner)
-                        }
-                    }
-                }
-            }
-            .padding(16)
+//            LazyVGrid(columns: columns, spacing: 16) {
+//                ForEach(filteredPets) { pet in
+//                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
+//                        NavigationLink(destination: PetDetailView(pet: pet)) {
+//                            PetCardCell(pet: pet, user: owner)
+//                        }
+//                    }
+//                }
+//            }
+//            .padding(16)
         }
     }
     

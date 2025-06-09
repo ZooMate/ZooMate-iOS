@@ -61,7 +61,7 @@ struct PetDetail: Codable {
     let tag: [String]
     let photos: [String]
     let category: String
-    let ownerId: Int
+//    let ownerId: Int
 }
 
 // 반려동물 수정 삭제 추가 - 성공여부만 리스폰
