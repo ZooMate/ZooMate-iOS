@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct PetImageSelectedView: View {
-    @Binding var selectedItems: [(id: String, image: UIImage)]
+    @Binding var selectedItems: [SelectedImageItem]
     @State private var isPickerPresented = false
 
     private let imageSize: CGFloat = 116
