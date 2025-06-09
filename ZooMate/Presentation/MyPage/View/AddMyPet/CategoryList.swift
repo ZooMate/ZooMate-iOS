@@ -11,7 +11,7 @@ struct CategoryList: View {
     @Binding var showCategory: Bool
     @State var isModal = false
     @State var selectedImages: [UIImage] = []
-    @State var addPet: PetRequest = PetRequest(petName: "", age: 0, gender: "", isNeutering: false, isPublic: false, breed: "", weight: 0, petDesc: "", tag: [], photos: ["https://image.hanssem.com/hsimg/gds/1050/1060/1060049_B1.jpg?v=20250114075010"], category: "")
+    @State var addPet: AddPetRequest = AddPetRequest(petName: "", age: 0, gender: "", isNeutering: false, isPublic: false, breed: "", weight: 0, petDesc: "", tag: [], photos: [], category: "")
     
     var body: some View {
         ZStack {

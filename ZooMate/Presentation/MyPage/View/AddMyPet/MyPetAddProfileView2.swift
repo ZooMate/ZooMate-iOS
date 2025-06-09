@@ -13,7 +13,7 @@ struct MyPetAddProfileView2: View {
     @State var desc: String = ""
     @State var tag: [String] = []
     @Binding var isModal: Bool
-    @Binding var addPet: PetRequest
+    @Binding var addPet: AddPetRequest
     
     var body: some View {
         ZStack {

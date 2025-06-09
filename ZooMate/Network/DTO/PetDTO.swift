@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct PetRequest: Encodable {
+// 반려동물 등록
+struct AddPetRequest: Codable {
     var petName: String
     var age: Int
     var gender: String
@@ -17,52 +18,31 @@ struct PetRequest: Encodable {
     var weight: Float
     var petDesc: String
     var tag: [String]
-    var photos: [String]
+    var photos: [Data]
     var category: String
 }
 
-struct PetResponse: Codable {
+// 반려동물 리스트
+struct PetListResponse: Codable {
+    let message: String
+    let data: [PetList]
+}
+
+struct PetList: Codable {
     let id: Int
     let petName: String
     let age: Int
     let gender: String
-    let isNeutering: Bool
-    let isPublic: Bool
-    let breed: String
-    let weight: Float
-    let petDesc: String
-    let tag: [String]
     let photos: [String]
     let category: String
     let ownerId: Int
-    let owner: Owner
-    let petAttachments: [PetAttachment]
+    let ownerProfile: String
 }
 
-struct Owner: Codable {
-    let id: Int
-    let userId: String
-    let userName: String
-    let region: String
-    let userDesc: String
-    let profile: String
-}
-
-struct PetAttachment: Codable {
-    // 구조가 비어 있으므로 빈 구조체로 정의
-}
-
-struct MyPetListResponse: Codable {
+// 반려동물 디테일
+struct PetDetailResponse: Codable {
     let message: String
-    let data: [MyPetList]
-}
-
-struct MyPetList: Codable {
-    let id: Int
-    let petName: String
-    let age: Int
-    let gender: String
-    let photos: [String]
+    let data: PetDetail
 }
 
 struct PetDetail: Codable {
@@ -77,16 +57,16 @@ struct PetDetail: Codable {
     let tag: [String]
     let photos: [String]
     let category: String
-    let owner: PetDetailUser
+    let ownerId: Int
 }
 
-struct PetDetailUser: Codable {
-    let userId: String
-    let userName: String
-    let region: String
+// 반려동물 수정 삭제 추가 - 성공여부만 리스폰
+struct PetMsgResponse: Codable {
+    let mesaage: String
 }
 
-struct PetDetailResponse: Codable {
+// 반려동물 공개여부
+struct PublicPetResponse: Codable {
     let message: String
-    let data: PetDetail
+    let data: String
 }

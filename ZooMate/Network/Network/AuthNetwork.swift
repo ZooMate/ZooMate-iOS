@@ -101,7 +101,7 @@ class AuthNetwork {
         
         AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: Response.self) { respone in
+            .responseDecodable(of: PasswordResponse.self) { respone in
                 switch respone.result {
                 case .success(let result):
                     completion(.success(result.message))

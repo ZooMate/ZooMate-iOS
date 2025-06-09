@@ -12,7 +12,7 @@ struct MyPetAddProfileView1: View {
     @State var age: String = ""
     @State var gender: Gender = .male
     @Binding var isModal: Bool
-    @Binding var addPet: PetRequest
+    @Binding var addPet: AddPetRequest
     
     var body: some View {
         ZStack {
