@@ -53,6 +53,15 @@ struct ChangePasswordView: View {
                     VStack {
                         if newPassword == newPassword2 && isValidPassword(newPassword) {
                             Button {
+                                AuthNetwork.changePassword(currentPassword: currentPassword, newPassword: newPassword) { result in
+                                    switch result {
+                                    case .success(let msg):
+                                        print(msg)
+                                        dismiss()
+                                    case .failure(let err):
+                                        print(err)
+                                    }
+                                }
                                 dismiss()
                             } label: {
                                 Text("비밀번호 변경")

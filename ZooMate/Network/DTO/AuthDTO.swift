@@ -37,3 +37,7 @@ struct SignupResponse: Decodable {
 struct CheckIdResponse: Codable {
     let isTaken: Bool
 }
+
+struct Response: Decodable {
+    let message: String
+}

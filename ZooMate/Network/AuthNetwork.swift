@@ -80,8 +80,35 @@ class AuthNetwork {
     }
     
     // 비밀번호 변경
-    static func changePassword() {
+    static func changePassword(currentPassword: String, newPassword: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "\(BaseURL.url)/user/password"
         
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        let parameters: [String: Any] = [
+            "currentPassword": currentPassword,
+            "newPassword": newPassword
+        ]
+        
+        AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Response.self) { respone in
+                switch respone.result {
+                case .success(let result):
+                    completion(.success(result.message))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
     }
     
     // 로그인
