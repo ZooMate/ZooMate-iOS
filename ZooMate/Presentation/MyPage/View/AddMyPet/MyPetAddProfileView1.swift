@@ -34,7 +34,7 @@ struct MyPetAddProfileView1: View {
                     let buttonWidth = geo.size.width * 0.34
                     
                     VStack {
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("이름 *")
                                 .formLabelStyle(width: labelWidth)
                             
@@ -42,7 +42,7 @@ struct MyPetAddProfileView1: View {
                                 .sandTextFieldStyle(width: fieldWidth)
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("나이 *")
                                 .formLabelStyle(width: labelWidth)
                             
@@ -54,7 +54,7 @@ struct MyPetAddProfileView1: View {
                                 }
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("성별 *")
                                 .formLabelStyle(width: labelWidth)
                             
@@ -78,7 +78,7 @@ struct MyPetAddProfileView1: View {
                         }
                         .padding(.top, 2)
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("중성화 *")
                                 .formLabelStyle(width: labelWidth)
                             
