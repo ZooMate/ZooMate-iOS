@@ -8,7 +8,7 @@
 import Foundation
 
 class MyData: ObservableObject {
-    @Published var myInfo: UserResponse? {
+    @Published var myInfo: MyInfoData? {
         didSet {
             saveToUserDefaults()
         }
@@ -32,7 +32,7 @@ class MyData: ObservableObject {
 
     private func loadFromUserDefaults() {
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-           let decoded = try? JSONDecoder().decode(UserResponse.self, from: data) {
+           let decoded = try? JSONDecoder().decode(MyInfoData.self, from: data) {
             myInfo = decoded
         }
     }

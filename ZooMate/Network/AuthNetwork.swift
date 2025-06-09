@@ -9,27 +9,23 @@ import SwiftUI
 import Alamofire
 
 class AuthNetwork {
-    static func singUp(user: SignUpResponse, completion: @escaping (Result<SignUpResponse, Error>) -> Void) {
-        let url = "\(BaseURL.url)/user/signup"
+    static func signupUser(user: SignupRequest, completion: @escaping (Result<SignupResponse, Error>) -> Void) {
+        let url = "http://localhost:3000/user/signup"
         
-        let parameters: [String: Any] = [
-            "userId": user.userId,
-            "userName": user.userName,
-            "userPassword": user.userPassword,
-            "region": user.userDesc ?? "",
-            "profile": user.profile ?? ""
-        ]
-        
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .validate(statusCode: 200..<300)
-            .responseDecodable(of: SignUpResponse.self) { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let err):
-                    print(err)
-                }
+        AF.request(url,
+                   method: .post,
+                   parameters: user,
+                   encoder: JSONParameterEncoder.default,
+                   headers: [.contentType("application/json")]
+        ).validate(statusCode: 200..<300)
+         .responseDecodable(of: SignupResponse.self) { response in
+            switch response.result {
+            case .success(let signupResponse):
+                completion(.success(signupResponse))
+            case .failure(let error):
+                completion(.failure(error))
             }
+        }
     }
     
     static func checkId(userId: String, completion: @escaping (Result<Bool, Error>) -> Void) {

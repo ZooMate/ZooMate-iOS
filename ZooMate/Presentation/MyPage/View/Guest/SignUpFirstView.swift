@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SignUpFirstView: View {
-    @Binding var showSingUp: Bool
+    @Binding var showSignUp: Bool
     @State var userId: String = ""
     @State var password: String = ""
     @State var password2: String = ""
     @State var checkId: Bool = false
-    @State var user: UserResponse = UserResponse(id: 0, userId: "", userName: "", region: "", userDesc: "", profile: "")
+    @State var user: SignupRequest = SignupRequest(userId: "", userName: "", userPassword: "", region: "", userDesc: "", profile: "")
     
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
@@ -58,6 +58,7 @@ struct SignUpFirstView: View {
                                                 )
                                                 .onChange(of: userId) {
                                                     checkId = false
+                                                    user.userId = userId // 이게 맞음
                                                 }
                                             Button {
                                                 AuthNetwork.checkId(userId: userId) { result in
@@ -97,6 +98,9 @@ struct SignUpFirstView: View {
                                             .textFieldStyle(paddingSpace: 24)
                                             .textInputAutocapitalization(.never)
                                             .autocorrectionDisabled(true)
+                                            .onChange(of: password) {
+                                                user.userPassword = password
+                                            }
                                     }
                                 }
                                 
@@ -114,7 +118,7 @@ struct SignUpFirstView: View {
                     
                     VStack {
                         if (password == password2) && checkId && !password.isEmpty{
-                            NavigationLink(destination: SignUpSecondView(showSingUp: $showSingUp)) {
+                            NavigationLink(destination: SignUpSecondView(showSignUp: $showSignUp, user: $user)) {
                                 Text("다음")
                                     .inputButtonStyle()
                             }
@@ -132,7 +136,7 @@ struct SignUpFirstView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        showSingUp = false
+                        showSignUp = false
                     } label: {
                         Image(systemName: "chevron.backward")
                             .foregroundStyle(.mainText)

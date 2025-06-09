@@ -83,7 +83,7 @@ struct LoginView: View {
             }
         }
         .fullScreenCover(isPresented: $showSignUp) {
-            SignUpFirstView(showSingUp: $showSignUp)
+            SignUpFirstView(showSignUp: $showSignUp)
         }
     }
 }

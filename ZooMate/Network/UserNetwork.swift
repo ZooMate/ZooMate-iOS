@@ -9,7 +9,7 @@ import SwiftUI
 import Alamofire
 
 class UserNetwork {
-    static func fetchMyData(completion: @escaping (Result<UserResponse, Error>) -> Void) {
+    static func fetchMyData(completion: @escaping (Result<MyInfoData, Error>) -> Void) {
         let url = "\(BaseURL.url)/user/me"
 
         guard let token = KeychainHelper.read(forAccount: "token") else {
@@ -25,11 +25,11 @@ class UserNetwork {
 
         AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: UserResponse.self) { response in
+            .responseDecodable(of: MyInfoDataResponse.self) { response in
                 switch response.result {
                 case .success(let userData):
-                    print("✅ 사용자 정보 조회 성공: \(userData)")
-                    completion(.success(userData))
+                    print("✅ 사용자 정보 조회 성공: \(userData.data)")
+                    completion(.success(userData.data))
                 case .failure(let error):
                     print("❌ 사용자 정보 가져오기 실패: \(error.localizedDescription)")
                     completion(.failure(error))
@@ -37,7 +37,7 @@ class UserNetwork {
             }
     }
 
-    static func updateUserInfo(user: UserResponse, completion: @escaping (Result<UserEditResponse, Error>) -> Void) {
+    static func updateUserInfo(user: MyInfoData, completion: @escaping (Result<MyInfoDataResponse, Error>) -> Void) {
         let url = "\(BaseURL.url)/user/me"
         
         guard let token = KeychainHelper.read(forAccount: "token") else {
@@ -60,7 +60,7 @@ class UserNetwork {
         
         AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: UserEditResponse.self) { response in
+            .responseDecodable(of: MyInfoDataResponse.self) { response in
                 switch response.result {
                 case .success(let data):
                     print("✅ 프로필 업데이트 성공: \(data)")

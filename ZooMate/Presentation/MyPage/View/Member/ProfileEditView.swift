@@ -133,7 +133,7 @@ struct ProfileEditView: View {
                 VStack {
                     Button {
                         dismiss()
-                        let updatedUser = UserResponse(
+                        let updatedUser = MyInfoData(
                             id: user?.id ?? 0,
                             userId: user?.userId ?? "",
                             userName: userName,
