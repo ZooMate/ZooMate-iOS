@@ -79,10 +79,10 @@ struct MyPageView: View {
                     
                     ZStack {
                         HStack(spacing: 16) {
-                            NavigationLink(destination: MyPetListView()) {
+                            NavigationLink(destination: MyPetListView(myData: myData)) {
                                 FeatureButton(title: "내 반려동물", systemImage: "pawprint")
                             }
-                            NavigationLink(destination: MateListView()) {
+                            NavigationLink(destination: MateListView(myData: myData)) {
                                 FeatureButton(title: "메이트", systemImage: "heart")
                             }
                         }

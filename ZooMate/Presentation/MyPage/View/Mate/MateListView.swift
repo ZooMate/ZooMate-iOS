@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct MateListView: View {
+    @ObservedObject var myData: MyData
     
     var body: some View {
-        MateView(data: DummyData1())
-            .toolbar(.hidden, for: .tabBar)
+        if myData.myInfo == nil {
+            LoginPromptView()
+        } else {
+            MateView(data: DummyData1())
+                .toolbar(.hidden, for: .tabBar)
+        }
     }
-}
-
-#Preview {
-    MateListView()
 }

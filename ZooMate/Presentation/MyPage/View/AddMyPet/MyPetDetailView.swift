@@ -115,7 +115,3 @@ struct MyPetDetailView: View {
         }
     }
 }
-
-#Preview {
-    MyPetListView()
-}
