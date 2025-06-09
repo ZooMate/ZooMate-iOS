@@ -51,3 +51,16 @@ struct Owner: Codable {
 struct PetAttachment: Codable {
     // 구조가 비어 있으므로 빈 구조체로 정의
 }
+
+struct MyPetListResponse: Codable {
+    let message: String
+    let data: [MyPetList]
+}
+
+struct MyPetList: Codable {
+    let id: Int
+    let petName: String
+    let age: Int
+    let gender: String
+    let photos: [String]
+}
