@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct SignUpSecondView: View {
-    @Binding var showSingUp: Bool
+    @Binding var showSignUp: Bool
+    @Binding var user: SignupRequest
     @State var showRegionSheet = false
     @State var userName: String = ""
     @State var userRegion: String = ""
-    @State var desc: String = ""
+    @State var userDesc: String = ""
     
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
@@ -40,8 +41,14 @@ struct SignUpSecondView: View {
                                     .foregroundStyle(.mainText)
                                 TextField("닉네임 입력", text: $userName)
                                     .textFieldStyle(paddingSpace: 24)
+                                    .onChange(of: userName) {
+                                        user.userName = userName
+                                    }
                             }
                             .padding(.top, 50)
+                            .onChange(of: userName) {
+                                print(user.userId)
+                            }
                             
                             VStack(alignment: .leading) {
                                 Text("지역*")
@@ -81,7 +88,7 @@ struct SignUpSecondView: View {
                                     .padding(.horizontal, 30)
                                     .font(.notoSansRegular(size: 16))
                                     .foregroundStyle(.mainText)
-                                TextField("간단하게 나를 소개해보세요", text: $desc)
+                                TextField("간단하게 나를 소개해보세요", text: $userDesc)
                                     .textFieldStyle(paddingSpace: 24)
                             }
                         }
@@ -95,14 +102,25 @@ struct SignUpSecondView: View {
                 
                 if userName.isEmpty || userRegion.isEmpty {
                     Text("작성 완료")
-                        .nextBtnStyle()
+                        .grayButtonStyle()
                         .padding(.top)
                 } else {
                     Button {
-                        showSingUp = false
+                        user.region = userRegion
+                        user.userDesc = userDesc
+                        print(user)
+                        AuthNetwork.signupUser(user: user) { result in
+                            switch result {
+                            case .success(let response):
+                                print("회원가입 성공: \(response)")
+                                showSignUp = false
+                            case .failure(let error):
+                                print("회원가입 실패: \(error.localizedDescription)")
+                            }
+                        }
                     } label: {
                         Text("작성 완료")
-                            .inputButtonStyle()
+                            .pinkButtonStyle()
                     }
                     .padding(.top)
                 }

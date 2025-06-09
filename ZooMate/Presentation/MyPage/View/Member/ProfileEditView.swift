@@ -94,24 +94,25 @@ struct ProfileEditView: View {
                         
                         HStack(spacing: 10) {
                             Button {
-                                SignNetwork.logout()
-                                stack = .init()
-                            } label: {
-                                Text("로그아웃")
-                                    .font(.notoSansRegular(size: 12))
-                                    .foregroundStyle(.subText)
-                            }
-                            
-                            Button {
-                                stack = .init()
+                                AuthNetwork.deleteUser { result in
+                                    switch result {
+                                    case .success(let success):
+                                        if success {
+                                            stack = .init()
+                                            AuthNetwork.logout(myData: myData)
+                                        }
+                                    case .failure(_ ):
+                                        print("")
+                                    }
+                                }
                             } label: {
                                 Text("회원탈퇴")
                                     .font(.notoSansRegular(size: 12))
                                     .foregroundStyle(.subText)
                             }
                             
-                            Button {
-                                stack = .init()
+                            NavigationLink {
+                                ChangePasswordView(myData: myData)
                             } label: {
                                 Text("비밀번호변경")
                                     .font(.notoSansRegular(size: 12))
@@ -133,7 +134,7 @@ struct ProfileEditView: View {
                 VStack {
                     Button {
                         dismiss()
-                        let updatedUser = UserResponse(
+                        let updatedUser = MyInfoData(
                             id: user?.id ?? 0,
                             userId: user?.userId ?? "",
                             userName: userName,
@@ -141,7 +142,7 @@ struct ProfileEditView: View {
                             userDesc: userDesc,
                             profile: user?.profile ?? ""
                         )
-
+                        
                         UserNetwork.updateUserInfo(user: updatedUser) { result in
                             switch result {
                             case .success(_):
@@ -154,7 +155,7 @@ struct ProfileEditView: View {
                     } label: {
                         Text("작성 완료")
                     }
-                    .inputButtonStyle()
+                    .pinkButtonStyle()
                     .padding(.top)
                 }
             }

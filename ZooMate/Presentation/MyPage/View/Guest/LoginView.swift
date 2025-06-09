@@ -43,7 +43,7 @@ struct LoginView: View {
                     
                     VStack {
                         Button {
-                            SignNetwork.login(userId: userId, password: password) { result in
+                            AuthNetwork.login(userId: userId, password: password) { result in
                                 switch result {
                                 case .success(_):
                                     UserNetwork.fetchMyData { result in
@@ -64,7 +64,7 @@ struct LoginView: View {
                         } label: {
                             Text("로그인")
                         }
-                        .inputButtonStyle()
+                        .pinkButtonStyle()
                     }
                     
                     HStack {
@@ -83,7 +83,7 @@ struct LoginView: View {
             }
         }
         .fullScreenCover(isPresented: $showSignUp) {
-            SignUpFirstView(showSingUp: $showSignUp)
+            SignUpFirstView(showSignUp: $showSignUp)
         }
     }
 }

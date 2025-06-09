@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MainHomeView: View {
+    @ObservedObject var myData: MyData
     @State var textMenu: String = "전체지역"
-    @State var region: String = "서초구"
+    @State var region: String = ""
     @State private var selectedCategories: Set<String> = []
     @State private var showRegionSheet = false
     
@@ -40,7 +41,8 @@ struct MainHomeView: View {
                             }
                             
                             Button {
-                                self.textMenu = region
+                                let districtOnly = extractDistrict(from: region)
+                                self.textMenu = districtOnly
                             } label: {
                                 Label {
                                     Text(region)
@@ -90,10 +92,13 @@ struct MainHomeView: View {
         .fullScreenCover(isPresented: $showRegionSheet) {
             AddRegionList(textMenu: $textMenu)
         }
+        .onAppear {
+            self.region = myData.myInfo?.region ?? "지역정보없음"
+        }
     }
-}
-
-
-#Preview {
-    MainHomeView()
+    
+    func extractDistrict(from fullRegion: String) -> String {
+        let components = fullRegion.split(separator: " ")
+        return components.last.map(String.init) ?? ""
+    }
 }

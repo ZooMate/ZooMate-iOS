@@ -92,7 +92,7 @@ struct PetDetailView: View {
                     
                 } label: {
                     Text("채팅")
-                        .inputButtonStyle()
+                        .pinkButtonStyle()
                 }
             }
         }
@@ -114,8 +114,4 @@ struct PetDetailView: View {
             }
         }
     }
-}
-
-#Preview {
-    MainHomeView()
 }

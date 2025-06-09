@@ -10,42 +10,34 @@ import SwiftUI
 struct AddRegionList: View {
     @Environment(\.dismiss) var dismiss
     @State private var searchText: String = ""
+    @State private var selectedCity: String? = nil
     @Binding var textMenu: String
-    
-    private let regions: [String] = [
-        "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
-        "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구",
-        "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구",
-        "가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시",
-        "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시",
-        "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시",
-        "평택시", "포천시", "하남시", "화성시"
-    ]
-    
-    private var filteredRegions: [String] {
+
+    private var filteredCities: [String] {
         if searchText.isEmpty {
-            return regions
+            return Array(cityDistricts.keys).sorted()
         } else {
-            return regions.filter { $0.localizedCaseInsensitiveContains(searchText) }
+            return cityDistricts.keys.filter { $0.localizedCaseInsensitiveContains(searchText) }.sorted()
         }
     }
-    
+
+    private var filteredDistricts: [String] {
+        guard let selectedCity = selectedCity,
+              let districts = cityDistricts[selectedCity] else { return [] }
+        if searchText.isEmpty {
+            return districts
+        } else {
+            return districts.filter { $0.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+
     var body: some View {
         ZStack {
             Color.background
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 HStack {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .bold()
-                            .foregroundColor(.category)
-                    }
-                    .padding(.trailing, 6)
-                    
                     TextField("지역 이름을 검색하세요", text: $searchText)
                         .padding(8)
                         .background(.white)
@@ -54,19 +46,66 @@ struct AddRegionList: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(.category, lineWidth: 2)
                         )
+
+                    Button(action: {
+                        if selectedCity != nil {
+                            selectedCity = nil
+                            searchText = ""
+                        } else {
+                            dismiss()
+                        }
+                    }) {
+                        Image(systemName: "xmark")
+                            .bold()
+                            .foregroundColor(.category)
+                    }
                 }
                 .padding()
-                
+
+                if let selectedCity = selectedCity {
+                    HStack {
+                        Button(action: {
+                            self.selectedCity = nil
+                            self.searchText = ""
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.category)
+                                .bold()
+                        }
+                        Text(selectedCity)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 16)
+                }
+
                 List {
-                    ForEach(filteredRegions, id: \.self) { region in
-                        Text(region)
-                            .padding(.vertical, 8)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .onTapGesture {
-                                textMenu = region
-                                dismiss()
-                            }
+                    if selectedCity == nil {
+                        ForEach(filteredCities, id: \.self) { city in
+                            Text(city)
+                                .padding(.vertical, 8)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .onTapGesture {
+                                    selectedCity = city
+                                    searchText = ""
+                                }
+                        }
+                    } else {
+                        ForEach(filteredDistricts, id: \.self) { district in
+                            Text(district)
+                                .padding(.vertical, 8)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .onTapGesture {
+                                    if let city = selectedCity {
+                                        textMenu = "\(city) \(district)"
+                                        dismiss()
+                                    }
+                                }
+                        }
                     }
                 }
                 .listStyle(.plain)
@@ -78,5 +117,5 @@ struct AddRegionList: View {
 }
 
 #Preview {
-    MainHomeView()
+    AddRegionList(textMenu: .constant(""))
 }

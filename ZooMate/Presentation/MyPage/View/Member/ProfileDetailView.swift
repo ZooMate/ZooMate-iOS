@@ -86,8 +86,8 @@ struct ProfileDetailView: View {
     }
     
     private var petListSection: some View {
-        let user = data.dummyUsers.first(where: { $0.id == MyData().myInfo?.id })!
-        let myPets = data.dummyPets.filter { $0.ownerId == MyData().myInfo?.id }
+        let user = data.dummyUsers.first(where: { $0.id == 1 })!
+        let myPets = data.dummyPets.filter { $0.ownerId == 1 }
         
         return VStack(alignment: .leading) {
             Text("\(user.userName)님의 반려동물")

@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct InputBtnStyle: ViewModifier {
-    
+struct PinkButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, minHeight: 50)
@@ -23,7 +22,7 @@ struct InputBtnStyle: ViewModifier {
 }
 
 extension View {
-    func inputButtonStyle() -> some View {
-        self.modifier(InputBtnStyle())
+    func pinkButtonStyle() -> some View {
+        self.modifier(PinkButtonStyle())
     }
 }

@@ -125,13 +125,13 @@ struct MyPetAddProfileView2: View {
                 VStack {
                     if desc.isEmpty || tag.isEmpty {
                         Text("확인")
-                            .nextBtnStyle()
+                            .grayButtonStyle()
                     } else {
                         Button {
                             isModal = false
                         } label: {
                             Text("확인")
-                                .inputButtonStyle()
+                                .pinkButtonStyle()
                         }
                     }
                 }

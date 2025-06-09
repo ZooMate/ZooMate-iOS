@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct SignUpFirstView: View {
-    @Binding var showSingUp: Bool
+    @Binding var showSignUp: Bool
     @State var userId: String = ""
     @State var password: String = ""
     @State var password2: String = ""
     @State var checkId: Bool = false
+    @State var user: SignupRequest = SignupRequest(userId: "", userName: "", userPassword: "", region: "", userDesc: "", profile: "")
     
     @State private var selectedImage: UIImage?
     @Environment(\.dismiss) private var dismiss
@@ -43,6 +44,8 @@ struct SignUpFirstView: View {
                                         HStack {
                                             TextField("아이디 입력", text: $userId)
                                                 .textFieldStyle(paddingSpace: 24)
+                                                .textInputAutocapitalization(.never)
+                                                .autocorrectionDisabled(true)
                                                 .padding(.trailing, -20)
                                                 .overlay(
                                                     HStack {
@@ -53,8 +56,19 @@ struct SignUpFirstView: View {
                                                             .padding(.bottom, 8)
                                                     }
                                                 )
+                                                .onChange(of: userId) {
+                                                    checkId = false
+                                                    user.userId = userId // 이게 맞음
+                                                }
                                             Button {
-                                                checkId.toggle()
+                                                AuthNetwork.checkId(userId: userId) { result in
+                                                    switch result {
+                                                    case .success(let check):
+                                                        checkId = !check
+                                                    case .failure(_ ):
+                                                        print("")
+                                                    }
+                                                }
                                             } label : {
                                                 Text("중복검사")
                                                     .foregroundStyle(Color.background)
@@ -77,9 +91,21 @@ struct SignUpFirstView: View {
                                             .foregroundStyle(.mainText)
                                         SecureField("비밀번호 입력", text: $password)
                                             .textFieldStyle(paddingSpace: 24)
+                                            .textInputAutocapitalization(.never)
+                                            .autocorrectionDisabled(true)
                                         
                                         SecureField("비밀번호 재입력", text: $password2)
                                             .textFieldStyle(paddingSpace: 24)
+                                            .textInputAutocapitalization(.never)
+                                            .autocorrectionDisabled(true)
+                                            .onChange(of: password) {
+                                                user.userPassword = password
+                                            }
+                                        
+                                        Text("영문 대·소문자, 숫자, 특수기호를 모두 포함한 6자 이상 30자 이하의 비밀번호를 입력해주세요.")
+                                            .padding(.horizontal, 30)
+                                            .font(.notoSansMedium(size: 12))
+                                            .foregroundStyle(.subText)
                                     }
                                 }
                                 
@@ -96,14 +122,14 @@ struct SignUpFirstView: View {
                     .padding(.top)
                     
                     VStack {
-                        if (password == password2) && checkId && !password.isEmpty{
-                            NavigationLink(destination: SignUpSecondView(showSingUp: $showSingUp)) {
+                        if (password == password2) && checkId && isValidPassword(password2){
+                            NavigationLink(destination: SignUpSecondView(showSignUp: $showSignUp, user: $user)) {
                                 Text("다음")
-                                    .inputButtonStyle()
+                                    .pinkButtonStyle()
                             }
                         } else {
                             Text("다음")
-                                .nextBtnStyle()
+                                .grayButtonStyle()
                         }
                     }
                     .padding(.top)
@@ -115,7 +141,7 @@ struct SignUpFirstView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        showSingUp = false
+                        showSignUp = false
                     } label: {
                         Image(systemName: "chevron.backward")
                             .foregroundStyle(.mainText)
@@ -124,5 +150,10 @@ struct SignUpFirstView: View {
                 }
             }
         }
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+        let passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{6,30}$"
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
     }
 }
