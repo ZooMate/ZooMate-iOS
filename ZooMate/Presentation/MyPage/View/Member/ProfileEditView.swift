@@ -112,8 +112,8 @@ struct ProfileEditView: View {
                                     .foregroundStyle(.subText)
                             }
                             
-                            Button {
-                                stack = .init()
+                            NavigationLink {
+                                ChangePasswordView(myData: myData)
                             } label: {
                                 Text("비밀번호변경")
                                     .font(.notoSansRegular(size: 12))
@@ -143,7 +143,7 @@ struct ProfileEditView: View {
                             userDesc: userDesc,
                             profile: user?.profile ?? ""
                         )
-
+                        
                         UserNetwork.updateUserInfo(user: updatedUser) { result in
                             switch result {
                             case .success(_):
