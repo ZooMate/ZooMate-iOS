@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MyPetAddPickerView: View {
     @Environment(\.dismiss) var dismiss
-    var category: Category
     @Binding var isModal: Bool
+    @Binding var addPet: PetRequest
     @State private var selectedItems: [(id: String, image: UIImage)] = []
     
     var body: some View {
@@ -36,7 +36,7 @@ struct MyPetAddPickerView: View {
                             Text("다음")
                                 .grayButtonStyle()
                         } else {
-                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal)) {
+                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal, addPet: $addPet)) {
                                 Text("다음")
                                     .pinkButtonStyle()
                             }

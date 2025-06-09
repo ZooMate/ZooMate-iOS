@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct CategoryList: View {
-    
     @Binding var showCategory: Bool
     @State var isModal = false
-    @State var selectCategory = Category.bird
     @State var selectedImages: [UIImage] = []
+    @State var addPet: PetRequest = PetRequest(petName: "", age: 0, gender: "", isNeutering: false, isPublic: false, breed: "", weight: 0, petDesc: "", tag: [], photos: ["https://image.hanssem.com/hsimg/gds/1050/1060/1060049_B1.jpg?v=20250114075010"], category: "")
     
     var body: some View {
         ZStack {
@@ -28,9 +27,9 @@ struct CategoryList: View {
                 ForEach([Category.bird, .reptile, .cat, .dog], id: \.self) { category in
                     Button {
                         isModal = true
-                        selectCategory = category
+                        addPet.category = category.rawValue
                     } label: {
-                        Text(category.rawValue)
+                        Text(category.displayName)
                             .font(.notoSansMedium(size: 18))
                             .frame(maxWidth: .infinity)
                     }
@@ -48,7 +47,7 @@ struct CategoryList: View {
         }
         .fullScreenCover(isPresented: $isModal) {
             MyPetAddPickerView(
-                category: selectCategory, isModal: $showCategory
+                isModal: $showCategory, addPet: $addPet
             )
         }
     }

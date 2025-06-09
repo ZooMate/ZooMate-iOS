@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MyPetAddProfileView2: View {
-    
-    @State var breed: String? = nil
-    @State var weight: String? = nil
+    @State var breed: String = ""
+    @State var weight: String = ""
     @State var desc: String = ""
     @State var tag: [String] = []
     @Binding var isModal: Bool
+    @Binding var addPet: PetRequest
     
     var body: some View {
         ZStack {
@@ -36,32 +36,30 @@ struct MyPetAddProfileView2: View {
                             Text("품종")
                                 .formLabelStyle(width: labelWidth)
                             
-                            TextField("슈나우저", text: Binding(
-                                get: { breed ?? "" },
-                                set: { breed = $0 }
-                            ))
-                            .sandTextFieldStyle(width: fieldWidth)
+                            TextField("슈나우저", text: $breed)
+                                .sandTextFieldStyle(width: fieldWidth)
+                                .onChange(of: breed) {
+                                    addPet.breed = breed
+                                }
                         }
                         
                         HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("무게")
                                 .formLabelStyle(width: labelWidth)
                             
-                            ZStack(alignment: .bottomTrailing){
-                                TextField("3.5", text: Binding(
-                                    get: { weight ?? "" },
-                                    set: { weight = $0 }
-                                ))
-                                .keyboardType(.decimalPad)
-                                .onChange(of: weight) {
-                                    var filtered = weight?.filter { "0123456789.".contains($0) } ?? ""
-                                    let components = filtered.split(separator: ".")
-                                    if components.count > 1 {
-                                        filtered = components[0] + "." + components[1...].joined()
+                            ZStack(alignment: .bottomTrailing) {
+                                TextField("3.5", text: $weight)
+                                    .keyboardType(.decimalPad)
+                                    .onChange(of: weight) {
+                                        var filtered = weight.filter { "0123456789.".contains($0) }
+                                        let components = filtered.split(separator: ".")
+                                        if components.count > 1 {
+                                            filtered = components[0] + "." + components[1...].joined()
+                                        }
+                                        weight = filtered
+                                        addPet.weight = Float(filtered) ?? 0.0
                                     }
-                                    weight = filtered
-                                }
-                                .sandTextFieldStyle(width: fieldWidth)
+                                    .sandTextFieldStyle(width: fieldWidth)
                                 
                                 Text("kg")
                                     .font(.notoSansMedium(size: 17))
@@ -76,16 +74,19 @@ struct MyPetAddProfileView2: View {
                                 .formLabelStyle(width: labelWidth)
                                 .padding(.top, 10)
                             
-                            TextEditor(text: Binding(
-                                get: { desc },
-                                set: { desc = $0 }
-                            ))
+                            TextEditor(text: $desc)
                             .frame(height: 100)
                             .sandTextFieldStyle(width: fieldWidth)
+                            .onChange(of: desc) {
+                                addPet.petDesc = desc
+                            }
                         }
                         
                         TagSelectionView(selectedTags: $tag)
                             .padding(.horizontal, -8)
+                            .onChange(of: tag) {
+                                addPet.tag = tag
+                            }
                     }
                     .padding(.top, 35)
                     .frame(width: geo.size.width)
@@ -97,6 +98,15 @@ struct MyPetAddProfileView2: View {
                     } else {
                         Button {
                             isModal = false
+                            print(addPet)
+                            PetNetwork.createPet(pet: addPet) { result in
+                                switch result {
+                                case .success(let data):
+                                    print("성공: \(data)")
+                                case .failure(let err):
+                                    print("실패 \(err.localizedDescription)")
+                                }
+                            }
                         } label: {
                             Text("확인")
                                 .pinkButtonStyle()

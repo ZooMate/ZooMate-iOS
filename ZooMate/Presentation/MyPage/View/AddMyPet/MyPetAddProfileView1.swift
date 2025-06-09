@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct MyPetAddProfileView1: View {
-    
     @State var petName: String = ""
     @State var age: String = ""
     @State var gender: Gender = .male
-    @State var isNeutering: Bool = false
-    @State var isPublic: Bool = true
     @Binding var isModal: Bool
+    @Binding var addPet: PetRequest
     
     var body: some View {
         ZStack {
@@ -40,6 +38,9 @@ struct MyPetAddProfileView1: View {
                             
                             TextField("반려동물의 이름", text: $petName)
                                 .sandTextFieldStyle(width: fieldWidth)
+                                .onChange(of: petName) {
+                                    addPet.petName = petName
+                                }
                         }
                         
                         HStack(alignment: .firstTextBaseline, spacing: 12) {
@@ -51,6 +52,7 @@ struct MyPetAddProfileView1: View {
                                 .keyboardType(.numberPad)
                                 .onChange(of: age) {
                                     age = age.filter{ $0.isNumber }
+                                    addPet.age = Int(age) ?? 0
                                 }
                         }
                         
@@ -60,20 +62,20 @@ struct MyPetAddProfileView1: View {
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    gender = .female
+                                    addPet.gender = "female"
                                 } label: {
                                     Text("여자")
                                         .padding(15)
                                 }
-                                .sandButtonStyle(isSelected: gender == .female, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.gender == "female", width: buttonWidth)
                                 
                                 Button {
-                                    gender = .male
+                                    addPet.gender = "male"
                                 } label: {
                                     Text("남자")
                                         .padding(15)
                                 }
-                                .sandButtonStyle(isSelected: gender == .male, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.gender == "male", width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
@@ -84,20 +86,20 @@ struct MyPetAddProfileView1: View {
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    isNeutering = true
+                                    addPet.isNeutering = true
                                 } label: {
                                     Text("O")
                                         .padding(15)
                                 }
-                                .sandButtonStyle(isSelected: isNeutering == true, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.isNeutering == true, width: buttonWidth)
                                 
                                 Button {
-                                    isNeutering = false
+                                    addPet.isNeutering = false
                                 } label: {
                                     Text("X")
                                         .padding(15)
                                 }
-                                .sandButtonStyle(isSelected: isNeutering == false, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.isNeutering == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
@@ -109,20 +111,20 @@ struct MyPetAddProfileView1: View {
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    isPublic = true
+                                    addPet.isPublic = true
                                 } label: {
                                     Text("공개")
                                         .padding()
                                 }
-                                .sandButtonStyle(isSelected: isPublic == true, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.isPublic == true, width: buttonWidth)
                                 
                                 Button {
-                                    isPublic = false
+                                    addPet.isPublic = false
                                 } label: {
                                     Text("비공개")
                                         .padding(15)
                                 }
-                                .sandButtonStyle(isSelected: isPublic == false, width: buttonWidth)
+                                .sandButtonStyle(isSelected: addPet.isPublic == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
@@ -139,7 +141,7 @@ struct MyPetAddProfileView1: View {
                         Text("다음")
                             .grayButtonStyle()
                     } else {
-                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
+                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal, addPet: $addPet)) {
                             Text("다음")
                                 .pinkButtonStyle()
                         }
