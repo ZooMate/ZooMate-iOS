@@ -29,56 +29,34 @@ struct MyPetAddProfileView1: View {
                     .foregroundStyle(.mainText)
                     .padding(.horizontal)
                 GeometryReader { geo in
+                    let labelWidth = geo.size.width * 0.2
+                    let fieldWidth = geo.size.width * 0.6
+                    let buttonWidth = geo.size.width * 0.34
+                    
                     VStack {
                         HStack(spacing: 12) {
                             Text("이름 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             TextField("반려동물의 이름", text: $petName)
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandTextFieldStyle(width: fieldWidth)
                         }
                         
                         HStack(spacing: 12) {
                             Text("나이 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             TextField("반려동물의 나이", text: $age)
+                                .sandTextFieldStyle(width: fieldWidth)
                                 .keyboardType(.numberPad)
                                 .onChange(of: age) {
                                     age = age.filter{ $0.isNumber }
-                                }
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
                                 }
                         }
                         
                         HStack(spacing: 12) {
                             Text("성별 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             HStack(spacing: 8) {
                                 Button {
@@ -87,15 +65,7 @@ struct MyPetAddProfileView1: View {
                                     Text("여자")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(gender == .female ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: gender == .female, width: buttonWidth)
                                 
                                 Button {
                                     gender = .male
@@ -103,24 +73,14 @@ struct MyPetAddProfileView1: View {
                                     Text("남자")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(gender == .male ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: gender == .male, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
                         
                         HStack(spacing: 12) {
                             Text("중성화 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             HStack(spacing: 8) {
                                 Button {
@@ -129,15 +89,7 @@ struct MyPetAddProfileView1: View {
                                     Text("O")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isNeutering == true ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: isNeutering == true, width: buttonWidth)
                                 
                                 Button {
                                     isNeutering = false
@@ -145,25 +97,15 @@ struct MyPetAddProfileView1: View {
                                     Text("X")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isNeutering == false ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: isNeutering == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
                         
                         HStack(spacing: 12) {
                             Text("프로필 *\n공개여부")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .fixedSize(horizontal: false, vertical: true) // 여러 줄도 보이게끔
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
+                                .fixedSize(horizontal: false, vertical: true)
                             
                             HStack(spacing: 8) {
                                 Button {
@@ -172,15 +114,7 @@ struct MyPetAddProfileView1: View {
                                     Text("공개")
                                         .padding()
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isPublic == true ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: isPublic == true, width: buttonWidth)
                                 
                                 Button {
                                     isPublic = false
@@ -188,15 +122,7 @@ struct MyPetAddProfileView1: View {
                                     Text("비공개")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isPublic == false ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: isPublic == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)

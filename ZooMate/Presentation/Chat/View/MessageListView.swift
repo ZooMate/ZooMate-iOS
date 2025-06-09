@@ -37,6 +37,8 @@ struct MessageListView: View {
                 
                 HStack {
                     TextField("메시지 보내기", text: $msg)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
                         .font(.notoSansRegular(size: 15))
                         .padding(10)
                         .padding(.horizontal, 5)
