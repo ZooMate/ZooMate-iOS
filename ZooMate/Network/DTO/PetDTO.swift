@@ -64,3 +64,29 @@ struct MyPetList: Codable {
     let gender: String
     let photos: [String]
 }
+
+struct PetDetail: Codable {
+    let petName: String
+    let age: Int
+    let gender: String
+    let isNeutering: Bool
+    let isPublic: Bool
+    let breed: String
+    let weight: Float
+    let petDesc: String
+    let tag: [String]
+    let photos: [String]
+    let category: String
+    let owner: PetDetailUser
+}
+
+struct PetDetailUser: Codable {
+    let userId: String
+    let userName: String
+    let region: String
+}
+
+struct PetDetailResponse: Codable {
+    let message: String
+    let data: PetDetail
+}
