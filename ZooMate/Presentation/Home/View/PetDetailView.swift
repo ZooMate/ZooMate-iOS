@@ -88,6 +88,27 @@ struct PetDetailView: View {
                                         }
                                 } else {
                                     Button {
+                                        if !isFavorite {
+                                            MateNetwork.createMate(petId: pet.id) { result in
+                                                switch result {
+                                                case .success(let msg):
+                                                    isFavorite = true
+                                                    print(msg)
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
+                                        } else {
+                                            MateNetwork.deleteMate(petId: pet.id) { result in
+                                                switch result {
+                                                case .success(let msg):
+                                                    isFavorite = false
+                                                    print(msg)
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
+                                        }
                                         isFavorite.toggle()
                                     } label: {
                                         Image(systemName: isFavorite ? "heart.fill" : "heart")

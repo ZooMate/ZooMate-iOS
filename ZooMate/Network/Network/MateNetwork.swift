@@ -61,7 +61,7 @@ class MateNetwork {
             }
     }
     
-    static func createMate(petId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+    static func createMate(petId: Int, completion: @escaping (Result<String, Error>) -> Void) {
         let url = "\(BaseURL.url)/mate"
         
         guard let token = KeychainHelper.read(forAccount: "token") else {
@@ -75,22 +75,49 @@ class MateNetwork {
             "accept": "*/*"
         ]
         
-//        let parameters: [String: Any] = [
-//            "userName": user.userName,
-//            "region": user.region,  // ✅ 수정됨
-//            "userDesc": user.userDesc ?? "",
-//            "profile": user.profile ?? ""
-//        ]
-//        
-//        AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
-//            .validate(statusCode: 200..<300)
-//            .responseDecodable(of: MatePetStatus.self) { response in
-//                switch response.result {
-//                case .success(let data):
-//                    completion(.success(data.liked))
-//                case .failure(let err):
-//                    completion(.failure(err))
-//                }
-//            }
+        let parameters: [String: Any] = [
+            "petId": petId
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: MateResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.message))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+    
+    static func deleteMate(petId: Int, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "\(BaseURL.url)/mate"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        let parameters: [String: Any] = [
+            "petId": petId
+        ]
+        
+        AF.request(url, method: .delete, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: MateResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.message))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
     }
 }
