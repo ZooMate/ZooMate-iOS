@@ -41,7 +41,7 @@ enum Category: String, Codable, CaseIterable {
         switch self {
         case .cat: return "고양이"
         case .dog: return "강아지"
-        case .bird: return "새"
+        case .bird: return "조류"
         case .reptile: return "파충류"
         }
     }

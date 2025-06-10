@@ -19,7 +19,7 @@ struct MyPetListView: View {
             if myData.myInfo == nil {
                 LoginPromptView()
             } else {
-                MyPetView(isOnDetail: $isOnDetail, myPetList: $myPetList)
+                MyPetView(isOnDetail: $isOnDetail, myPetList: $myPetList, myData: myData)
                 
                 Button {
                     showCategory.toggle()

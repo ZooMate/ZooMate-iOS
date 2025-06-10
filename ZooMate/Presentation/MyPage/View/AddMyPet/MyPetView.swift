@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPetView: View {
     @Binding var isOnDetail: Bool
     @Binding var myPetList: [PetList]
+    @ObservedObject var myData: MyData
     @State private var selectedPet: PetDetail? = nil
     @State private var isNavigating: Bool = false
     
@@ -48,7 +49,7 @@ struct MyPetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                MyPetDetailView(pet: selectedPet)
+                PetDetailView(pet: selectedPet, myData: myData)
                     .onAppear { isOnDetail = true }
                     .onDisappear { isOnDetail = false }
             } else {

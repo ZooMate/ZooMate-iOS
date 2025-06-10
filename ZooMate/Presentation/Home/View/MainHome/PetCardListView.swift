@@ -43,7 +43,7 @@ struct PetCardListView: View {
         }
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                MyPetDetailView(pet: selectedPet)
+                PetDetailView(pet: selectedPet, myData: myData)
             } else {
                 Text("상세 정보가 없습니다.")
             }

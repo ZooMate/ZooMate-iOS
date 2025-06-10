@@ -32,7 +32,7 @@ struct PetCardCell: View {
                     }
                     .padding(.top, 6)
                     
-                    Text("[\(pet.category)] \(pet.breed)")
+                    Text("[\(Category(rawValue: pet.category)?.displayName ?? pet.category)] \(pet.breed)")
                         .font(.notoSansRegular(size: 12))
                         .foregroundColor(.subText)
                         .padding(.top, 3)
