@@ -103,7 +103,7 @@ struct AddRegionList: View {
                                 .listRowSeparator(.hidden)
                                 .onTapGesture {
                                     if let city = selectedCity {
-                                        textMenu = "\(city) \(district)"
+                                        textMenu = "\(district)"
                                         dismiss()
                                     }
                                 }
