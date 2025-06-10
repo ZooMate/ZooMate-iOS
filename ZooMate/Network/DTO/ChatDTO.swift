@@ -18,17 +18,25 @@ struct AddChatRoom: Codable {
     let createdAt: String
 }
 
-// 채팅방 리스트
 struct ChatRoomResponse: Codable {
-    let id: Int
-    let createdAt: String
-    var pets: [ChatRoomPetList]
+    let roomId: Int
+    let opponentPet: OpponentPet
+    let lastMessage: ChatRoomListMsg
 }
 
-struct ChatRoomPetList: Codable {
-    let roomId: Int
-    let joinedAt: String
-    let pet: ChatRoomPet
+struct ChatRoomListMsg: Codable {
+    let senderPetId: Int
+    let content: String
+    let sendMSGAt: String
+    let isRead: Bool
+    let userName: String
+}
+
+struct OpponentPet: Codable {
+    let id: Int
+    let petName: String
+    let photos: [String]
+    let ownerId: Int
 }
 
 struct ChatRoomPet: Codable {
@@ -36,6 +44,11 @@ struct ChatRoomPet: Codable {
     let petName: String
     let photos: [String]
     let ownerId: Int
+    let owner: Owner
+}
+
+struct Owner: Codable {
+    let userName: String
 }
 
 struct MessageResponse: Codable {
