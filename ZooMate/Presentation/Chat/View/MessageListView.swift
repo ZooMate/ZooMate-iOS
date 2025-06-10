@@ -24,9 +24,9 @@ struct MessageListView: View {
                             let time = DateFormatterManager.formattedTime(from: m.sendMSGAt) ?? "시간 오류"
 
                             if m.senderPetId == myData.myInfo?.id {
-                                SendMessageCell(text: m.content, time: time, isRead: m.isRead)
+                                SendMessageCell(text: m.content, time: time, isRead: true)
                             } else {
-                                ReceiveMessageCell(text: m.content, time: time, isRead: m.isRead)
+                                ReceiveMessageCell(text: m.content, time: time, isRead: true)
                             }
                         }
                         .listRowInsets(EdgeInsets())
