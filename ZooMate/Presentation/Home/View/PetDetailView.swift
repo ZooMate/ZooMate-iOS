@@ -11,11 +11,10 @@ import Kingfisher
 struct PetDetailView: View {
     @Binding var petList: [PetList]
     let pet: PetDetail
-    let petId: Int
     let myData: MyData
+    @Binding var isFavorite: Bool
     @State private var selectedPhotoIndex: Int = 0
     @State private var loginAlert: Bool = false
-    @State private var isFavorite: Bool = false
     @State private var isPublic: Bool = true
     @State private var originalIsPublic: Bool = true
     @State private var isChangingPublic = false
@@ -73,7 +72,7 @@ struct PetDetailView: View {
                                             guard !isChangingPublic else { return }
                                             
                                             isChangingPublic = true
-                                            PetNetwork.updateMyPetPublic(petId: petId) { result in
+                                            PetNetwork.updateMyPetPublic(petId: pet.id) { result in
                                                 DispatchQueue.main.async {
                                                     switch result {
                                                     case .success(let updatedValue):
@@ -164,7 +163,7 @@ struct PetDetailView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Menu {
                                 Button {
-                                    PetNetwork.deleteMyPet(petId: petId) { result in
+                                    PetNetwork.deleteMyPet(petId: pet.id) { result in
                                         switch result {
                                         case .success(let msg):
                                             print(msg)

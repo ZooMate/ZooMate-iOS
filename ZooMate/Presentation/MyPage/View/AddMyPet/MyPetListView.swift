@@ -13,7 +13,6 @@ struct MyPetListView: View {
     let title: String
     @State private var showCategory = false
     @State private var selectedCategory: Category? = nil
-    @State private var isOnDetail = false
     
     var body: some View {
         ZStack {
@@ -28,7 +27,7 @@ struct MyPetListView: View {
                     Spacer()
                 }
             } else {
-                MyPetView(isOnDetail: $isOnDetail, myPetList: $myPetList, myData: myData)
+                MyPetView(myPetList: $myPetList, myData: myData)
             }
             
             if title == "내 반려동물" {
