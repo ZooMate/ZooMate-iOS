@@ -179,11 +179,7 @@ struct MyPageView: View {
         } message: {
             Text("nadana0929@gmail.com으로 문의주세요")
         }
-        .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
-            Button("확인", role: .cancel) {}
-        } message: {
-            Text("해당 기능은 로그인 후 이용할 수 있어요.")
-        }
+        .loginRequiredAlert(isPresented: $showLoginAlert)
     }
 }
 
