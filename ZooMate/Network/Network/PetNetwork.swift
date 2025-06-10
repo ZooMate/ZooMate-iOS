@@ -51,7 +51,7 @@ class PetNetwork {
         .responseDecodable(of: PetMsgResponse.self) { response in
             switch response.result {
             case .success(let data):
-                completion(.success(data.mesaage))
+                completion(.success(data.message))
             case .failure(let err):
                 print("❌ Upload 실패: \(err.localizedDescription)")
                 completion(.failure(err))
