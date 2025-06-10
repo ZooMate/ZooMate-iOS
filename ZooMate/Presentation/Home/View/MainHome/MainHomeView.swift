@@ -79,23 +79,6 @@ struct MainHomeView: View {
                         .font(.notoSansBold(size: 25))
                         .foregroundStyle(.mainText)
                     }
-                    
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
-                            // 액션
-                        } label: {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundStyle(.mainText)
-                        }
-                        .frame(width: 20)
-                        
-                        Button {
-                            // 액션
-                        } label: {
-                            Image(systemName: "bell")
-                                .foregroundStyle(.mainText)
-                        }
-                    }
                 }
             }
         }
