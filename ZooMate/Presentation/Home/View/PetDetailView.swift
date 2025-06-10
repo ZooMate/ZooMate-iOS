@@ -93,6 +93,14 @@ struct PetDetailView: View {
                                                 switch result {
                                                 case .success(let msg):
                                                     isFavorite = true
+                                                    MateNetwork.fetchMatePetList { result in
+                                                        switch result {
+                                                        case .success(let data):
+                                                            petList = data
+                                                        case .failure(let err):
+                                                            print(err)
+                                                        }
+                                                    }
                                                     print(msg)
                                                 case .failure(let err):
                                                     print(err)
@@ -103,6 +111,14 @@ struct PetDetailView: View {
                                                 switch result {
                                                 case .success(let msg):
                                                     isFavorite = false
+                                                    MateNetwork.fetchMatePetList { result in
+                                                        switch result {
+                                                        case .success(let data):
+                                                            petList = data
+                                                        case .failure(let err):
+                                                            print(err)
+                                                        }
+                                                    }
                                                     print(msg)
                                                 case .failure(let err):
                                                     print(err)
