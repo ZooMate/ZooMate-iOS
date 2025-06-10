@@ -183,10 +183,10 @@ class PetNetwork {
         
         AF.request(url, method: .delete, encoding: URLEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: PetMsgResponse1.self) { response in
+            .responseDecodable(of: PetMsgResponse.self) { response in
                 switch response.result {
                 case .success(let data):
-                    completion(.success(data.mesaage))
+                    completion(.success(data.message))
                 case .failure(let err):
                     completion(.failure(err))
                 }

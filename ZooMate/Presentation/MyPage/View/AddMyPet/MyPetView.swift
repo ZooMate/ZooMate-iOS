@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct MyPetView: View {
-    @Binding var isOnDetail: Bool
     @Binding var myPetList: [PetList]
     @ObservedObject var myData: MyData
     @State private var selectedPet: PetDetail? = nil
     @State private var isNavigating: Bool = false
-    @State private var petId: Int = 0
+    @State private var isFavorite: Bool = false
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -32,9 +31,16 @@ struct MyPetView: View {
                             PetNetwork.fetchMyPetDetailData(petId: pet.id) { result in
                                 switch result {
                                 case .success(let data):
-                                    petId = pet.id
                                     selectedPet = data
                                     isNavigating = true
+                                case .failure(let error):
+                                    print("❌ 상세 불러오기 실패: \(error)")
+                                }
+                            }
+                            MateNetwork.fetchMatePetStatus(petId: pet.id) { result in
+                                switch result {
+                                case .success(let data):
+                                    isFavorite = data
                                 case .failure(let error):
                                     print("❌ 상세 불러오기 실패: \(error)")
                                 }
@@ -50,9 +56,7 @@ struct MyPetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                PetDetailView(petList: $myPetList, pet: selectedPet, petId: petId, myData: myData)
-                    .onAppear { isOnDetail = true }
-                    .onDisappear { isOnDetail = false }
+                PetDetailView(petList: $myPetList, pet: selectedPet, myData: myData, isFavorite: $isFavorite)
             } else {
                 Text("상세 정보가 없습니다.")
             }

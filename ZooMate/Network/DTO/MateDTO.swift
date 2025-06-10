@@ -18,6 +18,11 @@ struct MatePetListResponse: Codable {
     let data: [PetList]
 }
 
+struct MatePetStatus: Codable {
+    let message: String
+    let liked: Bool
+}
+
 // 찜한 펫 디테일
 struct MatePetDetailResponse: Codable {
     let message: String

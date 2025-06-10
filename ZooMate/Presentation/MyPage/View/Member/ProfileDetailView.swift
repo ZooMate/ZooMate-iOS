@@ -10,8 +10,8 @@ import Kingfisher
 
 struct ProfileDetailView: View {
     @Binding var stack: NavigationPath
-    @StateObject var data = DummyData1()
     @ObservedObject var myData: MyData
+    @Binding var myPets: [PetList]
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -91,11 +91,8 @@ struct ProfileDetailView: View {
     }
     
     private var petListSection: some View {
-        let user = data.dummyUsers.first(where: { $0.id == 1 })!
-        let myPets = data.dummyPets.filter { $0.ownerId == 1 }
-        
         return VStack(alignment: .leading) {
-            Text("\(user.userName)님의 반려동물")
+            Text("\(myData.myInfo?.userName ?? "")님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
             ForEach(myPets, id: \.id) { pet in
@@ -123,7 +120,7 @@ struct ProfileDetailView: View {
                             Text("\(pet.age)살")
                                 .font(.notoSansRegular(size: 16))
                         }
-                        Text(pet.category.rawValue)
+                        Text("[\(Category(rawValue: pet.category)?.displayName ?? pet.category)] \(pet.breed)")
                             .font(.notoSansRegular(size: 12))
                     }
                 }

@@ -16,7 +16,7 @@ struct ContentView: View {
                 MainHomeView(myData: myData)
             }
             Tab("채팅", systemImage: "message") {
-                ChatMainView()
+//                ChatMainView()
             }
             Tab("마이페이지", systemImage: "person.fill") {
                 MyPageView(myData: myData, isLoggedIn: myData.myInfo != nil)
