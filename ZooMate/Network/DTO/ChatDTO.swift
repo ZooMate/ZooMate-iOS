@@ -58,3 +58,18 @@ struct MessageResponse: Codable, Identifiable {
     let isRead: Bool
     let pet: ChatRoomPet
 }
+
+struct SendMessageResponse: Codable {
+    let id: Int
+    let roomId: Int
+    let senderPetId: Int
+    let content: String
+    let sendMSGAt: String
+    let isRead: Bool
+    let pet: SendMSGPet
+}
+
+struct SendMSGPet: Codable {
+    let id: Int
+    let petName: String
+}

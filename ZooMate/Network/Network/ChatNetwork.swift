@@ -90,4 +90,35 @@ class ChatNetwork {
                 }
             }
     }
+    
+    static func sendChatMessage(roomId: Int, senderPetId: Int, content: String, completion: @escaping (Result<SendMessageResponse, Error>) -> Void) {
+        let url = "\(BaseURL.url)/chat/room/\(roomId)/messages"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        let parameters: [String: Any] = [
+            "senderPetId": senderPetId,
+            "content": content
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: SendMessageResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
 }
