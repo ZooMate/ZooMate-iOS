@@ -19,7 +19,9 @@ class AuthNetwork {
             multipart.append(Data(user.userPassword.utf8), withName: "userPassword")
             multipart.append(Data(user.region.utf8), withName: "region")
             multipart.append(Data(user.userDesc.utf8), withName: "userDesc")
-            multipart.append(user.profile, withName: "profile", fileName: "profile.jpg", mimeType: "image/jpeg")
+            if let profile = user.profile {
+                multipart.append(profile, withName: "profile", fileName: "profile.jpg", mimeType: "image/jpeg")
+            }
         }, to: url)
         .validate(statusCode: 200..<300)
         .responseDecodable(of: SignupResponse.self) { response in

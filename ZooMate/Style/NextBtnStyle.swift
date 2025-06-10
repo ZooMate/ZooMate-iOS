@@ -15,7 +15,7 @@ struct GrayButtonStyle: ViewModifier {
             // 부모 컨테이너의 최대 넓이로 width 설정
             .font(.notoSansBold(size: 16))
             .foregroundStyle(.mainText)
-            .background(Color(.systemGray6))
+            .background(Color(.subText).opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 10)
     }

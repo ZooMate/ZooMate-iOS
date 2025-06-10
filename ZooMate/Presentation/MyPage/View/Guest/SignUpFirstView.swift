@@ -14,11 +14,11 @@ struct SignUpFirstView: View {
     @State var password2: String = ""
     @State var checkId: Bool = false
     
+    @State private var selectedImage: UIImage?
     @State private var user: SignupRequest = SignupRequest(
         userId: "", userName: "", userPassword: "",
-        region: "", userDesc: "", profile: Data()
+        region: "", userDesc: "", profile: nil
     )
-    @State private var selectedImage: UIImage?
     
     @Environment(\.dismiss) private var dismiss
     
@@ -75,8 +75,9 @@ struct SignUpFirstView: View {
                                                 }
                                             } label : {
                                                 Text("중복검사")
-                                                    .foregroundStyle(Color.background)
+                                                    .foregroundStyle(Color.white)
                                             }
+                                            .disabled(userId.count < 6)
                                             .padding()
                                             .padding(.vertical, 2)
                                             .background(.category)
@@ -85,6 +86,13 @@ struct SignUpFirstView: View {
                                             .padding(.bottom, 8)
                                             .padding(.trailing, 10)
                                         }
+                                        
+                                        Text("6자 이상 작성해주세요")
+                                            .padding(.horizontal, 30)
+                                            .font(.notoSansMedium(size: 12))
+                                            .foregroundStyle(.subText)
+                                            .padding(.top, -4)
+                                            .padding(.bottom, 8)
                                     }
                                     .padding(.top, 50)
                                     
@@ -132,7 +140,7 @@ struct SignUpFirstView: View {
                     .padding(.top)
                     
                     VStack {
-                        if (password == password2) && checkId && isValidPassword(password2){
+                        if (password == password2) && checkId && isValidPassword(password2) {
                             NavigationLink(destination: SignUpSecondView(showSignUp: $showSignUp, user: $user)) {
                                 Text("다음")
                                     .pinkButtonStyle()

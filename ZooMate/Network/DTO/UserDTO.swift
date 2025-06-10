@@ -22,11 +22,5 @@ struct MyInfoData: Codable {
 }
 
 struct DeleteUserResponse: Codable {
-    let id: Int             // 사용자 고유 ID
-    var userId: String
-    var userName: String            // 사용자 이름
-    var userPassword: String            // 사용자 암호
-    var region: String              // 사용자 지역(구)
-    var userDesc: String?               // 사용자 소개글
-    var profile: String?            // 프로필 이미지 URL
+    let message: String
 }

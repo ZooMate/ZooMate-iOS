@@ -102,8 +102,8 @@ struct AddRegionList: View {
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
                                 .onTapGesture {
-                                    if let city = selectedCity {
-                                        textMenu = "\(city) \(district)"
+                                    if selectedCity != nil {
+                                        textMenu = "\(district)"
                                         dismiss()
                                     }
                                 }

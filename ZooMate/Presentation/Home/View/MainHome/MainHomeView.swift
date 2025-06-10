@@ -52,8 +52,7 @@ struct MainHomeView: View {
                             }
                             
                             Button {
-                                let districtOnly = extractDistrict(from: region)
-                                self.textMenu = districtOnly
+                                self.textMenu = region
                             } label: {
                                 Label {
                                     Text(region)
@@ -67,7 +66,7 @@ struct MainHomeView: View {
                             Button {
                                 showRegionSheet = true
                             } label: {
-                                Text("지역 선택하기")
+                                Text("다른지역 둘러보기")
                             }
                         } label: {
                             HStack {
@@ -106,10 +105,5 @@ struct MainHomeView: View {
         .onAppear {
             self.region = myData.myInfo?.region ?? "지역정보없음"
         }
-    }
-    
-    func extractDistrict(from fullRegion: String) -> String {
-        let components = fullRegion.split(separator: " ")
-        return components.last.map(String.init) ?? ""
     }
 }

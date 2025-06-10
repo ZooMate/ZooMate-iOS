@@ -25,7 +25,7 @@ struct SignupRequest: Encodable {
     var userPassword: String
     var region: String
     var userDesc: String
-    var profile: Data
+    var profile: Data?
 }
 
 struct SignupResponse: Decodable {

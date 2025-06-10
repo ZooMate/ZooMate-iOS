@@ -9,12 +9,17 @@ import SwiftUI
 import Kingfisher
 
 struct PetDetailView: View {
+    @Binding var petList: [PetList]
     let pet: PetDetail
+    let petId: Int
     let myData: MyData
     @State private var selectedPhotoIndex: Int = 0
+    @State private var loginAlert: Bool = false
     @State private var isFavorite: Bool = false
     @State private var isPublic: Bool = true
-    @State private var loginAlert: Bool = false
+    @State private var originalIsPublic: Bool = true
+    @State private var isChangingPublic = false
+    @Environment(\.dismiss) var dismiss
     
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
@@ -50,6 +55,10 @@ struct PetDetailView: View {
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .padding(.bottom, -5)
+                                .onAppear {
+                                    isPublic = pet.isPublic
+                                    originalIsPublic = pet.isPublic
+                                }
                             Spacer()
                             
                             if let _ = myData.myInfo {
@@ -59,6 +68,25 @@ struct PetDetailView: View {
                                     Toggle("", isOn: $isPublic)
                                         .labelsHidden()
                                         .tint(.pointPink)
+                                        .onChange(of: isPublic) {
+                                            guard isPublic != originalIsPublic else { return } // 값이 바뀐 경우에만 실행
+                                            guard !isChangingPublic else { return }
+                                            
+                                            isChangingPublic = true
+                                            PetNetwork.updateMyPetPublic(petId: petId) { result in
+                                                DispatchQueue.main.async {
+                                                    switch result {
+                                                    case .success(let updatedValue):
+                                                        originalIsPublic = updatedValue
+                                                        isPublic = updatedValue
+                                                    case .failure(let err):
+                                                        isPublic = originalIsPublic // 되돌리기
+                                                        print("❌ 공개 여부 변경 실패:", err)
+                                                    }
+                                                    isChangingPublic = false
+                                                }
+                                            }
+                                        }
                                 } else {
                                     Button {
                                         isFavorite.toggle()
@@ -136,7 +164,23 @@ struct PetDetailView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Menu {
                                 Button {
-                                    // TODO: 삭제 기능
+                                    PetNetwork.deleteMyPet(petId: petId) { result in
+                                        switch result {
+                                        case .success(let msg):
+                                            print(msg)
+                                            PetNetwork.fetchMyPetList { fetchResult in
+                                                switch fetchResult {
+                                                case .success(let newList):
+                                                    petList = newList
+                                                case .failure(let error):
+                                                    print("❌ 리스트 재불러오기 실패: \(error)")
+                                                }
+                                            }
+                                            dismiss()
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                 } label: {
                                     Text("삭제")
                                 }

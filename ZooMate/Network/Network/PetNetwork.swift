@@ -100,6 +100,32 @@ class PetNetwork {
             }
     }
     
+    static func fetchMyPetDetailData(petId: Int, completion: @escaping (Result<PetDetail, Error>) -> Void) {
+        let url = "\(BaseURL.url)/pet/\(petId)"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: PetDetailResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.data))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+    
     static func fetchPetDetailData(petId: Int, completion: @escaping (Result<PetDetail, Error>) -> Void) {
         let url = "\(BaseURL.url)/pet/\(petId)"
         
@@ -109,6 +135,58 @@ class PetNetwork {
                 switch response.result {
                 case .success(let data):
                     completion(.success(data.data))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+    
+    static func updateMyPetPublic(petId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let url = "\(BaseURL.url)/pet/\(petId)/public"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        AF.request(url, method: .patch, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: PublicPetResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.data))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
+    
+    static func deleteMyPet(petId: Int, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "\(BaseURL.url)/pet/\(petId)"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        AF.request(url, method: .delete, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: PetMsgResponse1.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.mesaage))
                 case .failure(let err):
                     completion(.failure(err))
                 }
