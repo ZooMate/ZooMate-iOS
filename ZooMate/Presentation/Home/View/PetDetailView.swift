@@ -23,6 +23,9 @@ struct PetDetailView: View {
     @State private var showChatMenu = false
     @Environment(\.dismiss) var dismiss
     
+    @State var isNavigating: Bool = false
+    @State var messages: [MessageResponse] = []
+    
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
     }
@@ -196,6 +199,15 @@ struct PetDetailView: View {
                                                     print("패치 챗룸 데이터 \(err)")
                                                 }
                                             }
+                                            ChatNetwork.fetchChatRoomMessage(roomId: data.roomId) { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    messages = data
+                                                    isNavigating  = true
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
                                             print(data)
                                         case .failure(let err):
                                             print(err)
@@ -229,14 +241,6 @@ struct PetDetailView: View {
                                         switch result {
                                         case .success(let msg):
                                             print(msg)
-                                            PetNetwork.fetchMyPetList { fetchResult in
-                                                switch fetchResult {
-                                                case .success(let newList):
-                                                    petList = newList
-                                                case .failure(let error):
-                                                    print("❌ 리스트 재불러오기 실패: \(error)")
-                                                }
-                                            }
                                             dismiss()
                                         case .failure(let err):
                                             print(err)
@@ -252,6 +256,9 @@ struct PetDetailView: View {
                         }
                     }
                 }
+            }
+            .navigationDestination(isPresented: $isNavigating) {
+                MessageListView(myData: myData, messages: $messages)
             }
         }
         .loginRequiredAlert(isPresented: $loginAlert)
