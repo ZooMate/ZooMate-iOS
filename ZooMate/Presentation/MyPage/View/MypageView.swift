@@ -11,10 +11,11 @@ import Kingfisher
 struct MyPageView: View {
     @ObservedObject var myData: MyData
     @State var stack = NavigationPath()
-    @State private var showAlret = false
     @State var petList: [PetList] = []
     @State private var isMyNavigating: Bool = false
     @State private var isMateNavigating: Bool = false
+    @State private var showInquiryAlert = false
+    @State private var showLoginAlert = false
     let isLoggedIn: Bool
     
     var body: some View {
@@ -87,27 +88,36 @@ struct MyPageView: View {
                     ZStack {
                         HStack(spacing: 16) {
                             Button {
-                                PetNetwork.fetchMyPetList { result in
-                                    switch result {
-                                    case .success(let data):
-                                        petList = data
-                                        isMyNavigating = true
-                                    case .failure(let err):
-                                        print(err)
+                                if isLoggedIn {
+                                    PetNetwork.fetchMyPetList { result in
+                                        switch result {
+                                        case .success(let data):
+                                            petList = data
+                                            isMyNavigating = true
+                                        case .failure(let err):
+                                            print(err)
+                                        }
                                     }
+                                } else {
+                                    showLoginAlert = true
                                 }
                             } label: {
                                 FeatureButton(title: "내 반려동물", systemImage: "pawprint")
                             }
+
                             Button {
-                                MateNetwork.fetchMatePetList { result in
-                                    switch result {
-                                    case .success(let data):
-                                        petList = data
-                                        isMateNavigating = true
-                                    case .failure(let err):
-                                        print(err)
+                                if isLoggedIn {
+                                    MateNetwork.fetchMatePetList { result in
+                                        switch result {
+                                        case .success(let data):
+                                            petList = data
+                                            isMateNavigating = true
+                                        case .failure(let err):
+                                            print(err)
+                                        }
                                     }
+                                } else {
+                                    showLoginAlert = true
                                 }
                             } label: {
                                 FeatureButton(title: "메이트", systemImage: "heart")
@@ -137,7 +147,7 @@ struct MyPageView: View {
                                     SettingRow(title: "공지사항")
                                 }
                                 Button {
-                                    showAlret = true
+                                    showInquiryAlert = true
                                 } label: {
                                     SettingRow(title: "개선문의")
                                 }
@@ -164,10 +174,15 @@ struct MyPageView: View {
                 MyPetListView(myData: myData, myPetList: $petList, title: "메이트")
             }
         }
-        .alert("문의사항", isPresented: $showAlret) {
+        .alert("문의사항", isPresented: $showInquiryAlert) {
             Button("확인", role: .cancel) {}
         } message: {
             Text("nadana0929@gmail.com으로 문의주세요")
+        }
+        .alert("로그인이 필요합니다", isPresented: $showLoginAlert) {
+            Button("확인", role: .cancel) {}
+        } message: {
+            Text("해당 기능은 로그인 후 이용할 수 있어요.")
         }
     }
 }
