@@ -23,18 +23,17 @@ struct ChatRoomCell: View {
                     .font(.notoSansMedium(size: 16))
                     .padding(.bottom, 1)
                     .foregroundStyle(.mainText)
-                Text("\(data.lastMessage.content)")
+                Text("\(data.lastMessage?.content ?? "대화를 시작해보세요")")
                     .font(.notoSansMedium(size: 12))
                     .foregroundStyle(.subText)
             }
             Spacer()
             VStack(alignment: .trailing) {
-                let date = DateFormatterManager.formattedTime(from: data.lastMessage.sendMSGAt) ?? "시간정보없음"
+                let date = DateFormatterManager.formattedTime(from: data.lastMessage?.sendMSGAt ?? "") ?? "시간정보없음"
                 Text(date)
                     .font(.notoSansMedium(size: 12))
                     .foregroundStyle(.subText)
-                    .padding(.bottom, 2)
-                Spacer()
+                    .padding(.bottom, 20)
 //                let count = chat.filter{!$0.isRead && $0.senderPetId != MyData().myInfo?.id}.count
 //                if count > 0 {
 //                    Text("\(count)")

@@ -11,6 +11,7 @@ import Kingfisher
 struct PetDetailView: View {
     @ObservedObject var myPetData: MyPetData
     @Binding var petList: [PetList]
+    @Binding var chatRooms: [ChatRoomResponse]
     let pet: PetDetail
     let myData: MyData
     @Binding var isFavorite: Bool
@@ -20,7 +21,6 @@ struct PetDetailView: View {
     @State private var originalIsPublic: Bool = true
     @State private var isChangingPublic = false
     @State private var showChatMenu = false
-    @State private var myPets: [PetList] = []
     @Environment(\.dismiss) var dismiss
     
     var isMyPet: Bool {
@@ -183,13 +183,27 @@ struct PetDetailView: View {
                     
                     if let _ = myData.myInfo, !isMyPet {
                         Menu {
-                            ForEach(myPetData.pets, id: \.id) { pet in
+                            ForEach(myPetData.pets, id: \.id) { p in
                                 Button {
-                                    // 여기에서 채팅 동작 처리
-                                    print("선택한 펫: \(pet.petName)")
+                                    ChatNetwork.createChatRoom(petId: [p.id, pet.id]) { result in
+                                        switch result {
+                                        case .success(let data):
+                                            ChatNetwork.fetchMyChatRoom { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    chatRooms = data
+                                                case .failure(let err):
+                                                    print("패치 챗룸 데이터 \(err)")
+                                                }
+                                            }
+                                            print(data)
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                 } label: {
-                                    Text(pet.petName)
-                                        .foregroundColor(.black) // ✅ Menu에서는 이게 잘 적용됨
+                                    Text(p.petName)
+                                        .foregroundColor(.black)
                                 }
                             }
                         } label: {

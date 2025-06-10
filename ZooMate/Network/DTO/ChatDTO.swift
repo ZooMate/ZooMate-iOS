@@ -18,7 +18,7 @@ struct ChatRoomResponse: Codable, Identifiable {
     let roomId: Int
     let opponentPet: OpponentPet
     let userName: String
-    let lastMessage: ChatRoomListMsg
+    let lastMessage: ChatRoomListMsg?
     
     var id: Int { roomId }  // Identifiable이 요구하는 id 제공
 }

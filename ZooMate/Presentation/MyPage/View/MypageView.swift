@@ -11,10 +11,14 @@ import Kingfisher
 struct MyPageView: View {
     @ObservedObject var myData: MyData
     @ObservedObject var myPetData: MyPetData
+    @Binding var chatRooms: [ChatRoomResponse]
+    
     @State var stack = NavigationPath()
     @State var myPetList: [PetList] = []
+    
     @State private var isMyNavigating: Bool = false
     @State private var isMateNavigating: Bool = false
+    
     @State private var showInquiryAlert = false
     @State private var showLoginAlert = false
     let isLoggedIn: Bool
@@ -90,7 +94,15 @@ struct MyPageView: View {
                         HStack(spacing: 16) {
                             Button {
                                 if isLoggedIn {
-                                    isMyNavigating = true
+                                    PetNetwork.fetchMyPetList { result in
+                                        switch result {
+                                        case .success(let data):
+                                            myPetList = data
+                                            isMyNavigating = true
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                 } else {
                                     showLoginAlert = true
                                 }
@@ -161,21 +173,10 @@ struct MyPageView: View {
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isMyNavigating) {
-                MyPetListView(myData: myData, myPetData: myPetData, myPetList: $myPetList, title: "내 반려동물")
+                MyPetListView(myData: myData, myPetData: myPetData, chatRooms: $chatRooms, myPetList: $myPetList, title: "내 반려동물")
             }
             .navigationDestination(isPresented: $isMateNavigating) {
-                MyPetListView(myData: myData, myPetData: myPetData, myPetList: $myPetList, title: "메이트")
-            }
-        }
-        .onAppear {
-            PetNetwork.fetchMyPetList { result in
-                switch result {
-                case .success(let data):
-                    myPetList = data
-                case .failure(let err):
-                    print(err)
-                }
-                
+                MyPetListView(myData: myData, myPetData: myPetData, chatRooms: $chatRooms, myPetList: $myPetList, title: "메이트")
             }
         }
         .alert("문의사항", isPresented: $showInquiryAlert) {

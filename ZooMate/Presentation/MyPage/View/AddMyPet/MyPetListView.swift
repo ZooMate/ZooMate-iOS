@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPetListView: View {
     @ObservedObject var myData: MyData
     @ObservedObject var myPetData: MyPetData
+    @Binding var chatRooms: [ChatRoomResponse]
     @Binding var myPetList: [PetList]
     let title: String
     @State private var showCategory = false
@@ -28,7 +29,7 @@ struct MyPetListView: View {
                     Spacer()
                 }
             } else {
-                MyPetView(myPetList: $myPetList, myData: myData, myPetData: myPetData)
+                MyPetView(myPetList: $myPetList, myData: myData, myPetData: myPetData, chatRooms: $chatRooms)
             }
             
             if title == "내 반려동물" {

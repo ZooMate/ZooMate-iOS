@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("홈", systemImage: "house") {
-                MainHomeView(myData: myData, myPetData: myPetData)
+                MainHomeView(myData: myData, myPetData: myPetData, chatRooms: $myChatData)
             }
             Tab("채팅", systemImage: "message") {
                 ChatMainView(myData: myData, chatRooms: $myChatData)
@@ -29,7 +29,7 @@ struct ContentView: View {
                 }
             }
             Tab("마이페이지", systemImage: "person.fill") {
-                MyPageView(myData: myData, myPetData: myPetData, isLoggedIn: myData.myInfo != nil)
+                MyPageView(myData: myData, myPetData: myPetData, chatRooms: $myChatData, isLoggedIn: myData.myInfo != nil)
             }
         }
         .background(Color.background)
