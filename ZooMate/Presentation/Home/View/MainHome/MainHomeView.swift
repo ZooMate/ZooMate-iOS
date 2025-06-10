@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MainHomeView: View {
     @ObservedObject var myData: MyData
+    @State var allPetList: [PetList] = []
     @State var textMenu: String = "전체지역"
     @State var region: String = ""
-    @State private var selectedCategories: Set<String> = []
+    @State private var selectedCategories: Set<Category> = []
     @State private var showRegionSheet = false
     
     var body: some View {
@@ -23,7 +24,18 @@ struct MainHomeView: View {
                 VStack {
                     CategoryTabView(selectedCategories: $selectedCategories)
                         .frame(height: 45)
-                    PetCardListView(filteredCategories: selectedCategories, selectedRegion: textMenu)
+                    PetCardListView(myData: myData, allPetList: $allPetList, filteredCategories: selectedCategories, selectedRegion: textMenu)
+                        .onAppear {
+                            PetNetwork.fetchPetList { result in
+                                switch result {
+                                case .success(let data):
+                                    allPetList = data
+                                    print(allPetList)
+                                case .failure(let err):
+                                    print(err)
+                                }
+                            }
+                        }
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

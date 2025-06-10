@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct PetCardListView: View {
-    @StateObject var data = DummyData1()
-    var filteredCategories: Set<String>
+    @ObservedObject var myData: MyData
+    @Binding var allPetList: [PetList]
+    var filteredCategories: Set<Category>
     var selectedRegion: String?
+    @State private var selectedPet: PetDetail? = nil
+    @State private var isNavigating: Bool = false
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -19,23 +22,40 @@ struct PetCardListView: View {
     
     var body: some View {
         ScrollView {
-//            LazyVGrid(columns: columns, spacing: 16) {
-//                ForEach(filteredPets) { pet in
-//                    if let owner = data.dummyUsers.first(where: { $0.id == pet.ownerId }) {
-//                        NavigationLink(destination: PetDetailView(pet: pet)) {
-//                            PetCardCell(pet: pet, user: owner)
-//                        }
-//                    }
-//                }
-//            }
-//            .padding(16)
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(filteredPets, id: \.id) { pet in
+                    Button {
+                        PetNetwork.fetchPetDetailData(petId: pet.id) { result in
+                            switch result {
+                            case .success(let data):
+                                selectedPet = data
+                                isNavigating = true
+                            case .failure(let error):
+                                print("❌ 상세 불러오기 실패: \(error)")
+                            }
+                        }
+                    } label: {
+                        PetCardCell(pet: pet)
+                    }
+                }
+            }
+            .padding(16)
+        }
+        .navigationDestination(isPresented: $isNavigating) {
+            if let selectedPet {
+                MyPetDetailView(pet: selectedPet)
+            } else {
+                Text("상세 정보가 없습니다.")
+            }
         }
     }
     
-    private var filteredPets: [Pet] {
-        data.dummyPets.filter { pet in
-            let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(pet.category.rawValue)
-            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || data.dummyUsers.first(where: { $0.id == pet.ownerId })?.region == selectedRegion
+    private var filteredPets: [PetList] {
+        allPetList.filter { pet in
+            let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(Category(rawValue: pet.category) ?? .dog)
+
+            let owner = myData.myInfo
+            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || owner?.region == selectedRegion
 
             return matchesCategory && matchesRegion
         }

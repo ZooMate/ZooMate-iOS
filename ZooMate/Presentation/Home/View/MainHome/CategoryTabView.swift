@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CategoryTabView: View {
-    @Binding var selectedCategories: Set<String>
-    let categories = ["강아지", "고양이", "파충류", "조류"]
+    @Binding var selectedCategories: Set<Category>
+    
+    let categories = Category.allCases
     
     var body: some View {
         GeometryReader { geometry in
@@ -19,7 +20,7 @@ struct CategoryTabView: View {
                         Button {
                             toggleCategory(category)
                         } label: {
-                            Text(category)
+                            Text(category.displayName)
                                 .font(Font.notoSansBold(size: 12))
                                 .foregroundStyle(.category)
                                 .frame(width: geometry.size.width / 4.7, height: 30)
@@ -45,7 +46,7 @@ struct CategoryTabView: View {
         }
     }
     
-    private func toggleCategory(_ category: String) {
+    private func toggleCategory(_ category: Category) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
         } else {
