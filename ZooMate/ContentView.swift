@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var myData = MyData()
+    @State var myChatData = [ChatRoomResponse]()
     
     var body: some View {
         TabView {
@@ -16,7 +17,24 @@ struct ContentView: View {
                 MainHomeView(myData: myData)
             }
             Tab("채팅", systemImage: "message") {
-//                ChatMainView()
+                // ChatMainView(myData: myData, chatRooms: $myChatData)
+                let _ = ChatNetwork.fetchMyChatRoom { result in
+                    switch result {
+                    case .success(let data):
+                        myChatData = data
+                        print("챗룸 \(data)")
+                    case .failure(let err):
+                        print(err)
+                    }
+                }
+                let _ = ChatNetwork.fetchChatRoomMessage(roomId: 4) { result in
+                    switch result {
+                    case .success(let data):
+                        print("메세지 \(data)")
+                    case .failure(let err):
+                        print(err)
+                    }
+                }
             }
             Tab("마이페이지", systemImage: "person.fill") {
                 MyPageView(myData: myData, isLoggedIn: myData.myInfo != nil)
@@ -46,7 +64,7 @@ struct ContentView: View {
                     UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
                 )
             appearance.setBackIndicatorImage(image, transitionMaskImage: image)
-
+            
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             UINavigationBar.appearance().compactAppearance = appearance
