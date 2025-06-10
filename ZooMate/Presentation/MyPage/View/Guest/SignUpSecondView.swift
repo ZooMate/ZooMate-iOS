@@ -108,7 +108,6 @@ struct SignUpSecondView: View {
                     Button {
                         user.region = userRegion
                         user.userDesc = userDesc
-                        print(user)
                         AuthNetwork.signupUser(user: user) { result in
                             switch result {
                             case .success(let response):

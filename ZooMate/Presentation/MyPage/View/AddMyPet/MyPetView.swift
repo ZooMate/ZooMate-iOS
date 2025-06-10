@@ -45,7 +45,6 @@ struct MyPetView: View {
                 .padding(16)
             }
         }
-        .navigationTitle("내 반려동물")
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {

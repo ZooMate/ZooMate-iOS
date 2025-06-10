@@ -13,6 +13,7 @@ struct MyPetAddProfileView1: View {
     @State var gender: Gender = .male
     @Binding var isModal: Bool
     @Binding var addPet: AddPetRequest
+    @Binding var petList: [PetList]
     
     var body: some View {
         ZStack {
@@ -141,7 +142,7 @@ struct MyPetAddProfileView1: View {
                         Text("다음")
                             .grayButtonStyle()
                     } else {
-                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal, addPet: $addPet)) {
+                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal, addPet: $addPet, petList: $petList)) {
                             Text("다음")
                                 .pinkButtonStyle()
                         }

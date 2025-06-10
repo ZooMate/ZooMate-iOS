@@ -30,7 +30,6 @@ struct MainHomeView: View {
                                 switch result {
                                 case .success(let data):
                                     allPetList = data
-                                    print(allPetList)
                                 case .failure(let err):
                                     print(err)
                                 }

@@ -16,7 +16,7 @@ struct PetDetailView: View {
     @State private var isPublic: Bool = true
 
     var isMyPet: Bool {
-        myData.myInfo?.id == 1 // TODO: pet의 오너아이디
+        myData.myInfo?.id == pet.ownerId
     }
 
     var body: some View {

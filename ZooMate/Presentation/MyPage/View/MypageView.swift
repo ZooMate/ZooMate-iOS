@@ -12,8 +12,9 @@ struct MyPageView: View {
     @ObservedObject var myData: MyData
     @State var stack = NavigationPath()
     @State private var showAlret = false
-    @State var myPetList: [PetList] = []
-    @State var matePetList: [PetList] = []
+    @State var petList: [PetList] = []
+    @State private var isMyNavigating: Bool = false
+    @State private var isMateNavigating: Bool = false
     let isLoggedIn: Bool
     
     var body: some View {
@@ -53,26 +54,6 @@ struct MyPageView: View {
                                     Text(myData.myInfo?.userName ?? "이름정보없음")
                                         .font(.notoSansBold(size: 24))
                                         .foregroundStyle(.mainText)
-                                        .onAppear {
-                                            PetNetwork.fetchMyPetList { result in
-                                                switch result {
-                                                case .success(let data):
-                                                    myPetList = data
-                                                case .failure(let err):
-                                                    print(err)
-                                                }
-                                            }
-                                            MateNetwork.fetchMatePetList { result in
-                                                switch result {
-                                                case .success(let data):
-                                                    myPetList = data
-                                                    matePetList = data
-                                                case .failure(let err):
-                                                    print(err)
-                                                }
-                                            }
-                                        }
-                                    
                                     Text(myData.myInfo?.region ?? "지역정보없음")
                                         .font(.notoSansRegular(size: 14))
                                         .foregroundStyle(.mainText)
@@ -105,10 +86,30 @@ struct MyPageView: View {
                     
                     ZStack {
                         HStack(spacing: 16) {
-                            NavigationLink(destination: MyPetListView(myData: myData, myPetList: $myPetList)) {
+                            Button {
+                                PetNetwork.fetchMyPetList { result in
+                                    switch result {
+                                    case .success(let data):
+                                        petList = data
+                                        isMyNavigating = true
+                                    case .failure(let err):
+                                        print(err)
+                                    }
+                                }
+                            } label: {
                                 FeatureButton(title: "내 반려동물", systemImage: "pawprint")
                             }
-                            NavigationLink(destination: MateListView(myData: myData, matePetList: $matePetList)) {
+                            Button {
+                                MateNetwork.fetchMatePetList { result in
+                                    switch result {
+                                    case .success(let data):
+                                        petList = data
+                                        isMateNavigating = true
+                                    case .failure(let err):
+                                        print(err)
+                                    }
+                                }
+                            } label: {
                                 FeatureButton(title: "메이트", systemImage: "heart")
                             }
                         }
@@ -156,6 +157,12 @@ struct MyPageView: View {
             .background(Color.background.ignoresSafeArea())
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $isMyNavigating) {
+                MyPetListView(myData: myData, myPetList: $petList, title: "내 반려동물")
+            }
+            .navigationDestination(isPresented: $isMateNavigating) {
+                MyPetListView(myData: myData, myPetList: $petList, title: "메이트")
+            }
         }
         .alert("문의사항", isPresented: $showAlret) {
             Button("확인", role: .cancel) {}

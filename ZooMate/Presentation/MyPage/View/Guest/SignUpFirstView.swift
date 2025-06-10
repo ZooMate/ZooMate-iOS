@@ -58,7 +58,7 @@ struct SignUpFirstView: View {
                                                 )
                                                 .onChange(of: userId) {
                                                     checkId = false
-                                                    user.userId = userId // 이게 맞음
+                                                    user.userId = userId
                                                 }
                                             Button {
                                                 AuthNetwork.checkId(userId: userId) { result in

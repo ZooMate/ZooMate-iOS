@@ -14,6 +14,7 @@ struct MyPetAddProfileView2: View {
     @State var tag: [String] = []
     @Binding var isModal: Bool
     @Binding var addPet: AddPetRequest
+    @Binding var petList: [PetList]
     
     var body: some View {
         ZStack {
@@ -103,6 +104,14 @@ struct MyPetAddProfileView2: View {
                                 switch result {
                                 case .success(let data):
                                     print("성공: \(data)")
+                                    PetNetwork.fetchMyPetList { fetchResult in
+                                        switch fetchResult {
+                                        case .success(let newList):
+                                            petList = newList
+                                        case .failure(let error):
+                                            print("❌ 리스트 재불러오기 실패: \(error)")
+                                        }
+                                    }
                                 case .failure(let err):
                                     print("실패 \(err.localizedDescription)")
                                 }

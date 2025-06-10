@@ -22,6 +22,7 @@ struct MyPetAddPickerView: View {
     @Binding var isModal: Bool
     @Binding var addPet: AddPetRequest
     @State private var selectedItems: [SelectedImageItem] = []
+    @Binding var petList: [PetList]
     
     var body: some View {
         NavigationStack {
@@ -46,7 +47,7 @@ struct MyPetAddPickerView: View {
                             Text("다음")
                                 .grayButtonStyle()
                         } else {
-                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal, addPet: $addPet)) {
+                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal, addPet: $addPet, petList: $petList)) {
                                 Text("다음")
                                     .pinkButtonStyle()
                             }

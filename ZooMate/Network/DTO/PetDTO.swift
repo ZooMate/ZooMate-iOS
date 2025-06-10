@@ -14,12 +14,12 @@ struct AddPetRequest: Codable {
     var gender: String
     var isNeutering: Bool
     var isPublic: Bool
+    var category: String
     var breed: String
     var weight: Float
     var petDesc: String
     var tag: [String]
     var photos: [Data]
-    var category: String
 }
 
 // 반려동물 리스트
@@ -61,12 +61,12 @@ struct PetDetail: Codable {
     let tag: [String]
     let photos: [String]
     let category: String
-//    let ownerId: Int
+    let ownerId: Int
 }
 
 // 반려동물 수정 삭제 추가 - 성공여부만 리스폰
 struct PetMsgResponse: Codable {
-    let mesaage: String
+    let message: String
 }
 
 // 반려동물 공개여부
