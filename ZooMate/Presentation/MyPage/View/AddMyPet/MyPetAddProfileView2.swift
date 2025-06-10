@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyPetAddProfileView2: View {
+    @ObservedObject var myPetData: MyPetData
     @State var breed: String = ""
     @State var weight: String = ""
     @State var desc: String = ""
@@ -108,6 +109,7 @@ struct MyPetAddProfileView2: View {
                                         switch fetchResult {
                                         case .success(let newList):
                                             petList = newList
+                                            myPetData.pets = newList
                                         case .failure(let error):
                                             print("❌ 리스트 재불러오기 실패: \(error)")
                                         }

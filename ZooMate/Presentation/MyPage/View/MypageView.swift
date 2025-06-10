@@ -10,11 +10,15 @@ import Kingfisher
 
 struct MyPageView: View {
     @ObservedObject var myData: MyData
+    @ObservedObject var myPetData: MyPetData
+    @Binding var chatRooms: [ChatRoomResponse]
+    
     @State var stack = NavigationPath()
     @State var myPetList: [PetList] = []
-    @State var matePetList: [PetList] = []
+    
     @State private var isMyNavigating: Bool = false
     @State private var isMateNavigating: Bool = false
+    
     @State private var showInquiryAlert = false
     @State private var showLoginAlert = false
     let isLoggedIn: Bool
@@ -65,7 +69,7 @@ struct MyPageView: View {
                             .buttonStyle(PlainButtonStyle())
                             .navigationDestination(for: String.self) { value in
                                 if value == "profileDetail" {
-                                    ProfileDetailView(stack: $stack, myData: myData, myPets: $myPetList)
+                                    ProfileDetailView(stack: $stack, myData: myData, myPetData: myPetData)
                                 }
                             }
                         } else {
@@ -90,7 +94,15 @@ struct MyPageView: View {
                         HStack(spacing: 16) {
                             Button {
                                 if isLoggedIn {
-                                    isMyNavigating = true
+                                    PetNetwork.fetchMyPetList { result in
+                                        switch result {
+                                        case .success(let data):
+                                            myPetList = data
+                                            isMyNavigating = true
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                 } else {
                                     showLoginAlert = true
                                 }
@@ -103,7 +115,7 @@ struct MyPageView: View {
                                     MateNetwork.fetchMatePetList { result in
                                         switch result {
                                         case .success(let data):
-                                            matePetList = data
+                                            myPetList = data
                                             isMateNavigating = true
                                         case .failure(let err):
                                             print(err)
@@ -161,20 +173,10 @@ struct MyPageView: View {
             .navigationTitle("마이페이지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isMyNavigating) {
-                MyPetListView(myData: myData, myPetList: $myPetList, title: "내 반려동물")
+                MyPetListView(myData: myData, myPetData: myPetData, chatRooms: $chatRooms, myPetList: $myPetList, title: "내 반려동물")
             }
             .navigationDestination(isPresented: $isMateNavigating) {
-                MyPetListView(myData: myData, myPetList: $matePetList, title: "메이트")
-            }
-        }
-        .onAppear {
-            PetNetwork.fetchMyPetList { result in
-                switch result {
-                case .success(let data):
-                    myPetList = data
-                case .failure(let err):
-                    print(err)
-                }
+                MyPetListView(myData: myData, myPetData: myPetData, chatRooms: $chatRooms, myPetList: $myPetList, title: "메이트")
             }
         }
         .alert("문의사항", isPresented: $showInquiryAlert) {
@@ -185,6 +187,7 @@ struct MyPageView: View {
         .loginRequiredAlert(isPresented: $showLoginAlert)
     }
 }
+
 
 struct FeatureButton: View {
     

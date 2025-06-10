@@ -11,7 +11,7 @@ import Kingfisher
 struct ProfileDetailView: View {
     @Binding var stack: NavigationPath
     @ObservedObject var myData: MyData
-    @Binding var myPets: [PetList]
+    @ObservedObject var myPetData: MyPetData
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -95,7 +95,7 @@ struct ProfileDetailView: View {
             Text("\(myData.myInfo?.userName ?? "")님의 반려동물")
                 .font(.notoSansBold(size: 16))
             
-            ForEach(myPets, id: \.id) { pet in
+            ForEach(myPetData.pets, id: \.id) { pet in
                 HStack(spacing: 12) {
                     
                     if let photo = pet.photos.first {

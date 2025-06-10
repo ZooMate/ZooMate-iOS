@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryList: View {
+    @ObservedObject var myPetData: MyPetData
     @Binding var showCategory: Bool
     @State var isModal = false
     @State var selectedImages: [UIImage] = []
@@ -48,7 +49,7 @@ struct CategoryList: View {
         }
         .fullScreenCover(isPresented: $isModal) {
             MyPetAddPickerView(
-                isModal: $showCategory, addPet: $addPet, petList: $petList
+                myPetData: myPetData, isModal: $showCategory, addPet: $addPet, petList: $petList
             )
         }
     }

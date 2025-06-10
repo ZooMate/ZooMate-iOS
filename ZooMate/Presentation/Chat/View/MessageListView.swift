@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MessageListView: View {
-    let message: [Message]
+    @ObservedObject var myData: MyData
+    @Binding var messages: [MessageResponse]
     @State var msg = ""
     
     var body: some View {
@@ -18,12 +19,14 @@ struct MessageListView: View {
             
             VStack {
                 List {
-                    ForEach(message) { m in
+                    ForEach($messages) { $m in
                         Group {
-                            if m.senderPetId == MyData().myInfo?.id {
-                                SendMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
+                            let time = DateFormatterManager.formattedTime(from: m.sendMSGAt) ?? "시간 오류"
+
+                            if m.senderPetId == myData.myInfo?.id {
+                                SendMessageCell(text: m.content, time: time, isRead: true)
                             } else {
-                                ReceiveMessageCell(text: m.content, time: timeFormatter.string(from: m.sendMsgAt), isRead: m.isRead)
+                                ReceiveMessageCell(text: m.content, time: time, isRead: true)
                             }
                         }
                         .listRowInsets(EdgeInsets())

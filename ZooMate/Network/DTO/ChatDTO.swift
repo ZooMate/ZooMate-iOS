@@ -7,14 +7,54 @@
 
 import Foundation
 
-// 채팅방 생성 -> 중복생성되는거같다
+// 채팅방 생성
 struct AddChatRoomResponse: Codable {
     let message: String
-    let data: AddChatRoom
+    let isCreated: Bool
+    let roomId: Int
 }
 
-struct AddChatRoom: Codable {
+struct ChatRoomResponse: Codable, Identifiable {
+    let roomId: Int
+    let opponentPet: OpponentPet
+    let userName: String
+    let lastMessage: ChatRoomListMsg?
+    
+    var id: Int { roomId }  // Identifiable이 요구하는 id 제공
+}
+
+struct ChatRoomListMsg: Codable {
+    let senderPetId: Int
+    let content: String
+    let sendMSGAt: String
+    let isRead: Bool
+}
+
+struct OpponentPet: Codable {
     let id: Int
-    let createdAt: String
+    let petName: String
+    let photos: [String]
+    let ownerId: Int
 }
 
+struct ChatRoomPet: Codable {
+    let id: Int
+    let petName: String
+    let photos: [String]
+    let ownerId: Int
+    let owner: Owner
+}
+
+struct Owner: Codable {
+    let userName: String
+}
+
+struct MessageResponse: Codable, Identifiable {
+    let id: Int
+    let roomId: Int
+    let senderPetId: Int
+    let content: String
+    var sendMSGAt: String
+    let isRead: Bool
+    let pet: ChatRoomPet
+}

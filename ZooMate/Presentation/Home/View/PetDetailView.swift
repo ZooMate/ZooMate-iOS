@@ -9,7 +9,9 @@ import SwiftUI
 import Kingfisher
 
 struct PetDetailView: View {
+    @ObservedObject var myPetData: MyPetData
     @Binding var petList: [PetList]
+    @Binding var chatRooms: [ChatRoomResponse]
     let pet: PetDetail
     let myData: MyData
     @Binding var isFavorite: Bool
@@ -18,7 +20,11 @@ struct PetDetailView: View {
     @State private var isPublic: Bool = true
     @State private var originalIsPublic: Bool = true
     @State private var isChangingPublic = false
+    @State private var showChatMenu = false
     @Environment(\.dismiss) var dismiss
+    
+    @State var isNavigating: Bool = false
+    @State var messages: [MessageResponse] = []
     
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
@@ -179,8 +185,39 @@ struct PetDetailView: View {
                     .padding(.horizontal, 16)
                     
                     if let _ = myData.myInfo, !isMyPet {
-                        Button {
-                            // TODO: 채팅 기능
+                        Menu {
+                            ForEach(myPetData.pets, id: \.id) { p in
+                                Button {
+                                    ChatNetwork.createChatRoom(petId: [p.id, pet.id]) { result in
+                                        switch result {
+                                        case .success(let data):
+                                            ChatNetwork.fetchMyChatRoom { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    chatRooms = data
+                                                case .failure(let err):
+                                                    print("패치 챗룸 데이터 \(err)")
+                                                }
+                                            }
+                                            ChatNetwork.fetchChatRoomMessage(roomId: data.roomId) { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    messages = data
+                                                    isNavigating  = true
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
+                                            print(data)
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
+                                } label: {
+                                    Text(p.petName)
+                                        .foregroundColor(.black)
+                                }
+                            }
                         } label: {
                             Text("채팅")
                                 .pinkButtonStyle()
@@ -204,14 +241,6 @@ struct PetDetailView: View {
                                         switch result {
                                         case .success(let msg):
                                             print(msg)
-                                            PetNetwork.fetchMyPetList { fetchResult in
-                                                switch fetchResult {
-                                                case .success(let newList):
-                                                    petList = newList
-                                                case .failure(let error):
-                                                    print("❌ 리스트 재불러오기 실패: \(error)")
-                                                }
-                                            }
                                             dismiss()
                                         case .failure(let err):
                                             print(err)
@@ -227,6 +256,9 @@ struct PetDetailView: View {
                         }
                     }
                 }
+            }
+            .navigationDestination(isPresented: $isNavigating) {
+                MessageListView(myData: myData, messages: $messages)
             }
         }
         .loginRequiredAlert(isPresented: $loginAlert)
