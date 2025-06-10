@@ -54,7 +54,7 @@ struct PetDetail: Codable {
     let age: Int
     let gender: String
     let isNeutering: Bool
-    let isPublic: Bool
+    var isPublic: Bool
     let breed: String
     let weight: Float
     let petDesc: String
@@ -71,6 +71,6 @@ struct PetMsgResponse: Codable {
 
 // 반려동물 공개여부
 struct PublicPetResponse: Codable {
-    let message: String
-    let data: String
+    let mesage: String
+    let data: Bool
 }

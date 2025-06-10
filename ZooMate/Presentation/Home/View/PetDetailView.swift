@@ -10,11 +10,14 @@ import Kingfisher
 
 struct PetDetailView: View {
     let pet: PetDetail
+    let petId: Int
     let myData: MyData
     @State private var selectedPhotoIndex: Int = 0
+    @State private var loginAlert: Bool = false
     @State private var isFavorite: Bool = false
     @State private var isPublic: Bool = true
-    @State private var loginAlert: Bool = false
+    @State private var originalIsPublic: Bool = true
+    @State private var isChangingPublic = false
     
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
@@ -50,6 +53,10 @@ struct PetDetailView: View {
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .padding(.bottom, -5)
+                                .onAppear {
+                                    isPublic = pet.isPublic
+                                    originalIsPublic = pet.isPublic
+                                }
                             Spacer()
                             
                             if let _ = myData.myInfo {
@@ -59,6 +66,25 @@ struct PetDetailView: View {
                                     Toggle("", isOn: $isPublic)
                                         .labelsHidden()
                                         .tint(.pointPink)
+                                        .onChange(of: isPublic) {
+                                            guard isPublic != originalIsPublic else { return } // 값이 바뀐 경우에만 실행
+                                            guard !isChangingPublic else { return }
+                                            
+                                            isChangingPublic = true
+                                            PetNetwork.updateMyPetPublic(petId: petId) { result in
+                                                DispatchQueue.main.async {
+                                                    switch result {
+                                                    case .success(let updatedValue):
+                                                        originalIsPublic = updatedValue
+                                                        isPublic = updatedValue
+                                                    case .failure(let err):
+                                                        isPublic = originalIsPublic // 되돌리기
+                                                        print("❌ 공개 여부 변경 실패:", err)
+                                                    }
+                                                    isChangingPublic = false
+                                                }
+                                            }
+                                        }
                                 } else {
                                     Button {
                                         isFavorite.toggle()

@@ -13,6 +13,7 @@ struct MyPetView: View {
     @ObservedObject var myData: MyData
     @State private var selectedPet: PetDetail? = nil
     @State private var isNavigating: Bool = false
+    @State private var petId: Int = 0
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -28,9 +29,10 @@ struct MyPetView: View {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(myPetList, id: \.id) { pet in
                         Button {
-                            PetNetwork.fetchPetDetailData(petId: pet.id) { result in
+                            PetNetwork.fetchMyPetDetailData(petId: pet.id) { result in
                                 switch result {
                                 case .success(let data):
+                                    petId = pet.id
                                     selectedPet = data
                                     isNavigating = true
                                 case .failure(let error):
@@ -48,7 +50,7 @@ struct MyPetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                PetDetailView(pet: selectedPet, myData: myData)
+                PetDetailView(pet: selectedPet, petId: petId, myData: myData)
                     .onAppear { isOnDetail = true }
                     .onDisappear { isOnDetail = false }
             } else {
