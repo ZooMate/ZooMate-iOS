@@ -166,4 +166,30 @@ class PetNetwork {
                 }
             }
     }
+    
+    static func deleteMyPet(petId: Int, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "\(BaseURL.url)/pet/\(petId)"
+        
+        guard let token = KeychainHelper.read(forAccount: "token") else {
+            print("❌ Access Token이 없습니다.")
+            completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Access Token이 없습니다."])))
+            return
+        }
+
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "accept": "*/*"
+        ]
+        
+        AF.request(url, method: .delete, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: PetMsgResponse1.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data.mesaage))
+                case .failure(let err):
+                    completion(.failure(err))
+                }
+            }
+    }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct PetDetailView: View {
+    @Binding var petList: [PetList]
     let pet: PetDetail
     let petId: Int
     let myData: MyData
@@ -18,6 +19,7 @@ struct PetDetailView: View {
     @State private var isPublic: Bool = true
     @State private var originalIsPublic: Bool = true
     @State private var isChangingPublic = false
+    @Environment(\.dismiss) var dismiss
     
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
@@ -162,7 +164,23 @@ struct PetDetailView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Menu {
                                 Button {
-                                    // TODO: 삭제 기능
+                                    PetNetwork.deleteMyPet(petId: petId) { result in
+                                        switch result {
+                                        case .success(let msg):
+                                            print(msg)
+                                            PetNetwork.fetchMyPetList { fetchResult in
+                                                switch fetchResult {
+                                                case .success(let newList):
+                                                    petList = newList
+                                                case .failure(let error):
+                                                    print("❌ 리스트 재불러오기 실패: \(error)")
+                                                }
+                                            }
+                                            dismiss()
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                 } label: {
                                     Text("삭제")
                                 }

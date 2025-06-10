@@ -50,7 +50,7 @@ struct MyPetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                PetDetailView(pet: selectedPet, petId: petId, myData: myData)
+                PetDetailView(petList: $myPetList, pet: selectedPet, petId: petId, myData: myData)
                     .onAppear { isOnDetail = true }
                     .onDisappear { isOnDetail = false }
             } else {
