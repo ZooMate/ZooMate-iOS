@@ -15,21 +15,10 @@ struct SignUpFirstView: View {
     @State var checkId: Bool = false
     
     @State private var selectedImage: UIImage?
-    @State private var user: SignupRequest = {
-        let defaultImageData: Data? = {
-            if let image = UIImage(named: "userIcon"),
-               let data = image.jpegData(compressionQuality: 0.8) {
-                return data
-            } else {
-                return nil
-            }
-        }()
-        
-        return SignupRequest(
-            userId: "", userName: "", userPassword: "",
-            region: "", userDesc: "", profile: defaultImageData!
-        )
-    }()
+    @State private var user: SignupRequest = SignupRequest(
+        userId: "", userName: "", userPassword: "",
+        region: "", userDesc: "", profile: nil
+    )
     
     @Environment(\.dismiss) private var dismiss
     
