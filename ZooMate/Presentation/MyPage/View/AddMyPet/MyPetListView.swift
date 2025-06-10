@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPetListView: View {
     @ObservedObject var myData: MyData
+    @ObservedObject var myPetData: MyPetData
     @Binding var myPetList: [PetList]
     let title: String
     @State private var showCategory = false
@@ -48,7 +49,7 @@ struct MyPetListView: View {
             }
             
             if showCategory {
-                CategoryList(showCategory: $showCategory, petList: $myPetList)
+                CategoryList(myPetData: myPetData, showCategory: $showCategory, petList: $myPetList)
             }
         }
         .toolbar(.hidden, for: .tabBar)

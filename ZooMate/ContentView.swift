@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var myData = MyData()
+    @StateObject var myPetData = MyPetData()
     @State var myChatData = [ChatRoomResponse]()
     
     var body: some View {
@@ -28,7 +29,7 @@ struct ContentView: View {
                 }
             }
             Tab("마이페이지", systemImage: "person.fill") {
-                MyPageView(myData: myData, isLoggedIn: myData.myInfo != nil)
+                MyPageView(myData: myData, myPetData: myPetData, isLoggedIn: myData.myInfo != nil)
             }
         }
         .background(Color.background)

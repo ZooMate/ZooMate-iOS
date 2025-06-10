@@ -18,6 +18,8 @@ struct PetDetailView: View {
     @State private var isPublic: Bool = true
     @State private var originalIsPublic: Bool = true
     @State private var isChangingPublic = false
+    @State private var showChatMenu = false
+    @State private var myPets: [PetList] = []
     @Environment(\.dismiss) var dismiss
     
     var isMyPet: Bool {
@@ -180,11 +182,22 @@ struct PetDetailView: View {
                     
                     if let _ = myData.myInfo, !isMyPet {
                         Button {
-                            // TODO: 채팅 기능
+                            showChatMenu = true
                         } label: {
                             Text("채팅")
                                 .pinkButtonStyle()
                         }
+//                        .confirmationDialog("채팅할 동물을 선택하세요", isPresented: $showChatMenu, titleVisibility: .visible) {
+//                            if let myPets = myData.myInfo?.myPets {
+//                                ForEach(myPets, id: \.id) { pet in
+//                                    Button(pet.petName) {
+//                                        
+//                                    }
+//                                }
+//                            } else {
+//                                Button("내 동물 정보 없음") {}
+//                            }
+//                        }
                     } else if myData.myInfo == nil {
                         Button {
                             loginAlert = true

@@ -18,6 +18,7 @@ struct SelectedImageItem: Equatable, Identifiable {
 }
 
 struct MyPetAddPickerView: View {
+    @ObservedObject var myPetData: MyPetData
     @Environment(\.dismiss) var dismiss
     @Binding var isModal: Bool
     @Binding var addPet: AddPetRequest
@@ -47,7 +48,7 @@ struct MyPetAddPickerView: View {
                             Text("다음")
                                 .grayButtonStyle()
                         } else {
-                            NavigationLink(destination: MyPetAddProfileView1(isModal: $isModal, addPet: $addPet, petList: $petList)) {
+                            NavigationLink(destination: MyPetAddProfileView1(myPetData: myPetData, isModal: $isModal, addPet: $addPet, petList: $petList)) {
                                 Text("다음")
                                     .pinkButtonStyle()
                             }

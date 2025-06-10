@@ -10,12 +10,8 @@ import Foundation
 // 채팅방 생성
 struct AddChatRoomResponse: Codable {
     let message: String
-    let data: AddChatRoom
-}
-
-struct AddChatRoom: Codable {
-    let id: Int
-    let createdAt: String
+    let isCreated: Bool
+    let roomId: Int
 }
 
 struct ChatRoomResponse: Codable, Identifiable {

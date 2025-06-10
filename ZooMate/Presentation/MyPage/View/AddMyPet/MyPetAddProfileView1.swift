@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyPetAddProfileView1: View {
+    @ObservedObject var myPetData: MyPetData
     @State var petName: String = ""
     @State var age: String = ""
     @State var gender: Gender = .male
@@ -142,7 +143,7 @@ struct MyPetAddProfileView1: View {
                         Text("다음")
                             .grayButtonStyle()
                     } else {
-                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal, addPet: $addPet, petList: $petList)) {
+                        NavigationLink(destination: MyPetAddProfileView2(myPetData: myPetData, isModal: $isModal, addPet: $addPet, petList: $petList)) {
                             Text("다음")
                                 .pinkButtonStyle()
                         }
