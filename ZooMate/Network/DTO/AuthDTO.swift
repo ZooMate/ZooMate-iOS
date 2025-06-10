@@ -15,13 +15,17 @@ struct LoginResponse: Decodable {
     }
 }
 
+struct CheckIdResponse: Codable {
+    let isTaken: Bool
+}
+
 struct SignupRequest: Encodable {
     var userId: String
     var userName: String
     var userPassword: String
     var region: String
     var userDesc: String
-    var profile: String
+    var profile: Data
 }
 
 struct SignupResponse: Decodable {
@@ -34,10 +38,6 @@ struct SignupResponse: Decodable {
     let profile: String
 }
 
-struct CheckIdResponse: Codable {
-    let isTaken: Bool
-}
-
-struct Response: Decodable {
+struct PasswordResponse: Codable {
     let message: String
 }

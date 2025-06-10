@@ -25,6 +25,8 @@ struct TextFieldStyle: ViewModifier {
             )
             .padding(.horizontal, paddingSpace) // TextField <-> View 간의 padding
             .padding(.bottom, 8)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
     }
 }
 

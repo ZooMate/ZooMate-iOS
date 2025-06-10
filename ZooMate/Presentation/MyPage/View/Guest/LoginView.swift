@@ -51,7 +51,7 @@ struct LoginView: View {
                                         case .success(let user):
                                             DispatchQueue.main.async {
                                                 myData.myInfo = user
-                                                dismiss() // ✅ 여기선 sheet 또는 fullScreenCover일 때만 작동
+                                                dismiss()
                                             }
                                         case .failure(let fetchError):
                                             print("❌ 사용자 정보 가져오기 실패: \(fetchError.localizedDescription)")

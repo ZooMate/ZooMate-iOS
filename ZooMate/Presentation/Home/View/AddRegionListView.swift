@@ -39,6 +39,8 @@ struct AddRegionList: View {
             VStack(spacing: 0) {
                 HStack {
                     TextField("지역 이름을 검색하세요", text: $searchText)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
                         .padding(8)
                         .background(.white)
                         .cornerRadius(8)

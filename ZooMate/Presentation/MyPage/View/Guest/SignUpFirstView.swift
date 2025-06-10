@@ -13,9 +13,13 @@ struct SignUpFirstView: View {
     @State var password: String = ""
     @State var password2: String = ""
     @State var checkId: Bool = false
-    @State var user: SignupRequest = SignupRequest(userId: "", userName: "", userPassword: "", region: "", userDesc: "", profile: "")
     
+    @State private var user: SignupRequest = SignupRequest(
+        userId: "", userName: "", userPassword: "",
+        region: "", userDesc: "", profile: Data()
+    )
     @State private var selectedImage: UIImage?
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -58,7 +62,7 @@ struct SignUpFirstView: View {
                                                 )
                                                 .onChange(of: userId) {
                                                     checkId = false
-                                                    user.userId = userId // 이게 맞음
+                                                    user.userId = userId
                                                 }
                                             Button {
                                                 AuthNetwork.checkId(userId: userId) { result in
@@ -118,6 +122,12 @@ struct SignUpFirstView: View {
                         .padding(.top, 50)
                         // FIXME: 회원 여부에 따른 이미지 가져오기, 기본 이미지 출력
                         ProfileImageSelectedView(myData: MyData(), selectedImage: $selectedImage, isNewUser: true)
+                            .onChange(of: selectedImage) {
+                                if let img = selectedImage,
+                                   let data = img.jpegData(compressionQuality: 0.8) {
+                                    user.profile = data
+                                }
+                            }
                     }
                     .padding(.top)
                     

@@ -31,9 +31,18 @@ enum Gender: String, Codable {
 }
 
 // MARK: - 종 enum
-enum Category: String, Codable {
-    case cat = "고양이"
-    case dog = "강아지"
-    case bird = "조류"
-    case reptile = "파충류"
+enum Category: String, Codable, CaseIterable {
+    case cat = "cat"
+    case dog = "dog"
+    case bird = "bird"
+    case reptile = "reptile"
+    
+    var displayName: String {
+        switch self {
+        case .cat: return "고양이"
+        case .dog: return "강아지"
+        case .bird: return "조류"
+        case .reptile: return "파충류"
+        }
+    }
 }

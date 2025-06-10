@@ -37,6 +37,11 @@ struct ProfileDetailView: View {
                                     .frame(width: 100, height: 100)
                             }
                             .resizable()
+                            .background(.white)
+                            .overlay(
+                                Circle()
+                                    .stroke(.sandBeige, lineWidth: 10)
+                            )
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())

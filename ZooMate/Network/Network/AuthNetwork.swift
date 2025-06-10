@@ -12,14 +12,17 @@ class AuthNetwork {
     // 회원가입
     static func signupUser(user: SignupRequest, completion: @escaping (Result<SignupResponse, Error>) -> Void) {
         let url = "http://localhost:3000/user/signup"
-        
-        AF.request(url,
-                   method: .post,
-                   parameters: user,
-                   encoder: JSONParameterEncoder.default,
-                   headers: [.contentType("application/json")]
-        ).validate(statusCode: 200..<300)
-         .responseDecodable(of: SignupResponse.self) { response in
+
+        AF.upload(multipartFormData: { multipart in
+            multipart.append(Data(user.userId.utf8), withName: "userId")
+            multipart.append(Data(user.userName.utf8), withName: "userName")
+            multipart.append(Data(user.userPassword.utf8), withName: "userPassword")
+            multipart.append(Data(user.region.utf8), withName: "region")
+            multipart.append(Data(user.userDesc.utf8), withName: "userDesc")
+            multipart.append(user.profile, withName: "profile", fileName: "profile.jpg", mimeType: "image/jpeg")
+        }, to: url)
+        .validate(statusCode: 200..<300)
+        .responseDecodable(of: SignupResponse.self) { response in
             switch response.result {
             case .success(let signupResponse):
                 completion(.success(signupResponse))
@@ -101,7 +104,7 @@ class AuthNetwork {
         
         AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .validate(statusCode: 200..<300)
-            .responseDecodable(of: Response.self) { respone in
+            .responseDecodable(of: PasswordResponse.self) { respone in
                 switch respone.result {
                 case .success(let result):
                     completion(.success(result.message))

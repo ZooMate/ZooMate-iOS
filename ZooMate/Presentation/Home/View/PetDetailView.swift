@@ -9,17 +9,24 @@ import SwiftUI
 import Kingfisher
 
 struct PetDetailView: View {
-    let pet: Pet
-    @State var isFavorite: Bool = false
+    let pet: PetDetail
+    let myData: MyData
     @State private var selectedPhotoIndex: Int = 0
+    @State private var isFavorite: Bool = false
+    @State private var isPublic: Bool = true
+    @State private var loginAlert: Bool = false
+    
+    var isMyPet: Bool {
+        myData.myInfo?.id == pet.ownerId
+    }
     
     var body: some View {
-        ZStack {
-            Color.background
-                .ignoresSafeArea()
+        ZStack(alignment: .bottom) {
+            Color.background.ignoresSafeArea()
             
             VStack {
                 ScrollView {
+                    // 사진 탭 뷰
                     TabView(selection: $selectedPhotoIndex) {
                         ForEach(pet.photos.indices, id: \.self) { index in
                             KFImage(URL(string: pet.photos[index]))
@@ -39,32 +46,51 @@ struct PetDetailView: View {
                             Text("\(pet.age)살")
                                 .font(.notoSansBold(size: 20))
                                 .padding(.trailing, 3)
-                            Image(pet.gender.rawValue == "male" ? "iconMale" : "iconFemale")
+                            Image(pet.gender == "male" ? "iconMale" : "iconFemale")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .padding(.bottom, -5)
                             Spacer()
-                            Button {
-                                isFavorite.toggle()
-                            } label: {
-                                Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                    .foregroundStyle(.pointPink)
-                                    .font(.system(size: 30))
+                            
+                            if let _ = myData.myInfo {
+                                if isMyPet {
+                                    Text("프로필 공개")
+                                        .font(.notoSansRegular(size: 14))
+                                    Toggle("", isOn: $isPublic)
+                                        .labelsHidden()
+                                        .tint(.pointPink)
+                                } else {
+                                    Button {
+                                        isFavorite.toggle()
+                                    } label: {
+                                        Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                            .font(.system(size: 20))
+                                            .foregroundStyle(.pointPink)
+                                    }
+                                    .padding(.top, 5)
+                                }
+                            } else {
+                                Button {
+                                    loginAlert = true
+                                } label: {
+                                    Image(systemName: "heart")
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(.gray)
+                                }
+                                .padding(.top, 5)
                             }
                         }
-                        .padding(.bottom, 10)
                         
                         Text(pet.petDesc)
-                            .frame(maxHeight: .infinity)
                             .font(.notoSansRegular(size: 16))
-                            .padding(.bottom, 15)
+                            .padding(.vertical, 15)
                         
                         Text("프로필")
                             .font(.notoSansBold(size: 20))
                             .padding(.bottom, 5)
                         
                         HStack {
-                            Text("\(pet.category)")
+                            Text("\(Category(rawValue: pet.category)?.displayName ?? pet.category)")
                                 .frame(width: 100, alignment: .leading)
                             Text("중성화 \(pet.isNeutering ? "O" : "X")")
                         }
@@ -72,9 +98,9 @@ struct PetDetailView: View {
                         .padding(.bottom, 2)
                         
                         HStack {
-                            Text(pet.breed ?? "")
+                            Text(pet.breed)
                                 .frame(width: 100, alignment: .leading)
-                            Text(pet.weight != nil ? (String(format: "%.1f", pet.weight!)) + "kg" : "무게정보없음")
+                            Text(String(format: "%.1fkg", pet.weight))
                         }
                         .font(.notoSansRegular(size: 15))
                         .padding(.bottom, 15)
@@ -84,34 +110,45 @@ struct PetDetailView: View {
                             .padding(.bottom, 5)
                         
                         TagWrapView(tags: pet.tag)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, 20)
                     }
                     .padding(.horizontal, 16)
-                }
-                Button {
                     
-                } label: {
-                    Text("채팅")
-                        .pinkButtonStyle()
-                }
-            }
-        }
-        .toolbar(.hidden, for: .tabBar)
-        .toolbar {
-            if pet.ownerId == MyData().myInfo?.id {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
+                    if let _ = myData.myInfo, !isMyPet {
                         Button {
-                            // TODO: 삭제기능
+                            // TODO: 채팅 기능
                         } label: {
-                            Text("삭제")
+                            Text("채팅")
+                                .pinkButtonStyle()
                         }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(.black)
+                    } else if myData.myInfo == nil {
+                        Button {
+                            loginAlert = true
+                        } label: {
+                            Text("채팅")
+                                .pinkButtonStyle()
+                        }
+                    }
+                }
+                .toolbar(.hidden, for: .tabBar)
+                .toolbar {
+                    if isMyPet {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Menu {
+                                Button {
+                                    // TODO: 삭제 기능
+                                } label: {
+                                    Text("삭제")
+                                }
+                            } label: {
+                                Image(systemName: "ellipsis")
+                                    .foregroundStyle(.black)
+                            }
+                        }
                     }
                 }
             }
         }
+        .loginRequiredAlert(isPresented: $loginAlert)
     }
 }

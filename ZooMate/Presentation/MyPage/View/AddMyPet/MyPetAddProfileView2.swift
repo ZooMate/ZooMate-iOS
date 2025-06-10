@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct MyPetAddProfileView2: View {
-    
-    @State var breed: String? = nil
-    @State var weight: String? = nil
+    @State var breed: String = ""
+    @State var weight: String = ""
     @State var desc: String = ""
     @State var tag: [String] = []
     @Binding var isModal: Bool
+    @Binding var addPet: AddPetRequest
+    @Binding var petList: [PetList]
     
     var body: some View {
         ZStack {
@@ -28,61 +29,38 @@ struct MyPetAddProfileView2: View {
                     .foregroundStyle(.mainText)
                     .padding(.horizontal)
                 GeometryReader { geo in
+                    let labelWidth = geo.size.width * 0.2
+                    let fieldWidth = geo.size.width * 0.6
+                    
                     VStack {
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("품종")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
-                            TextField("슈나우저", text: Binding(
-                                get: { breed ?? "" },
-                                set: { breed = $0 }
-                            ))
-                            .frame(width: geo.size.width * 0.6)
-                            .padding(.vertical, 15)
-                            .padding(.horizontal, 20)
-                            .font(.notoSansRegular(size: 17))
-                            .foregroundStyle(.category)
-                            .background(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(.sandBeige, lineWidth: 2)
-                            }
+                            TextField("슈나우저", text: $breed)
+                                .sandTextFieldStyle(width: fieldWidth)
+                                .onChange(of: breed) {
+                                    addPet.breed = breed
+                                }
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("무게")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
-                            ZStack(alignment: .bottomTrailing){
-                                TextField("3.5", text: Binding(
-                                    get: { weight ?? "" },
-                                    set: { weight = $0 }
-                                ))
-                                .keyboardType(.decimalPad)
-                                .onChange(of: weight) {
-                                    var filtered = weight?.filter { "0123456789.".contains($0) } ?? ""
-                                    let components = filtered.split(separator: ".")
-                                    if components.count > 1 {
-                                        filtered = components[0] + "." + components[1...].joined()
+                            ZStack(alignment: .bottomTrailing) {
+                                TextField("3.5", text: $weight)
+                                    .keyboardType(.decimalPad)
+                                    .onChange(of: weight) {
+                                        var filtered = weight.filter { "0123456789.".contains($0) }
+                                        let components = filtered.split(separator: ".")
+                                        if components.count > 1 {
+                                            filtered = components[0] + "." + components[1...].joined()
+                                        }
+                                        weight = filtered
+                                        addPet.weight = Float(filtered) ?? 0.0
                                     }
-                                    weight = filtered
-                                }
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                    .sandTextFieldStyle(width: fieldWidth)
                                 
                                 Text("kg")
                                     .font(.notoSansMedium(size: 17))
@@ -94,30 +72,22 @@ struct MyPetAddProfileView2: View {
                         
                         HStack(alignment: .top, spacing: 12) {
                             Text("소개글 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
+                                .padding(.top, 10)
                             
-                            TextEditor(text: Binding(
-                                get: { desc },
-                                set: { desc = $0 }
-                            ))
-                            .frame(width: geo.size.width * 0.6, height: 100)
-                            .font(.notoSansRegular(size: 17))
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 15)
-                            .padding(.horizontal, 20)
-                            .background(Color.white)
-                            .foregroundStyle(.category)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(.sandBeige, lineWidth: 2)
+                            TextEditor(text: $desc)
+                            .frame(height: 100)
+                            .sandTextFieldStyle(width: fieldWidth)
+                            .onChange(of: desc) {
+                                addPet.petDesc = desc
                             }
                         }
                         
                         TagSelectionView(selectedTags: $tag)
                             .padding(.horizontal, -8)
+                            .onChange(of: tag) {
+                                addPet.tag = tag
+                            }
                     }
                     .padding(.top, 35)
                     .frame(width: geo.size.width)
@@ -129,6 +99,23 @@ struct MyPetAddProfileView2: View {
                     } else {
                         Button {
                             isModal = false
+                            print(addPet)
+                            PetNetwork.createPet(pet: addPet) { result in
+                                switch result {
+                                case .success(let data):
+                                    print("성공: \(data)")
+                                    PetNetwork.fetchMyPetList { fetchResult in
+                                        switch fetchResult {
+                                        case .success(let newList):
+                                            petList = newList
+                                        case .failure(let error):
+                                            print("❌ 리스트 재불러오기 실패: \(error)")
+                                        }
+                                    }
+                                case .failure(let err):
+                                    print("실패 \(err.localizedDescription)")
+                                }
+                            }
                         } label: {
                             Text("확인")
                                 .pinkButtonStyle()

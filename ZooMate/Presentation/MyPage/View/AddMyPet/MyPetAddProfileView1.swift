@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct MyPetAddProfileView1: View {
-    
     @State var petName: String = ""
     @State var age: String = ""
     @State var gender: Gender = .male
-    @State var isNeutering: Bool = false
-    @State var isPublic: Bool = true
     @Binding var isModal: Bool
+    @Binding var addPet: AddPetRequest
+    @Binding var petList: [PetList]
     
     var body: some View {
         ZStack {
@@ -29,174 +28,104 @@ struct MyPetAddProfileView1: View {
                     .foregroundStyle(.mainText)
                     .padding(.horizontal)
                 GeometryReader { geo in
+                    let labelWidth = geo.size.width * 0.2
+                    let fieldWidth = geo.size.width * 0.6
+                    let buttonWidth = geo.size.width * 0.34
+                    
                     VStack {
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("이름 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             TextField("반려동물의 이름", text: $petName)
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
+                                .sandTextFieldStyle(width: fieldWidth)
+                                .onChange(of: petName) {
+                                    addPet.petName = petName
                                 }
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("나이 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             TextField("반려동물의 나이", text: $age)
+                                .sandTextFieldStyle(width: fieldWidth)
                                 .keyboardType(.numberPad)
                                 .onChange(of: age) {
                                     age = age.filter{ $0.isNumber }
-                                }
-                                .frame(width: geo.size.width * 0.6)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 20)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
+                                    addPet.age = Int(age) ?? 0
                                 }
                         }
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("성별 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    gender = .female
+                                    addPet.gender = "female"
                                 } label: {
                                     Text("여자")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(gender == .female ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.gender == "female", width: buttonWidth)
                                 
                                 Button {
-                                    gender = .male
+                                    addPet.gender = "male"
                                 } label: {
                                     Text("남자")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(gender == .male ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.gender == "male", width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
                         
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
                             Text("중성화 *")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    isNeutering = true
+                                    addPet.isNeutering = true
                                 } label: {
                                     Text("O")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isNeutering == true ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.isNeutering == true, width: buttonWidth)
                                 
                                 Button {
-                                    isNeutering = false
+                                    addPet.isNeutering = false
                                 } label: {
                                     Text("X")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isNeutering == false ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.isNeutering == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
                         
                         HStack(spacing: 12) {
                             Text("프로필 *\n공개여부")
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
-                                .fixedSize(horizontal: false, vertical: true) // 여러 줄도 보이게끔
-                                .font(.notoSansMedium(size: 17))
-                                .foregroundStyle(.mainText)
+                                .formLabelStyle(width: labelWidth)
+                                .fixedSize(horizontal: false, vertical: true)
                             
                             HStack(spacing: 8) {
                                 Button {
-                                    isPublic = true
+                                    addPet.isPublic = true
                                 } label: {
                                     Text("공개")
                                         .padding()
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isPublic == true ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.isPublic == true, width: buttonWidth)
                                 
                                 Button {
-                                    isPublic = false
+                                    addPet.isPublic = false
                                 } label: {
                                     Text("비공개")
                                         .padding(15)
                                 }
-                                .frame(width: geo.size.width * 0.34)
-                                .font(.notoSansRegular(size: 17))
-                                .foregroundStyle(.category)
-                                .background(isPublic == false ? .sandBeige : .white)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.sandBeige, lineWidth: 2)
-                                }
+                                .sandButtonStyle(isSelected: addPet.isPublic == false, width: buttonWidth)
                             }
                         }
                         .padding(.top, 2)
@@ -213,7 +142,7 @@ struct MyPetAddProfileView1: View {
                         Text("다음")
                             .grayButtonStyle()
                     } else {
-                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal)) {
+                        NavigationLink(destination: MyPetAddProfileView2(isModal: $isModal, addPet: $addPet, petList: $petList)) {
                             Text("다음")
                                 .pinkButtonStyle()
                         }

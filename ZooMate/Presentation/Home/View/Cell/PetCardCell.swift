@@ -9,8 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct PetCardCell: View {
-    let pet: Pet
-    let user: User
+    let pet: PetList
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -26,14 +25,14 @@ struct PetCardCell: View {
                         Text("\(pet.petName) \(pet.age)살")
                             .font(.notoSansMedium(size: 14))
                             .foregroundStyle(.mainText)
-                        Image(pet.gender == .male ? "iconMale" : "iconFemale")
+                        Image(pet.gender == "male" ? "iconMale" : "iconFemale")
                             .resizable()
                             .frame(width: 12, height: 12)
-                            .foregroundColor(pet.gender == .male ? .blue : .pink)
+                            .foregroundColor(pet.gender == "male" ? .blue : .pink)
                     }
                     .padding(.top, 6)
                     
-                    Text("[\(pet.category.rawValue)] \(pet.breed ?? "")")
+                    Text("[\(Category(rawValue: pet.category)?.displayName ?? pet.category)] \(pet.breed)")
                         .font(.notoSansRegular(size: 12))
                         .foregroundColor(.subText)
                         .padding(.top, 3)
@@ -43,9 +42,10 @@ struct PetCardCell: View {
             .background(.sandBeige)
             .cornerRadius(20)
             
-            if let image = user.profile, let url = URL(string: image) {
+            if let url = URL(string: pet.owner.profile) {
                 KFImage(url)
                     .resizable()
+                    .background(.white)
                     .scaledToFill()
                     .frame(width: 45, height: 45)
                     .clipShape(Circle())
