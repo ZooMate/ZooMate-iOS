@@ -18,10 +18,13 @@ struct AddChatRoom: Codable {
     let createdAt: String
 }
 
-struct ChatRoomResponse: Codable {
+struct ChatRoomResponse: Codable, Identifiable {
     let roomId: Int
     let opponentPet: OpponentPet
+    let userName: String
     let lastMessage: ChatRoomListMsg
+    
+    var id: Int { roomId }  // Identifiable이 요구하는 id 제공
 }
 
 struct ChatRoomListMsg: Codable {
@@ -29,7 +32,6 @@ struct ChatRoomListMsg: Codable {
     let content: String
     let sendMSGAt: String
     let isRead: Bool
-    let userName: String
 }
 
 struct OpponentPet: Codable {
@@ -51,12 +53,12 @@ struct Owner: Codable {
     let userName: String
 }
 
-struct MessageResponse: Codable {
+struct MessageResponse: Codable, Identifiable {
     let id: Int
     let roomId: Int
     let senderPetId: Int
     let content: String
-    let sendMSGAt: String
+    var sendMSGAt: String
     let isRead: Bool
     let pet: ChatRoomPet
 }

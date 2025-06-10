@@ -17,20 +17,11 @@ struct ContentView: View {
                 MainHomeView(myData: myData)
             }
             Tab("채팅", systemImage: "message") {
-                // ChatMainView(myData: myData, chatRooms: $myChatData)
+                ChatMainView(myData: myData, chatRooms: $myChatData)
                 let _ = ChatNetwork.fetchMyChatRoom { result in
                     switch result {
                     case .success(let data):
                         myChatData = data
-                        print("챗룸 \(data)")
-                    case .failure(let err):
-                        print(err)
-                    }
-                }
-                let _ = ChatNetwork.fetchChatRoomMessage(roomId: 4) { result in
-                    switch result {
-                    case .success(let data):
-                        print("메세지 \(data)")
                     case .failure(let err):
                         print(err)
                     }
