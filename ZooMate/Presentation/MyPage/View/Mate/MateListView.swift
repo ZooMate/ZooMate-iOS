@@ -9,12 +9,13 @@ import SwiftUI
 
 struct MateListView: View {
     @ObservedObject var myData: MyData
+    @Binding var matePetList: [PetList]
     
     var body: some View {
         if myData.myInfo == nil {
             LoginPromptView()
         } else {
-            MateView(data: DummyData1())
+            MateView(myData: myData, matePetList: $matePetList)
                 .toolbar(.hidden, for: .tabBar)
         }
     }

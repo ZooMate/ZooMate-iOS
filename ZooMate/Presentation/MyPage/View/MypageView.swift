@@ -13,6 +13,7 @@ struct MyPageView: View {
     @State var stack = NavigationPath()
     @State private var showAlret = false
     @State var myPetList: [PetList] = []
+    @State var matePetList: [PetList] = []
     let isLoggedIn: Bool
     
     var body: some View {
@@ -61,6 +62,15 @@ struct MyPageView: View {
                                                     print(err)
                                                 }
                                             }
+                                            MateNetwork.fetchMatePetList { result in
+                                                switch result {
+                                                case .success(let data):
+                                                    myPetList = data
+                                                    matePetList = data
+                                                case .failure(let err):
+                                                    print(err)
+                                                }
+                                            }
                                         }
                                     
                                     Text(myData.myInfo?.region ?? "지역정보없음")
@@ -98,7 +108,7 @@ struct MyPageView: View {
                             NavigationLink(destination: MyPetListView(myData: myData, myPetList: $myPetList)) {
                                 FeatureButton(title: "내 반려동물", systemImage: "pawprint")
                             }
-                            NavigationLink(destination: MateListView(myData: myData)) {
+                            NavigationLink(destination: MateListView(myData: myData, matePetList: $matePetList)) {
                                 FeatureButton(title: "메이트", systemImage: "heart")
                             }
                         }
