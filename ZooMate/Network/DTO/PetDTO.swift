@@ -50,6 +50,7 @@ struct PetDetailResponse: Codable {
 }
 
 struct PetDetail: Codable {
+    let id: Int
     let petName: String
     let age: Int
     let gender: String
@@ -69,12 +70,8 @@ struct PetMsgResponse: Codable {
     let message: String
 }
 
-struct PetMsgResponse1: Codable {
-    let mesaage: String
-}
-
 // 반려동물 공개여부
 struct PublicPetResponse: Codable {
-    let mesage: String
+    let message: String
     let data: Bool
 }
