@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct PetDetailView: View {
+    @ObservedObject var myPetData: MyPetData
     @Binding var petList: [PetList]
     let pet: PetDetail
     let myData: MyData
@@ -181,23 +182,20 @@ struct PetDetailView: View {
                     .padding(.horizontal, 16)
                     
                     if let _ = myData.myInfo, !isMyPet {
-                        Button {
-                            showChatMenu = true
+                        Menu {
+                            ForEach(myPetData.pets, id: \.id) { pet in
+                                Button {
+                                    // 여기에서 채팅 동작 처리
+                                    print("선택한 펫: \(pet.petName)")
+                                } label: {
+                                    Text(pet.petName)
+                                        .foregroundColor(.black) // ✅ Menu에서는 이게 잘 적용됨
+                                }
+                            }
                         } label: {
                             Text("채팅")
                                 .pinkButtonStyle()
                         }
-//                        .confirmationDialog("채팅할 동물을 선택하세요", isPresented: $showChatMenu, titleVisibility: .visible) {
-//                            if let myPets = myData.myInfo?.myPets {
-//                                ForEach(myPets, id: \.id) { pet in
-//                                    Button(pet.petName) {
-//                                        
-//                                    }
-//                                }
-//                            } else {
-//                                Button("내 동물 정보 없음") {}
-//                            }
-//                        }
                     } else if myData.myInfo == nil {
                         Button {
                             loginAlert = true

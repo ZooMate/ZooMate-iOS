@@ -28,7 +28,7 @@ struct MyPetListView: View {
                     Spacer()
                 }
             } else {
-                MyPetView(myPetList: $myPetList, myData: myData)
+                MyPetView(myPetList: $myPetList, myData: myData, myPetData: myPetData)
             }
             
             if title == "내 반려동물" {

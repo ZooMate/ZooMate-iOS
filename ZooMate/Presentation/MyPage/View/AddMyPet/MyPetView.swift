@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPetView: View {
     @Binding var myPetList: [PetList]
     @ObservedObject var myData: MyData
+    @ObservedObject var myPetData: MyPetData
     @State private var selectedPet: PetDetail? = nil
     @State private var isNavigating: Bool = false
     @State private var isFavorite: Bool = false
@@ -56,7 +57,7 @@ struct MyPetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isNavigating) {
             if let selectedPet {
-                PetDetailView(petList: $myPetList, pet: selectedPet, myData: myData, isFavorite: $isFavorite)
+                PetDetailView(myPetData: myPetData, petList: $myPetList, pet: selectedPet, myData: myData, isFavorite: $isFavorite)
             } else {
                 Text("상세 정보가 없습니다.")
             }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PetCardListView: View {
     @ObservedObject var myData: MyData
+    @ObservedObject var myPetData: MyPetData
     @Binding var allPetList: [PetList]
     var filteredCategories: Set<Category>
     var selectedRegion: String?
@@ -62,7 +63,7 @@ struct PetCardListView: View {
             }
             .navigationDestination(isPresented: $isNavigating) {
                 if let selectedPet {
-                    PetDetailView(petList: $allPetList, pet: selectedPet, myData: myData, isFavorite: $isFavorite)
+                    PetDetailView(myPetData: myPetData, petList: $allPetList, pet: selectedPet, myData: myData, isFavorite: $isFavorite)
                 } else {
                     Text("상세 정보가 없습니다.")
                 }

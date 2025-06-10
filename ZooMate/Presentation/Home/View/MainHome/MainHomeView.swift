@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainHomeView: View {
     @ObservedObject var myData: MyData
+    @ObservedObject var myPetData: MyPetData
     @State var allPetList: [PetList] = []
     @State var textMenu: String = "전체지역"
     @State var region: String = ""
@@ -24,7 +25,7 @@ struct MainHomeView: View {
                 VStack {
                     CategoryTabView(selectedCategories: $selectedCategories)
                         .frame(height: 45)
-                    PetCardListView(myData: myData, allPetList: $allPetList, filteredCategories: selectedCategories, selectedRegion: textMenu)
+                    PetCardListView(myData: myData, myPetData: myPetData, allPetList: $allPetList, filteredCategories: selectedCategories, selectedRegion: textMenu)
                         .onAppear {
                             PetNetwork.fetchPetList { result in
                                 switch result {

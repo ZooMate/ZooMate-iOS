@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("홈", systemImage: "house") {
-                MainHomeView(myData: myData)
+                MainHomeView(myData: myData, myPetData: myPetData)
             }
             Tab("채팅", systemImage: "message") {
                 ChatMainView(myData: myData, chatRooms: $myChatData)
