@@ -25,7 +25,7 @@ struct MessageListView: View {
                         Group {
                             let time = DateFormatterManager.formattedTime(from: m.sendMSGAt) ?? "시간 오류"
                             
-                            if m.senderPetId == myData.myInfo?.id {
+                            if m.senderPetId == myPetId {
                                 SendMessageCell(text: m.content, time: time, isRead: true)
                             } else {
                                 ReceiveMessageCell(text: m.content, time: time, isRead: true)
