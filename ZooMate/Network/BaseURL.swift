@@ -8,5 +8,5 @@
 import SwiftUI
 
 class BaseURL {
-    static let url = "http://localhost:3000"
+    static let url = "http://74.227.131.81"
 }

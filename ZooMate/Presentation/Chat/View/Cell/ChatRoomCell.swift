@@ -19,9 +19,8 @@ struct ChatRoomCell: View {
                 .clipShape(.circle)
                 .padding(.trailing, 10)
             VStack(alignment: .leading) {
-                Text("\(data.userName) | \(data.opponentPet.petName)")
+                Text("\(data.opponentPet.petName) | \(data.myPetName)")
                     .font(.notoSansMedium(size: 16))
-                    .padding(.bottom, 1)
                     .foregroundStyle(.mainText)
                 Text("\(data.lastMessage?.content ?? "대화를 시작해보세요")")
                     .font(.notoSansMedium(size: 12))

@@ -11,7 +11,7 @@ import Alamofire
 class AuthNetwork {
     // 회원가입
     static func signupUser(user: SignupRequest, completion: @escaping (Result<SignupResponse, Error>) -> Void) {
-        let url = "http://localhost:3000/user/signup"
+        let url = "\(BaseURL.url)/user/signup"
 
         AF.upload(multipartFormData: { multipart in
             multipart.append(Data(user.userId.utf8), withName: "userId")

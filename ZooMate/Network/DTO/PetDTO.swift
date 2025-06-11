@@ -41,6 +41,7 @@ struct PetList: Codable {
 
 struct OwnerProfile: Codable{
     let profile: String
+    let region: String
 }
 
 // 반려동물 디테일

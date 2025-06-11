@@ -75,9 +75,7 @@ struct PetCardListView: View {
     private var filteredPets: [PetList] {
         allPetList.filter { pet in
             let matchesCategory = filteredCategories.isEmpty || filteredCategories.contains(Category(rawValue: pet.category) ?? .dog)
-
-            let owner = myData.myInfo
-            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || owner?.region == selectedRegion
+            let matchesRegion = selectedRegion == "전체지역" || selectedRegion == nil || pet.owner.region == selectedRegion
 
             return matchesCategory && matchesRegion
         }
