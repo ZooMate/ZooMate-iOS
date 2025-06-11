@@ -25,6 +25,8 @@ struct PetDetailView: View {
     
     @State var isNavigating: Bool = false
     @State var messages: [MessageResponse] = []
+    @State private var selectedRoomId: Int?
+    @State private var selectedMyPetId: Int?
     
     var isMyPet: Bool {
         myData.myInfo?.id == pet.ownerId
@@ -191,6 +193,9 @@ struct PetDetailView: View {
                                     ChatNetwork.createChatRoom(petId: [p.id, pet.id]) { result in
                                         switch result {
                                         case .success(let data):
+                                            selectedRoomId = data.roomId
+                                            selectedMyPetId = p.id
+
                                             ChatNetwork.fetchMyChatRoom { result in
                                                 switch result {
                                                 case .success(let data):
@@ -199,16 +204,17 @@ struct PetDetailView: View {
                                                     print("패치 챗룸 데이터 \(err)")
                                                 }
                                             }
+
                                             ChatNetwork.fetchChatRoomMessage(roomId: data.roomId) { result in
                                                 switch result {
                                                 case .success(let data):
                                                     messages = data
-                                                    isNavigating  = true
+                                                    isNavigating = true
                                                 case .failure(let err):
                                                     print(err)
                                                 }
                                             }
-                                            print(data)
+
                                         case .failure(let err):
                                             print(err)
                                         }
@@ -258,7 +264,9 @@ struct PetDetailView: View {
                 }
             }
             .navigationDestination(isPresented: $isNavigating) {
-                MessageListView(myData: myData, messages: $messages)
+                if let roomId = selectedRoomId, let myPetId = selectedMyPetId {
+                        MessageListView(myData: myData, messages: $messages, roomId: roomId, myPetId: myPetId)
+                    }
             }
         }
         .loginRequiredAlert(isPresented: $loginAlert)

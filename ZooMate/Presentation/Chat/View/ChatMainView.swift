@@ -12,6 +12,8 @@ struct ChatMainView: View {
     @Binding var chatRooms: [ChatRoomResponse]
     @State var isNavigating: Bool = false
     @State var messages: [MessageResponse] = []
+    @State private var selectedRoomId: Int?
+    @State private var selectedMyPetId: Int?
     
     var body: some View {
         NavigationStack {
@@ -28,7 +30,9 @@ struct ChatMainView: View {
                                         switch result {
                                         case .success(let data):
                                             messages = data
-                                            isNavigating  = true
+                                            selectedRoomId = chatRoom.roomId
+                                            selectedMyPetId = chatRoom.myPetId
+                                            isNavigating = true
                                         case .failure(let err):
                                             print(err)
                                         }
@@ -52,7 +56,9 @@ struct ChatMainView: View {
             .navigationTitle("채팅")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isNavigating) {
-                MessageListView(myData: myData, messages: $messages)
+                if let roomId = selectedRoomId, let myPetId = selectedMyPetId {
+                        MessageListView(myData: myData, messages: $messages, roomId: roomId, myPetId: myPetId)
+                    }
             }
         }
     }

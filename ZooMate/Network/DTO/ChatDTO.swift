@@ -17,6 +17,7 @@ struct AddChatRoomResponse: Codable {
 struct ChatRoomResponse: Codable, Identifiable {
     let roomId: Int
     let opponentPet: OpponentPet
+    let myPetId: Int
     let userName: String
     let lastMessage: ChatRoomListMsg?
     
@@ -57,4 +58,19 @@ struct MessageResponse: Codable, Identifiable {
     var sendMSGAt: String
     let isRead: Bool
     let pet: ChatRoomPet
+}
+
+struct SendMessageResponse: Codable {
+    let id: Int
+    let roomId: Int
+    let senderPetId: Int
+    let content: String
+    let sendMSGAt: String
+    let isRead: Bool
+    let pet: SendMSGPet
+}
+
+struct SendMSGPet: Codable {
+    let id: Int
+    let petName: String
 }
