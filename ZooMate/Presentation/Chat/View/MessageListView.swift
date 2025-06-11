@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageListView: View {
     @ObservedObject var myData: MyData
     @Binding var messages: [MessageResponse]
+    @Binding var chatRooms: [ChatRoomResponse]
     let roomId: Int
     let myPetId: Int
     @State var msg = ""
@@ -65,6 +66,14 @@ struct MessageListView: View {
                                             self.msg = ""
                                         case .failure(let err):
                                             print(err)
+                                        }
+                                    }
+                                    ChatNetwork.fetchMyChatRoom { result in
+                                        switch result {
+                                        case .success(let data):
+                                            chatRooms = data
+                                        case .failure(let err):
+                                            print("패치 챗룸 데이터 \(err)")
                                         }
                                     }
                                     print(data)

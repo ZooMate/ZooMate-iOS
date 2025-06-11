@@ -57,8 +57,8 @@ struct ChatMainView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isNavigating) {
                 if let roomId = selectedRoomId, let myPetId = selectedMyPetId {
-                        MessageListView(myData: myData, messages: $messages, roomId: roomId, myPetId: myPetId)
-                    }
+                    MessageListView(myData: myData, messages: $messages, chatRooms: $chatRooms, roomId: roomId, myPetId: myPetId)
+                }
             }
         }
     }

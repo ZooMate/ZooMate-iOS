@@ -18,6 +18,7 @@ struct ChatRoomResponse: Codable, Identifiable {
     let roomId: Int
     let opponentPet: OpponentPet
     let myPetId: Int
+//    let myPetName: String
     let userName: String
     let lastMessage: ChatRoomListMsg?
     

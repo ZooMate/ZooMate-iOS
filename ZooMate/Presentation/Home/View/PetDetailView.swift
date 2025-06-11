@@ -195,7 +195,7 @@ struct PetDetailView: View {
                                         case .success(let data):
                                             selectedRoomId = data.roomId
                                             selectedMyPetId = p.id
-
+                                            
                                             ChatNetwork.fetchMyChatRoom { result in
                                                 switch result {
                                                 case .success(let data):
@@ -204,7 +204,7 @@ struct PetDetailView: View {
                                                     print("패치 챗룸 데이터 \(err)")
                                                 }
                                             }
-
+                                            
                                             ChatNetwork.fetchChatRoomMessage(roomId: data.roomId) { result in
                                                 switch result {
                                                 case .success(let data):
@@ -214,7 +214,7 @@ struct PetDetailView: View {
                                                     print(err)
                                                 }
                                             }
-
+                                            
                                         case .failure(let err):
                                             print(err)
                                         }
@@ -265,8 +265,8 @@ struct PetDetailView: View {
             }
             .navigationDestination(isPresented: $isNavigating) {
                 if let roomId = selectedRoomId, let myPetId = selectedMyPetId {
-                        MessageListView(myData: myData, messages: $messages, roomId: roomId, myPetId: myPetId)
-                    }
+                    MessageListView(myData: myData, messages: $messages, chatRooms: $chatRooms, roomId: roomId, myPetId: myPetId)
+                }
             }
         }
         .loginRequiredAlert(isPresented: $loginAlert)
