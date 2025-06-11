@@ -58,6 +58,15 @@ struct MessageListView: View {
                             ChatNetwork.sendChatMessage(roomId: roomId, senderPetId: myPetId, content: msg) { result in
                                 switch result {
                                 case .success(let data):
+                                    ChatNetwork.fetchChatRoomMessage(roomId: data.roomId) { result in
+                                        switch result {
+                                        case .success(let data):
+                                            messages = data
+                                            self.msg = ""
+                                        case .failure(let err):
+                                            print(err)
+                                        }
+                                    }
                                     print(data)
                                 case .failure(let err):
                                     print(err)
