@@ -10,6 +10,8 @@ import SwiftUI
 struct MessageListView: View {
     @ObservedObject var myData: MyData
     @Binding var messages: [MessageResponse]
+    let roomId: Int
+    let myPetId: Int
     @State var msg = ""
     
     var body: some View {
@@ -22,7 +24,7 @@ struct MessageListView: View {
                     ForEach($messages) { $m in
                         Group {
                             let time = DateFormatterManager.formattedTime(from: m.sendMSGAt) ?? "시간 오류"
-
+                            
                             if m.senderPetId == myData.myInfo?.id {
                                 SendMessageCell(text: m.content, time: time, isRead: true)
                             } else {
@@ -53,7 +55,14 @@ struct MessageListView: View {
                         )
                     Button {
                         if !msg.isEmpty {
-                            
+                            ChatNetwork.sendChatMessage(roomId: roomId, senderPetId: myPetId, content: msg) { result in
+                                switch result {
+                                case .success(let data):
+                                    print(data)
+                                case .failure(let err):
+                                    print(err)
+                                }
+                            }
                         }
                     } label: {
                         Image(systemName: "paperplane")
